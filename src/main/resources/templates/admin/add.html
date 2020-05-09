@@ -1,0 +1,213 @@
+<!DOCTYPE HTML>
+<html  xmlns:th="http://www.thymeleaf.org">
+<head th:include="_meta :: header">
+<title>添加</title>
+</head>
+<body>
+<article class="page-container">
+	<form class="form form-horizontal layui-form"  id="form-department-add" action="#" th:action="@{/lgUser/add}">
+        <div class="row cl">
+             <label class="form-label col-xs-2 col-sm-2"><span class="c-red">*</span>员工姓名：</label>
+            <div class="formControls col-xs-10 col-sm-10">
+                    <input type="input-text" class="input-text" name="userName"  placeholder="员工姓名" id="userName"/>
+            </div>
+        </div>
+        <div class="row cl">
+             <label class="form-label col-xs-2 col-sm-2"><span class="c-red">*
+             </span>电话号码：</label>
+            <div class="formControls col-xs-10 col-sm-10">
+                    <input type="input-text" class="input-text" name="tel"  placeholder="电话号码" id="tel"/>
+            </div>
+        </div>
+
+        <div class="row cl">
+            <label class="form-label col-xs-2 col-sm-2"><span class="c-red">*</span>员工类型：</label>
+            <div class="formControls col-xs-10 col-sm-10">
+                <select name="type" id="type" lay-filter="type" >
+                    <option value="0" text="基层">基层</option>
+                    <option value="1" text="部门负责人">部门负责人</option>
+                    <option value="2" text="经营班子">经营班子</option>
+                    <option value="3" text="总经理">总经理</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="row cl" id="selectone">
+            <label class="form-label col-xs-2 col-sm-2"><span class="c-red">*</span>部门负责人：</label>
+            <div class="formControls col-xs-10 col-sm-10">
+                <select name="departmentId" id="departmentId" lay-filter="departmentId" >
+                </select>
+            </div>
+        </div>
+        <div class="row cl" id="selecttwo">
+            <label class="form-label col-xs-2 col-sm-2"><span class="c-red">*</span>分管领导：</label>
+            <div class="formControls col-xs-10 col-sm-10">
+                <select name="leaderId" id="leaderId" lay-filter="leaderId" >
+                </select>
+            </div>
+        </div>
+
+        <div class="row cl">
+            <label class="form-label col-xs-2 col-sm-2"><span class="c-red">*</span>角色：</label>
+            <div class="formControls col-xs-10 col-sm-10">
+                <select name="roleId" id="roleId" lay-filter="roleId" >
+                    <option value="0" text="被评分人">被评分人</option>
+                    <option value="1" text="评分人">评分人</option>
+                    <option value="2" text="审核人">审核人</option>
+                    <option value="3" text="管理员">管理员</option>
+                </select>
+            </div>
+        </div>
+
+	<div class="row cl">
+	<div class="col-xs-4 col-sm-3 col-xs-offset-4 col-sm-offset-3">
+		<input class="btn btn-primary radius" id="subbtn" type="submit" value="&nbsp;&nbsp;提交&nbsp;&nbsp;"/>
+		<input class="btn  radius" id="reset" type="reset"  onclick="javascript:location.replace(location.href);" value="&nbsp;&nbsp;重置&nbsp;&nbsp;"/>
+	</div>
+	</div>
+	</form>
+</article>
+
+<!--_footer 作为公共模版分离出去-->
+<div th:replace="_footer :: footerjs"></div>
+<div th:replace="_ueditor :: ueditor"></div>
+ <!--/_footer 作为公共模版分离出去-->
+<!--请在下方写此页面业务相关的脚本-->
+<script>
+    $(function(){
+        getselectOne();
+        getselectTwo();
+
+    });
+
+ $(function(){
+
+	$("#form-department-add").validate({
+		rules: {
+            userName: {
+                required: true,
+            },
+            tel: {
+                required: true,
+                minlength: 11,
+                isMobile: true
+            },
+        },
+     messages: {
+         tel : {
+             required : "请输入手机号",
+                 minlength : "不能小于11个字符",
+                 isMobile : "请正确填写手机号码"
+         }
+     },
+		onkeyup:false,
+		debug: true,
+		success:"valid",
+		submitHandler:function(form){
+				$(form).ajaxSubmit({
+				type: 'POST',
+				url: "/lgUser/add" ,
+				success: function(data){
+					if(data.code == "1"){
+					    designMsg('添加成功!',1,function(){
+							var index = parent.layer.getFrameIndex(window.name);
+							parent.location.reload();
+							parent.layer.close(index);
+						});
+					}else{
+						designMsg('添加失败!');
+					}
+				},
+                error: function(){
+					designMsg('添加异常!',5);
+				}
+			});
+		}
+	});
+});
+
+ function getselectOne(){
+     $.ajax({
+         // get请求地址
+         url : 'getAllDepartmentUser',
+         dataType : "json",
+         success : function(data) {
+             var optArr = [];
+             for (var i = 0; i < data.length; i++) {
+                 $('#departmentId').append(
+                     "<option value=" + data[i].id + ">"
+                     + data[i].userName + "</option>");
+             }
+             var form=layui.form;
+             form.render('select');
+
+         }
+     });
+ }
+ function getselectTwo(){
+     $.ajax({
+         // get请求地址
+         url : 'getAllLeaderUser',
+         dataType : "json",
+         success : function(data) {
+             var optArr = [];
+             for (var i = 0; i < data.length; i++) {
+                 $('#leaderId').append(
+                     "<option value=" + data[i].id + ">"
+                     + data[i].userName + "</option>");
+             }
+             var form=layui.form;
+             form.render('select');
+         }
+     });
+ }
+
+
+ layui.use('form', function(){
+
+     var form = layui.form;
+//     监听员工类型下拉框
+     form.on('select(type)', function (data) {
+//         console.log(data);
+         if(data.value == 0){
+             document.getElementById("selectone").innerHTML="";
+             document.getElementById("selecttwo").innerHTML="";
+             $("#selectone").append("<label class=\"form-label col-xs-2 col-sm-2\"><span class=\"c-red\">*</span>部门负责人：</label>\n" +
+                 "            <div class=\"formControls col-xs-10 col-sm-10\">\n" +
+                 "                <select name=\"departmentId\" id=\"departmentId\" lay-filter=\"departmentId\" >\n" +
+                 "                </select>\n" +
+                 "            </div>");
+             $("#selecttwo").append(" <label class=\"form-label col-xs-2 col-sm-2\"><span class=\"c-red\">*</span>分管领导：</label>\n" +
+                 "        <div class=\"formControls col-xs-10 col-sm-10\">\n" +
+                 "            <select name=\"leaderId\" id=\"leaderId\" lay-filter=\"leaderId\" >\n" +
+                 "            </select>\n" +
+                 "        </div>");
+             getselectOne();
+             getselectTwo();
+         }else if(data.value == 1){
+             document.getElementById("selectone").innerHTML="";
+             document.getElementById("selecttwo").innerHTML="";
+             $("#selecttwo").append(" <label class=\"form-label col-xs-2 col-sm-2\"><span class=\"c-red\">*</span>分管领导：</label>\n" +
+                 "        <div class=\"formControls col-xs-10 col-sm-10\">\n" +
+                 "            <select name=\"leaderId\" id=\"leaderId\" lay-filter=\"leaderId\" >\n" +
+                 "            </select>\n" +
+                 "        </div>");
+             getselectTwo();
+         }else if(data.value == 2){
+             document.getElementById("selectone").innerHTML="";
+             document.getElementById("selecttwo").innerHTML="";
+         }else if(data.value == 3){
+             document.getElementById("selectone").innerHTML="";
+             document.getElementById("selecttwo").innerHTML="";
+         }
+         form.render();
+     })
+
+     form.render();
+ })
+</script>
+<style>
+</style>
+<!--/请在上方写此页面业务相关的脚本-->
+</body>
+</html>

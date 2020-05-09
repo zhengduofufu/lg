@@ -1,0 +1,97 @@
+﻿<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head th:include="_meta :: header">
+	<title>列表</title>
+</head>
+<body>
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span>管理<span
+		class="c-gray en">&gt;</span>列表<a class="btn btn-success radius r"
+										  style="line-height:1.6em;margin-top:3px"
+										  href="javascript:location.replace(location.href);" title="刷新"><i
+		class="Hui-iconfont">&#xe68f;</i></a></nav>
+<div class="page-container">
+	<form action="#" th:action="@{/LgScoreLibrary/allScorelibrary}" method="post">
+		<div class="layui-body">
+			<!-- 内容主体区域 -->
+			<fieldset class="layui-elem-field">
+				<legend>列表</legend>
+				<div class="layui-field-box">
+
+					<hr style="margin: 0">
+					<div class="cl pd-5 bg-1 bk-gray">
+						<span class="l">
+
+						<a href="javascript:;"
+						   onclick="layer_show('添加','/LgScoreLibrary/addBefore',900,500)"
+						   class="layui-btn  layui-btn-normal radius"><i class="Hui-iconfont">&#xe600;</i> 添加</a>
+						</span>
+						<span class="r wei-height">共有数据：<strong th:text="${pageInfo.list.size()}"></strong> 条</span>
+					</div>
+					<hr>
+
+					<div class="cl pd-5 bg-1 bk-gray ">
+						<!--
+						<div class="searchByField">
+							<input type="input-text" class="input-text" th:value="${searchInfo.departmentName}" name="departmentName" placeholder="搜索部门名称" id="departmentName"/>
+							<input type="input-text" class="input-text" th:value="${searchInfo.departmentNumber}" name="departmentNumber" placeholder="搜索部门编号" id="departmentNumber"/>
+							<input type="input-text" placeholder="搜索创建时间" name="createtimeSpace" th:value="${createtimeSpace}" class="input-text  timeSpace"/>
+							<input type="input-text" placeholder="搜索修改时间" name="updatetimeSpace" th:value="${updatetimeSpace}" class="input-text  timeSpace"/>
+							<input type="input-text" class="input-text" th:value="${searchInfo.creater}" name="creater" placeholder="搜索创建人" id="creater"/>
+							<input type="input-text" class="input-text" th:value="${searchInfo.deleteMark}" name="deleteMark" placeholder="搜索删除标识" id="deleteMark"/>
+							<button type="submit"
+									class="layui-btn  layui-btn-success radius"><i
+									class="Hui-iconfont">&#xe665;</i> 搜索
+							</button>
+						</div>
+						-->
+					</div>
+
+					<table class="layui-table text-c">
+						<thead>
+						<tr class="text-c">
+							<th width="25"><input type="checkbox" name="" value=""/></th>
+							<th width="25">序号</th>
+							<th width="40">评分项名称</th>
+							<th width="40">评分类型</th>
+
+						</tr>
+						</thead>
+						<tbody>
+						<tr class="text-c" th:if="${pageInfo.list.size() == 0}">
+							<td colspan="15"><strong>暂无数据</strong></td>
+						</tr>
+						<tr class="text-c" th:each="socreLibrary,count:${pageInfo.list}">
+							<td><input type="checkbox" value="1" th:value="${socreLibrary.id}"
+									   name="id"/></td>
+							<td th:text="${count.count}"></td>
+							<td th:text="${socreLibrary.name}"></td>
+							<td th:if="${socreLibrary.type == 0}">A类</td>
+							<td th:if="${socreLibrary.type == 1}">B类</td>
+
+						</tr>
+						</tbody>
+					</table>
+				</div>
+			</fieldset>
+		</div>
+		<div th:include="_pagination :: page"></div>
+	</form>
+</div>
+<!--_footer 作为公共模版分离出去-->
+<div th:replace="_footer :: footerjs">
+</div>
+<!--/_footer 作为公共模版分离出去-->
+<script>
+
+</script>
+<style>
+	.layui-body {
+		position: static;
+	}
+	.layui-table th {
+		text-align: center;
+		font-weight: 400;
+	}
+</style>
+</body>
+</html>

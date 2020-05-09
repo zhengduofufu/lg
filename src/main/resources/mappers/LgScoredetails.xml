@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lg.lg.mapper.LgScoredetailsMapper">
+    <resultMap id="LgScoredetailsMap" type="com.lg.lg.entity.LgScoredetails">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="userId" jdbcType="INTEGER" property="userId" />
+        <result column="scoreId" jdbcType="INTEGER" property="scoreId" />
+        <result column="taterId" jdbcType="INTEGER" property="taterId" />
+        <result column="quarterId" jdbcType="INTEGER" property="quarterId" />
+        <result column="status" jdbcType="INTEGER" property="status" />
+        <result column="amisAmount" jdbcType="DECIMAL" property="amisAmount" />
+        <result column="finishedAmount" jdbcType="DECIMAL" property="finishedAmount" />
+        <result column="score" jdbcType="INTEGER" property="score" />
+        <result column="comfirmTime" jdbcType="TIMESTAMP" property="comfirmTime" />
+    </resultMap>
+    <sql id="Base_Column_List">
+        id,
+        userId, scoreId,taterId,quarterId,status,amisAmount,finishedAmount,score,comfirmTime
+    </sql>
+
+    <!--查询所有的考核详情信息-->
+    <select id="selectAllScoreDetails"  resultMap="LgScoredetailsMap">
+        select
+        <include refid="Base_Column_List" />
+        from lg_scoredetails
+    </select>
+
+</mapper>

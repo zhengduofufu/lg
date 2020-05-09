@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lg.lg.mapper.LgQuarterMapper">
+    <resultMap id="QuarterMap" type="com.lg.lg.entity.LgQuarter">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="name" jdbcType="VARCHAR" property="name" />
+        <result column="status" jdbcType="INTEGER" property="status" />
+        <result column="year" jdbcType="INTEGER" property="year" />
+        <result column="quarter" jdbcType="INTEGER" property="quarter" />
+
+    </resultMap>
+    <sql id="Base_Column_List">
+        id,
+        name, status, year, quarter
+    </sql>
+
+
+    <!--查询所有的季度信息-->
+    <select id="selectallQuarter"  resultMap="QuarterMap">
+        select
+        <include refid="Base_Column_List" />
+        from lg_quarter
+    </select>
+
+    <select id="selectByYearAndQuarter"  resultMap="QuarterMap" parameterType="com.lg.lg.entity.LgQuarter">
+        select
+        <include refid="Base_Column_List" />
+        from lg_quarter
+        where year=#{year,jdbcType=INTEGER} and quarter=#{quarter,jdbcType=INTEGER}
+    </select>
+</mapper>
