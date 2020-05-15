@@ -31,6 +31,12 @@ public class LgScoredetails extends BaseEntity {
   private long score;
   @TableField(value = "comfirmTime")
   private LocalDateTime comfirmTime;
+  //权重
+  private BigDecimal weights;
 
+  @TableField(exist = false)
+  private String scoreName;
 
+  @TableField(exist = false)
+  private long type;
 }

@@ -29,4 +29,14 @@ public class LgScoredetailsServiceImpl extends ServiceImpl<LgScoredetailsMapper,
     public List<LgScoredetails> selectAllScoreDetails() {
         return lgScoredetailsMapper.selectAllScoreDetails();
     }
+
+    @Override
+    public Integer deleteUserByQuarterAndUser(long userId, long quarterId) {
+        return lgScoredetailsMapper.deleteUserByQuarterAndUser(userId,quarterId);
+    }
+
+    @Override
+    public List<LgScoredetails> selectUserByQuarterAndUser(long userId, long quarterId) {
+        return lgScoredetailsMapper.selectUserByQuarterAndUser(userId,quarterId);
+    }
 }

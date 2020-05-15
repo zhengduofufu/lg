@@ -27,4 +27,9 @@ public class LgScorelibraryServiceImpl extends ServiceImpl<LgScoreLibraryMapper,
     public List<LgScorelibrary> selectAllScoreLibary() {
         return lgScoreLibraryMapper.selectAllScoreLibary();
     }
+
+    @Override
+    public List<LgScorelibrary> selectScoreLibaryByUserIdAndQuarterId(long userId, long quarterId) {
+        return lgScoreLibraryMapper.selectScoreLibaryByUserIdAndQuarterId(userId, quarterId);
+    }
 }

@@ -16,4 +16,12 @@ public interface LgScorelibraryService extends IService<LgScorelibrary> {
      * @return
      */
     List<LgScorelibrary> selectAllScoreLibary();
+
+    /**
+     * 根据用户Id和季度查询所有考核信息库
+     * @param userId
+     * @param quarterId
+     * @return
+     */
+    List<LgScorelibrary> selectScoreLibaryByUserIdAndQuarterId(long userId,long quarterId);
 }

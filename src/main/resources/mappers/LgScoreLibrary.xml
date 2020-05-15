@@ -2,9 +2,9 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.lg.lg.mapper.LgScoreLibraryMapper">
     <resultMap id="ScoreLibraryMap" type="com.lg.lg.entity.LgScorelibrary">
-        <id column="id" jdbcType="INTEGER" property="id" />
-        <result column="name" jdbcType="VARCHAR" property="name" />
-        <result column="type" jdbcType="INTEGER" property="type" />
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="type" jdbcType="INTEGER" property="type"/>
     </resultMap>
     <sql id="Base_Column_List">
         id,
@@ -12,10 +12,20 @@
     </sql>
 
     <!--查询所有的考核信息-->
-    <select id="selectAllScoreLibary"  resultMap="ScoreLibraryMap">
+    <select id="selectAllScoreLibary" resultMap="ScoreLibraryMap">
         select
-        <include refid="Base_Column_List" />
+        <include refid="Base_Column_List"/>
         from lg_scorelibrary
     </select>
 
+    <select id="selectScoreLibaryByUserIdAndQuarterId" resultMap="ScoreLibraryMap">
+        select
+        <include refid="Base_Column_List"/>
+        from lg_scorelibrary
+        where id in (
+        select
+        scoreId
+        from lg_scoredetails
+        where userId=#{userId} and quarterId=#{quarterId} group by scoreId)
+    </select>
 </mapper>

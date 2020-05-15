@@ -2,15 +2,15 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.lg.lg.mapper.LgUserMapper">
     <resultMap id="UserMap" type="com.lg.lg.entity.LgUser">
-        <id column="id" jdbcType="INTEGER" property="id" />
-        <result column="userName" jdbcType="VARCHAR" property="userName" />
-        <result column="password" jdbcType="VARCHAR" property="password" />
-        <result column="tel" jdbcType="VARCHAR" property="tel" />
-        <result column="avaliable" jdbcType="INTEGER" property="avaliable" />
-        <result column="type" jdbcType="INTEGER" property="type" />
-        <result column="departmentId" jdbcType="INTEGER" property="departmentId" />
-        <result column="leaderId" jdbcType="INTEGER" property="leaderId" />
-        <result column="roleId" jdbcType="INTEGER" property="roleId" />
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="userName" jdbcType="VARCHAR" property="userName"/>
+        <result column="password" jdbcType="VARCHAR" property="password"/>
+        <result column="tel" jdbcType="VARCHAR" property="tel"/>
+        <result column="avaliable" jdbcType="INTEGER" property="avaliable"/>
+        <result column="type" jdbcType="INTEGER" property="type"/>
+        <result column="departmentId" jdbcType="INTEGER" property="departmentId"/>
+        <result column="leaderId" jdbcType="INTEGER" property="leaderId"/>
+        <result column="roleId" jdbcType="INTEGER" property="roleId"/>
 
     </resultMap>
     <sql id="Base_Column_List">
@@ -20,31 +20,108 @@
 
 
     <!--查询所有的用户信息-->
-    <select id="selectAllUser"  resultMap="UserMap">
+    <select id="selectAllUser" resultMap="UserMap">
         select
-        <include refid="Base_Column_List" />
+        <include refid="Base_Column_List"/>
         from lg_user
     </select>
 
     <!--查询所有的部门负责人-->
-    <select id="selectAllDepartmentUser"  resultMap="UserMap">
+    <select id="selectAllDepartmentUser" resultMap="UserMap">
         select
-        <include refid="Base_Column_List" />
+        <include refid="Base_Column_List"/>
         from lg_user
-        where type="1"
+        where type="1" and avaliable=1
     </select>
     <!--查询所有的经营班子-->
-    <select id="selectAllleaderUser"  resultMap="UserMap">
+    <select id="selectAllleaderUser" resultMap="UserMap">
         select
-        <include refid="Base_Column_List" />
+        <include refid="Base_Column_List"/>
         from lg_user
-        where type="2"
+        where type="2" and avaliable=1
     </select>
 
-    <select id="selectAllByAvaliable"  resultMap="UserMap">
+    <!--查询所有的在职员工除经营班子和总经理以外-->
+    <select id="selectAllByAvaliable" resultMap="UserMap">
         select
-        <include refid="Base_Column_List" />
+        <include refid="Base_Column_List"/>
         from lg_user
-        where avaliable=1
+        where avaliable=1 and type in ('0','1')
+    </select>
+
+    <!--查询其他部门负责人-->
+    <select id="selectOtherDepartmentUser" resultMap="UserMap" parameterType="com.lg.lg.entity.LgUser">
+        select
+        <include refid="Base_Column_List"/>
+        from lg_user
+        where avaliable=1 and type = '1' and id!=#{id,jdbcType=INTEGER}
+    </select>
+
+    <!--查询其他经营班子-->
+    <select id="selectOtherLeaderUser" resultMap="UserMap" parameterType="com.lg.lg.entity.LgUser">
+        select
+        <include refid="Base_Column_List"/>
+        from lg_user
+        where avaliable=1 and type = '2' and id!=#{id,jdbcType=INTEGER}
+    </select>
+
+    <!--查询总经理-->
+    <select id="selectManager" resultMap="UserMap">
+        select
+        <include refid="Base_Column_List"/>
+        from lg_user
+        where avaliable=1 and type = '3'
+    </select>
+
+    <!--基层员工的评分人-->
+    <select id="selectUserJC" resultMap="UserMap">
+        select
+        <include refid="Base_Column_List"/>
+        from lg_user
+        where avaliable=1 and type in ('1','2','3')
+    </select>
+
+    <!--部门负责人的评分人-->
+    <select id="selectUserDepart" resultMap="UserMap" parameterType="com.lg.lg.entity.LgUser">
+        select
+        <include refid="Base_Column_List"/>
+        from lg_user
+        where avaliable=1 and type in ('1','2','3') and id !=#{id,jdbcType=INTEGER}
+    </select>
+
+
+    <!--根据季度查询所有的参与考核的人员-->
+    <select id="selectAllUserByQuarter" resultMap="UserMap">
+       select
+        <include refid="Base_Column_List"/>
+       from lg_user
+       where id in (select userId from lg_scoredetails where quarterId = #{quarterId,jdbcType=INTEGER} group by userId)
+       and avaliable = 1;
+    </select>
+
+    <!--根据季度和考核人员查询所有完成考核评分的人员-->
+    <select id="selectFinishUserByQuarterAndUSerId" resultMap="UserMap">
+      select
+        <include refid="Base_Column_List"/>
+      from lg_user
+      where avaliable = 1
+      and id in (select taterId
+            from lg_scoredetails
+            where quarterId = #{quarterId,jdbcType=INTEGER}
+              and status = 2 and userId=#{userId,jdbcType=INTEGER}
+            group by taterId);
+    </select>
+
+    <!--根据季度和考核人员查询所有未完成考核评分的人员-->
+    <select id="selectNotFinishUserByQuarterAndUSerId" resultMap="UserMap">
+        select
+        <include refid="Base_Column_List"/>
+        from lg_user
+        where avaliable = 1
+        and id in (select taterId
+        from lg_scoredetails
+        where quarterId = #{quarterId,jdbcType=INTEGER}
+        and status = 0 and userId=#{userId,jdbcType=INTEGER}
+        group by taterId);
     </select>
 </mapper>

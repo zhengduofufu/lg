@@ -31,13 +31,53 @@ public class LgUserServiceImpl extends ServiceImpl<LgUserMapper,LgUser> implemen
     }
 
     @Override
+    public List<LgUser> selectOtherDepartmentUser(LgUser lgUser) {
+        return lgUserMapper.selectOtherDepartmentUser(lgUser);
+    }
+
+    @Override
+    public List<LgUser> selectOtherLeaderUser(LgUser lgUser) {
+        return lgUserMapper.selectOtherLeaderUser(lgUser);
+    }
+
+    @Override
     public List<LgUser> selectAllleaderUser() {
         return lgUserMapper.selectAllleaderUser();
     }
 
     @Override
+    public LgUser selectManager() {
+        return lgUserMapper.selectManager();
+    }
+
+    @Override
     public List<LgUser> selectAllByAvaliable() {
         return lgUserMapper.selectAllByAvaliable();
+    }
+
+    @Override
+    public List<LgUser> selectUserJC() {
+        return lgUserMapper.selectUserJC();
+    }
+
+    @Override
+    public List<LgUser> selectUserDepart(LgUser lgUser) {
+        return lgUserMapper.selectUserDepart(lgUser);
+    }
+
+    @Override
+    public List<LgUser> selectAllUserByQuarter(long quarterId) {
+        return lgUserMapper.selectAllUserByQuarter(quarterId);
+    }
+
+    @Override
+    public List<LgUser> selectFinishUserByQuarterAndUSerId(long quarterId, long userId) {
+        return lgUserMapper.selectFinishUserByQuarterAndUSerId(quarterId,userId);
+    }
+
+    @Override
+    public List<LgUser> selectNotFinishUserByQuarterAndUSerId(long quarterId, long userId) {
+        return lgUserMapper.selectNotFinishUserByQuarterAndUSerId(quarterId,userId);
     }
 
 }

@@ -29,5 +29,7 @@ public class LgUser extends BaseEntity{
   @TableField(value = "roleId")
   private long roleId;
 
+  @TableField(exist = false)
+  private long color;
 
 }
