@@ -259,4 +259,108 @@ public class LgQuarterController extends BaseController {
 
         return "quarter/progressList";
     }
+
+
+    //都是要获取领导Id的项
+    /**
+     * 跳转leader评审员工页面
+     * @return
+     */
+    @RequestMapping("toUserReviewListDetial")
+    public String toUserReviewListDetial(Model model,long id){
+        //获取所有的除需要评审的当季在职员工
+        List<LgUser> lgUser=lgUserService.selectAllByAvaliableAndLeaderId(37,id);
+        List<LgUser> lgUsers= lgUserService.selectFinishByAvaliableAndLeaderId(37,id);
+        for(LgUser u:lgUser){
+            if(lgUsers.contains(u)){
+                u.setColor(0);
+            }else{
+                u.setColor(1);
+            }
+        }
+        model.addAttribute("lgUser",lgUser);
+        model.addAttribute("quarter",lgQuarterService.getById(id));
+
+        return "user/UserReviewList";
+    }
+
+    /**
+     * 根据用户季度领导查询所有的员工考核详情
+     * @param model
+     * @param userId
+     * @param quarterId
+     * @return
+     */
+    @RequestMapping("userReviewScoreDetial")
+    public String userReviewScoreDetial(Model model,Long userId,Long quarterId){
+
+        //根据用户和季度和leaderId查询拥有的考核项目
+        List<LgScoredetails> lgScoredetails=lgScoredetailsService.selectScoreDetialByUserIdAndQuarterIdAndLeaderId(userId,quarterId,37);
+        List<LgQuarter> lgQuarters=lgQuarterService.selectByUserIdAndLeaderId(userId,quarterId,37);
+        List<QuarterAndSocreDetial> lists=new ArrayList<>();
+        for(LgQuarter q:lgQuarters){
+            QuarterAndSocreDetial a=new QuarterAndSocreDetial();
+            List<LgScoredetails> lgScoredetails1=lgScoredetailsService.selectScoreDetialByUserIdAndQuarterIdAndLeaderId(userId,q.getId(),37);
+            a.setLgQuarter(q);
+            a.setLgScoredetailsList(lgScoredetails1);
+            lists.add(a);
+        }
+        model.addAttribute("userId",userId);
+        model.addAttribute("quarterId",quarterId);
+        model.addAttribute("userScoreDetials",lgScoredetails);
+        model.addAttribute("lists",lists);
+        return "user/UserReviewSocreDetial";
+    }
+
+
+    /**
+     * 评分
+     * @param dat
+     * @param userId
+     * @param quarterId
+     * @return
+     */
+    @PostMapping("updateUserScoreDetialByScore")
+    @ResponseBody
+    public AjaxResult updateUserScoreDetialByScore(ScoreDetialList dat,long userId,long quarterId){
+        List<LgScoredetails> lgScore=new ArrayList<>();
+        System.out.println(dat.getId().size()+"aaaa");
+        for (int i = 0; i < dat.getId().size();i++){
+            LgScoredetails lgScoredetails=lgScoredetailsService.getById(dat.getId().get(i));
+            lgScoredetails.setScore(dat.getScore().get(i));
+            lgScoredetails.setStatus(1);
+            lgScore.add(lgScoredetails);
+        }
+        return toAjax(lgScoredetailsService.saveOrUpdateBatch(lgScore));
+    }
+
+    /**
+     * 根据季度确认所有的考核详情
+     * @param quarterId
+     * @return
+     */
+    @PostMapping("updateUserComfirmSocreDetials")
+    @ResponseBody
+    public AjaxResult updateUserComfirmSocreDetials(long quarterId){
+        List<LgScoredetails> lgScore=lgScoredetailsService.selectDetialsUserByQuarter(quarterId);
+        for (LgScoredetails s:lgScore){
+            s.setStatus(0);
+        }
+        return toAjax(lgScoredetailsService.saveOrUpdateBatch(lgScore));
+    }
+
+    /**
+     * 领导根据季度确认所有的考核详情
+     * @param quarterId
+     * @return
+     */
+    @PostMapping("updateLeaderQuarterComfirmSocreDetials")
+    @ResponseBody
+    public AjaxResult updateLeaderQuarterComfirmSocreDetials(long quarterId){
+        List<LgScoredetails> lgScore=lgScoredetailsService.selectScoreDetialByQuarterIdAndLeaderId(quarterId,37);
+        for (LgScoredetails s:lgScore){
+            s.setStatus(2);
+        }
+        return toAjax(lgScoredetailsService.saveOrUpdateBatch(lgScore));
+    }
 }

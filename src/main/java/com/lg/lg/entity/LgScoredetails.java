@@ -28,7 +28,7 @@ public class LgScoredetails extends BaseEntity {
   private BigDecimal amisAmount;
   @TableField(value = "finishedAmount")
   private BigDecimal finishedAmount;
-  private long score;
+  private BigDecimal score;
   @TableField(value = "comfirmTime")
   private LocalDateTime comfirmTime;
   //权重

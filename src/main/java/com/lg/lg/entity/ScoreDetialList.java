@@ -15,6 +15,6 @@ public class ScoreDetialList {
     private List<BigDecimal> finishedAmount;
     private List<BigDecimal> weights;
     private List<BigDecimal> scoreId;
-
-
+    private List<BigDecimal> score;
+    private List<Long> id;
 }

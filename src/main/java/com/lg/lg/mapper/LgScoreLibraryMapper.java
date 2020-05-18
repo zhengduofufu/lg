@@ -17,4 +17,6 @@ public interface LgScoreLibraryMapper extends BaseMapper<LgScorelibrary> {
     List<LgScorelibrary> selectAllScoreLibary();
 
     List<LgScorelibrary> selectScoreLibaryByUserIdAndQuarterId(@Param("userId") long userId, @Param("quarterId") long quarterId);
+
+
 }

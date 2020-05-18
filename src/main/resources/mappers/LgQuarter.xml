@@ -28,4 +28,14 @@
         from lg_quarter
         where year=#{year,jdbcType=INTEGER} and quarter=#{quarter,jdbcType=INTEGER}
     </select>
+
+    <select id="selectByUserIdAndLeaderId"  resultMap="QuarterMap" >
+    select
+    <include refid="Base_Column_List" />
+    from lg_quarter
+    where id in (select quarterId from
+        lg_scoredetails where userId=#{userId,jdbcType=INTEGER} and taterId=#{leaderId,jdbcType=INTEGER} and
+        quarterId!=#{quarterId,jdbcType=INTEGER}
+        group by quarterId)
+    </select>
 </mapper>

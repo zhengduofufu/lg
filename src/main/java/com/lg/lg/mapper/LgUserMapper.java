@@ -75,4 +75,17 @@ public interface LgUserMapper extends BaseMapper<LgUser> {
      * @return
      */
     List<LgUser> selectNotFinishUserByQuarterAndUSerId(@Param("quarterId") long quarterId,@Param("userId") long userId);
+
+
+    /**
+     * 根据领导Id和季度Id查询所有的在职员工
+     * @return
+     */
+    List<LgUser> selectAllByAvaliableAndLeaderId(@Param("userId")long userId,@Param("quarterId") long queryId);
+
+    /**
+     * 根据领导Id和季度Id查询所有的在职员工（已完成未提交）
+     * @return
+     */
+    List<LgUser> selectFinishByAvaliableAndLeaderId(@Param("userId")long userId,@Param("quarterId") long queryId);
 }

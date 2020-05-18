@@ -3,6 +3,7 @@ package com.lg.lg.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.lg.lg.entity.LgQuarter;
 import com.lg.lg.entity.LgUser;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -23,4 +24,12 @@ public interface LgQuarterService extends IService<LgQuarter> {
      * @return
      */
     List<LgQuarter> selectByYearAndQuarter(LgQuarter lgQuarter);
+
+    /**
+     * 根据用户ID和领导ID查询所有的除当前季度以外的季度
+     * @param userId
+     * @param leaderId
+     * @return
+     */
+    List<LgQuarter> selectByUserIdAndLeaderId(long userId, long quarterId,long leaderId);
 }

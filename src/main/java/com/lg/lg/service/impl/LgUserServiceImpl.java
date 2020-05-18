@@ -80,4 +80,14 @@ public class LgUserServiceImpl extends ServiceImpl<LgUserMapper,LgUser> implemen
         return lgUserMapper.selectNotFinishUserByQuarterAndUSerId(quarterId,userId);
     }
 
+    @Override
+    public List<LgUser> selectAllByAvaliableAndLeaderId(long userId, long queryId) {
+        return lgUserMapper.selectAllByAvaliableAndLeaderId(userId, queryId);
+    }
+
+    @Override
+    public List<LgUser> selectFinishByAvaliableAndLeaderId(long userId, long queryId) {
+        return lgUserMapper.selectFinishByAvaliableAndLeaderId(userId, queryId);
+    }
+
 }

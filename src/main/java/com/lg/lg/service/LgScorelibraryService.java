@@ -24,4 +24,6 @@ public interface LgScorelibraryService extends IService<LgScorelibrary> {
      * @return
      */
     List<LgScorelibrary> selectScoreLibaryByUserIdAndQuarterId(long userId,long quarterId);
+
+
 }

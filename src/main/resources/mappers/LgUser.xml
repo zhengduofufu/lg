@@ -124,4 +124,25 @@
         and status = 0 and userId=#{userId,jdbcType=INTEGER}
         group by taterId);
     </select>
+
+
+    <!--根据季度和领导Id查询所有的参与考核的人员-->
+    <select id="selectAllByAvaliableAndLeaderId" resultMap="UserMap">
+        select
+        <include refid="Base_Column_List"/>
+        from lg_user
+        where id in (select userId from lg_scoredetails where quarterId = #{quarterId,jdbcType=INTEGER}
+        and taterId=#{userId,jdbcType=INTEGER} group by userId)
+        and avaliable = 1;
+    </select>
+
+    <!--根据季度和领导Id查询所有的参与考核的人员(已完成未提交)-->
+    <select id="selectFinishByAvaliableAndLeaderId" resultMap="UserMap">
+        select
+        <include refid="Base_Column_List"/>
+        from lg_user
+        where id in (select userId from lg_scoredetails where quarterId = #{quarterId,jdbcType=INTEGER}
+        and taterId=#{userId,jdbcType=INTEGER} and status=1 group by userId)
+        and avaliable = 1;
+    </select>
 </mapper>
