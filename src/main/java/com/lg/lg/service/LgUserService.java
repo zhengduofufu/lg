@@ -73,7 +73,7 @@ public interface LgUserService extends IService<LgUser> {
      * 根据季度查询所有的参与考核的人员
      * @return
      */
-    List<LgUser> selectAllUserByQuarter(@Param("quarterId") long quarterId);
+    List<LgUser> selectAllUserByQuarter(long quarterId);
 
     /**
      * 根据季度和考核人员查询所有完成考核评分的人员
@@ -81,7 +81,7 @@ public interface LgUserService extends IService<LgUser> {
      * @param userId
      * @return
      */
-    List<LgUser> selectFinishUserByQuarterAndUSerId(@Param("quarterId") long quarterId,@Param("userId") long userId);
+    List<LgUser> selectFinishUserByQuarterAndUSerId(long quarterId,long userId);
 
     /**
      * 根据季度和考核人员查询所有未完成考核评分的人员
@@ -89,7 +89,7 @@ public interface LgUserService extends IService<LgUser> {
      * @param userId
      * @return
      */
-    List<LgUser> selectNotFinishUserByQuarterAndUSerId(@Param("quarterId") long quarterId,@Param("userId") long userId);
+    List<LgUser> selectNotFinishUserByQuarterAndUSerId(long quarterId,long userId);
 
 
     /**

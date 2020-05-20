@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -53,5 +54,30 @@ public class LgScoredetailsServiceImpl extends ServiceImpl<LgScoredetailsMapper,
     @Override
     public List<LgScoredetails> selectScoreDetialByQuarterIdAndLeaderId(long quarterId, long leaderId) {
         return lgScoredetailsMapper.selectScoreDetialByQuarterIdAndLeaderId(quarterId, leaderId);
+    }
+
+    @Override
+    public BigDecimal selectScoreSumAByQuarterIdAndUserId(long quarterId, long userId) {
+        return lgScoredetailsMapper.selectScoreSumAByQuarterIdAndUserId(quarterId,  userId);
+    }
+
+    @Override
+    public BigDecimal selectScoreSumBByQuarterIdAndUserId(long quarterId, long userId) {
+        return lgScoredetailsMapper.selectScoreSumBByQuarterIdAndUserId(quarterId,  userId);
+    }
+
+    @Override
+    public BigDecimal selectScoreSumCByQuarterIdAndUserId(long quarterId, long userId) {
+        return lgScoredetailsMapper.selectScoreSumCByQuarterIdAndUserId(quarterId,  userId);
+    }
+
+    @Override
+    public BigDecimal selectScoreSumDByQuarterIdAndUserId(long quarterId, long userId) {
+        return lgScoredetailsMapper.selectScoreSumDByQuarterIdAndUserId(quarterId,  userId);
+    }
+
+    @Override
+    public BigDecimal selectScoreSumEByQuarterIdAndUserId(long quarterId, long userId) {
+        return lgScoredetailsMapper.selectScoreSumEByQuarterIdAndUserId(quarterId,  userId);
     }
 }

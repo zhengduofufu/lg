@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lg.lg.mapper.LgScoresummaryMapper">
+    <resultMap id="LgScoresummaryMap" type="com.lg.lg.entity.LgScoresummary">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="userId" jdbcType="INTEGER" property="userId"/>
+        <result column="quarterId" jdbcType="INTEGER" property="quarterId"/>
+        <result column="totalScore" jdbcType="DECIMAL" property="totalScore"/>
+        <result column="aScore" jdbcType="DECIMAL" property="aScore"/>
+        <result column="bScore" jdbcType="DECIMAL" property="bScore"/>
+        <result column="cScore" jdbcType="DECIMAL" property="cScore"/>
+        <result column="dScore" jdbcType="DECIMAL" property="dScore"/>
+        <result column="eScore" jdbcType="DECIMAL" property="eScore"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id,
+        userId, quarterId, totalScore, aScore, bScore, cScore,dScore,eScore
+    </sql>
+
+
+    <!--根据季度查找汇总信息-->
+    <select id="selectByQuarterId" resultType="com.lg.lg.entity.LgScoresummary">
+          select
+           s.id,
+           s.userId, s.quarterId, s.totalScore, s.aScore, s.bScore, s.cScore,s.dScore,s.eScore,u.userName userName,q.name quarterName
+    from (lg_scoresummary s left join lg_user u on s.userId=u.id) left join lg_quarter q on s.quarterId=q.id
+    ${ew.customSqlSegment}
+    </select>
+
+
+</mapper>

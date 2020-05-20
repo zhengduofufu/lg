@@ -7,6 +7,7 @@ import com.lg.lg.entity.LgScorelibrary;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -58,4 +59,44 @@ public interface LgScoredetailsService  extends IService<LgScoredetails> {
      * @return
      */
     List<LgScoredetails> selectScoreDetialByQuarterIdAndLeaderId( long quarterId, long leaderId);
+
+    /**
+     * 通过季度Id和用户Id查询总经理汇总分数
+     * @param quarterId
+     * @param userId
+     * @return
+     */
+    BigDecimal selectScoreSumAByQuarterIdAndUserId(long quarterId, long userId);
+
+    /**
+     * 通过季度Id和用户Id查询总分管领导汇总分数
+     * @param quarterId
+     * @param userId
+     * @return
+     */
+    BigDecimal selectScoreSumBByQuarterIdAndUserId(@Param("quarterId")long quarterId, @Param("userId") long userId);
+
+    /**
+     * 通过季度Id和用户Id查询总其他经营班子汇总分数
+     * @param quarterId
+     * @param userId
+     * @return
+     */
+    BigDecimal selectScoreSumCByQuarterIdAndUserId(@Param("quarterId")long quarterId, @Param("userId") long userId);
+
+    /**
+     * 通过季度Id和用户Id查询总部门负责人汇总分数
+     * @param quarterId
+     * @param userId
+     * @return
+     */
+    BigDecimal selectScoreSumDByQuarterIdAndUserId(@Param("quarterId")long quarterId, @Param("userId") long userId);
+
+    /**
+     * 通过季度Id和用户Id查询总其他部门负责人汇总分数
+     * @param quarterId
+     * @param userId
+     * @return
+     */
+    BigDecimal selectScoreSumEByQuarterIdAndUserId(@Param("quarterId")long quarterId, @Param("userId") long userId);
 }

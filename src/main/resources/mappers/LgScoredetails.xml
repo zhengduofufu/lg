@@ -2,17 +2,17 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.lg.lg.mapper.LgScoredetailsMapper">
     <resultMap id="LgScoredetailsMap" type="com.lg.lg.entity.LgScoredetails">
-        <id column="id" jdbcType="INTEGER" property="id" />
-        <result column="userId" jdbcType="INTEGER" property="userId" />
-        <result column="scoreId" jdbcType="INTEGER" property="scoreId" />
-        <result column="taterId" jdbcType="INTEGER" property="taterId" />
-        <result column="quarterId" jdbcType="INTEGER" property="quarterId" />
-        <result column="status" jdbcType="INTEGER" property="status" />
-        <result column="amisAmount" jdbcType="DECIMAL" property="amisAmount" />
-        <result column="finishedAmount" jdbcType="DECIMAL" property="finishedAmount" />
-        <result column="score" jdbcType="INTEGER" property="score" />
-        <result column="comfirmTime" jdbcType="TIMESTAMP" property="comfirmTime" />
-        <result column="weights" jdbcType="DECIMAL" property="weights" />
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="userId" jdbcType="INTEGER" property="userId"/>
+        <result column="scoreId" jdbcType="INTEGER" property="scoreId"/>
+        <result column="taterId" jdbcType="INTEGER" property="taterId"/>
+        <result column="quarterId" jdbcType="INTEGER" property="quarterId"/>
+        <result column="status" jdbcType="INTEGER" property="status"/>
+        <result column="amisAmount" jdbcType="DECIMAL" property="amisAmount"/>
+        <result column="finishedAmount" jdbcType="DECIMAL" property="finishedAmount"/>
+        <result column="score" jdbcType="INTEGER" property="score"/>
+        <result column="comfirmTime" jdbcType="TIMESTAMP" property="comfirmTime"/>
+        <result column="weights" jdbcType="DECIMAL" property="weights"/>
     </resultMap>
     <sql id="Base_Column_List">
         id,
@@ -20,19 +20,19 @@
     </sql>
 
     <!--查询所有的考核详情信息-->
-    <select id="selectAllScoreDetails"  resultMap="LgScoredetailsMap">
+    <select id="selectAllScoreDetails" resultMap="LgScoredetailsMap">
         select
-        <include refid="Base_Column_List" />
+        <include refid="Base_Column_List"/>
         from lg_scoredetails
     </select>
 
-    <delete id="deleteUserByQuarterAndUser" >
+    <delete id="deleteUserByQuarterAndUser">
     delete from
     lg_scoredetails where userId=#{userId} and quarterId=#{quarterId}
     </delete>
 
     <!--根据用户Id和季度Id查询所有的考核详情信息-->
-    <select id="selectUserByQuarterAndUser"  resultType="com.lg.lg.entity.LgScoredetails">
+    <select id="selectUserByQuarterAndUser" resultType="com.lg.lg.entity.LgScoredetails">
         select
         d.id,
         d.userId, d.scoreId,d.taterId,d.quarterId,d.status,d.amisAmount,d.finishedAmount,d.score,d.comfirmTime,d.weights,
@@ -44,7 +44,7 @@
 
 
     <!--根据用户Id和季度Id和leaderId查询所有的考核详情信息-->
-    <select id="selectScoreDetialByUserIdAndQuarterIdAndLeaderId"  resultType="com.lg.lg.entity.LgScoredetails">
+    <select id="selectScoreDetialByUserIdAndQuarterIdAndLeaderId" resultType="com.lg.lg.entity.LgScoredetails">
         select
         d.id,
         d.userId, d.scoreId,d.taterId,d.quarterId,d.status,d.amisAmount,d.finishedAmount,d.score,d.comfirmTime,d.weights,
@@ -55,18 +55,74 @@
     </select>
 
     <!--根据季度Id查询所有的考核详情信息-->
-    <select id="selectDetialsUserByQuarter"  resultMap="LgScoredetailsMap">
+    <select id="selectDetialsUserByQuarter" resultMap="LgScoredetailsMap">
         select
-        <include refid="Base_Column_List" />
+        <include refid="Base_Column_List"/>
         from lg_scoredetails
         where quarterId=#{quarterId,jdbcType=INTEGER}
     </select>
 
     <!--根据季度Id查询所有的考核详情信息-->
-    <select id="selectScoreDetialByQuarterIdAndLeaderId"  resultMap="LgScoredetailsMap">
+    <select id="selectScoreDetialByQuarterIdAndLeaderId" resultMap="LgScoredetailsMap">
         select
-        <include refid="Base_Column_List" />
+        <include refid="Base_Column_List"/>
         from lg_scoredetails
         where quarterId=#{quarterId,jdbcType=INTEGER} and taterId=#{leaderId,jdbcType=INTEGER}
+    </select>
+
+    <!--根据季度Id和用户汇总总经理所有的考核详情信息-->
+    <select id="selectScoreSumAByQuarterIdAndUserId" resultType="java.math.BigDecimal">
+       select
+       (sum(weights*score))/(select count(*) from lg_user where id in
+       (select taterId from lg_scoredetails where quarterId=#{quarterId,jdbcType=INTEGER} and userId=#{userId,jdbcType=INTEGER}
+       group by taterId) and type='3')
+    from lg_scoredetails s left join lg_user u on s.taterId=u.id
+    where quarterId=#{quarterId,jdbcType=INTEGER} and userId=#{userId,jdbcType=INTEGER} and type='3'
+    </select>
+
+    <!--根据季度Id和用户汇总分管领导所有的考核详情信息-->
+    <select id="selectScoreSumBByQuarterIdAndUserId" resultType="java.math.BigDecimal">
+      select (sum(weights*score))/(select count(leaderId) from lg_user where id=#{userId,jdbcType=INTEGER} group by leaderId)
+        from lg_scoredetails where taterId in
+        (select leaderId from  lg_user where id=#{userId,jdbcType=INTEGER} group by leaderId)
+        and userId=#{userId,jdbcType=INTEGER} and quarterId=#{quarterId,jdbcType=INTEGER}
+    </select>
+
+    <!--根据季度Id和用户汇总其他经营班子所有的考核详情信息-->
+    <select id="selectScoreSumCByQuarterIdAndUserId" resultType="java.math.BigDecimal">
+      select (sum(weights*score))/( select count(*) from lg_user where
+        id in (select taterId
+               from lg_scoredetails
+               where
+                   userId=#{userId,jdbcType=INTEGER} and quarterId=#{quarterId,jdbcType=INTEGER}  and taterId  not in
+                                                 (select leaderId from  lg_user where id=#{userId,jdbcType=INTEGER}
+                                                 group by leaderId) group by taterId) and type='2')
+    from lg_scoredetails s left join lg_user u on s.taterId=u.id
+    where taterId not in(select leaderId from  lg_user where id=#{userId,jdbcType=INTEGER} group by leaderId)
+    and userId=#{userId,jdbcType=INTEGER} and quarterId=#{quarterId,jdbcType=INTEGER} and u.type='2'
+    </select>
+
+    <!--根据季度Id和用户汇总部门负责人所有的考核详情信息-->
+    <select id="selectScoreSumDByQuarterIdAndUserId" resultType="java.math.BigDecimal">
+      select (sum(weights*score))/(select count(departmentId) from lg_user where id=#{userId,jdbcType=INTEGER}
+      group by departmentId)
+      from lg_scoredetails where taterId in
+      (select departmentId from lg_user where id=#{userId,jdbcType=INTEGER} group by departmentId)
+       and userId=#{userId,jdbcType=INTEGER} and quarterId=#{quarterId,jdbcType=INTEGER}
+    </select>
+
+    <!--根据季度Id和用户汇总部门负责人所有的考核详情信息-->
+    <select id="selectScoreSumEByQuarterIdAndUserId" resultType="java.math.BigDecimal">
+    select  (sum(weights*score))/(select count(*) from lg_user where
+    id in (select taterId
+           from lg_scoredetails
+           where
+               userId=#{userId,jdbcType=INTEGER} and quarterId=#{quarterId,jdbcType=INTEGER}  and taterId  not in
+                                             (select departmentId from  lg_user where id=#{userId,jdbcType=INTEGER}
+                                             group by departmentId) group by taterId)
+                                                             and type='1')
+from lg_scoredetails s left join lg_user u on s.taterId=u.id
+        where taterId not in(select departmentId from  lg_user where id=#{userId,jdbcType=INTEGER} group by departmentId)
+          and userId=#{userId,jdbcType=INTEGER} and quarterId=#{quarterId,jdbcType=INTEGER} and u.type='1'
     </select>
 </mapper>

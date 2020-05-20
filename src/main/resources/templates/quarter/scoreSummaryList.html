@@ -1,0 +1,85 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head th:include="_meta :: header">
+    <title>列表</title>
+</head>
+<body>
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span>管理<span
+        class="c-gray en">&gt;</span>季度汇总列表<a class="btn btn-success radius r"
+                                          style="line-height:1.6em;margin-top:3px"
+                                          href="javascript:location.replace(location.href);" title="刷新"><i
+        class="Hui-iconfont">&#xe68f;</i></a></nav>
+<div class="page-container">
+    <form action="#" th:action="@{/lgQuarter/allScoreSummaryDetialByQuarterId}" method="post">
+        <div class="layui-body">
+            <!-- 内容主体区域 -->
+            <fieldset class="layui-elem-field">
+                <legend>列表</legend>
+                <div class="layui-field-box">
+
+                    <hr style="margin: 0">
+
+                    <hr>
+
+                    <div class="cl pd-5 bg-1 bk-gray ">
+                    </div>
+
+                    <table class="layui-table text-c">
+                        <thead>
+                        <tr class="text-c">
+                            <th width="25">序号</th>
+                            <th width="25">员工姓名</th>
+                            <th width="40">季度名称</th>
+                            <th width="40">总经理评分</th>
+                            <th width="40">分管领导评分</th>
+                            <th width="40">其他经营班子评分</th>
+                            <th width="40">部门负责人评分</th>
+                            <th width="40">其他部门负责人评分</th>
+                            <th width="40">总分数</th>
+
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr class="text-c" th:if="${pageInfo.list.size() == 0}">
+                            <td colspan="15"><strong>暂无数据</strong></td>
+                        </tr>
+                        <tr class="text-c" th:each="lgScoresummary,count:${pageInfo.list}">
+                            <td th:text="${count.count}"></td>
+                            <td th:text="${lgScoresummary.userName}"></td>
+                            <td th:text="${lgScoresummary.quarterName}"></td>
+                            <td th:text="${lgScoresummary.aScore}"></td>
+                            <td th:text="${lgScoresummary.bScore}"></td>
+                            <td th:text="${lgScoresummary.cScore}"></td>
+                            <td th:text="${lgScoresummary.dScore}"></td>
+                            <td th:text="${lgScoresummary.eScore}"></td>
+                            <td th:text="${lgScoresummary.totalScore}"></td>
+
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </fieldset>
+        </div>
+        <div th:include="_pagination :: page"></div>
+        <input type="hidden" name="id" id="id" th:value="${id}" value="" />
+    </form>
+</div>
+<!--_footer 作为公共模版分离出去-->
+<div th:replace="_footer :: footerjs">
+</div>
+<!--/_footer 作为公共模版分离出去-->
+<script>
+
+</script>
+<style>
+    .layui-body {
+        position: static;
+    }
+    .layui-table th {
+        text-align: center;
+        font-weight: 400;
+    }
+</style>
+
+</body>
+</html>

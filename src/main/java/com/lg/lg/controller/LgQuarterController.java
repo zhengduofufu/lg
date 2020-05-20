@@ -1,6 +1,5 @@
 package com.lg.lg.controller;
 import	java.math.BigDecimal;
-import java.math.BigDecimal;
 import	java.util.ArrayList;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -9,18 +8,13 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.lg.lg.config.AjaxResult;
 import com.lg.lg.config.BaseController;
 import com.lg.lg.entity.*;
-import com.lg.lg.service.LgQuarterService;
-import com.lg.lg.service.LgScoredetailsService;
-import com.lg.lg.service.LgScorelibraryService;
-import com.lg.lg.service.LgUserService;
+import com.lg.lg.service.*;
 import com.lg.lg.util.PageInfo;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -39,7 +33,22 @@ public class LgQuarterController extends BaseController {
     private LgScorelibraryService lgScorelibraryService;
     @Autowired
     private LgUserService lgUserService;
+    @Autowired
+    private LgCalculationrulesService lgCalculationrulesService;
+    @Autowired
+    private LgScoresummaryService lgScoresummaryService;
 
+
+    /**
+     * 所有季度列表
+     * @param model
+     * @param pageNo
+     * @param pageSize
+     * @param createtimeSpace
+     * @param updatetimeSpace
+     * @param lgQuarter
+     * @return
+     */
     @RequestMapping("/allQuarter")
     public String selcetAllQuarter(Model model, @RequestParam(value = "pageNo", required = false, defaultValue = "1") Integer pageNo,
                                 @RequestParam(value = "pageSize", required = false, defaultValue = "20") Integer pageSize
@@ -195,6 +204,13 @@ public class LgQuarterController extends BaseController {
                     lgScoredetails.setStatus(4);
                     lgScoredetails.setQuarterId(quarterId);
                     lgScoredetails.setTaterId(u.getId());
+                    if(dat.getAmisAmount().get(i).compareTo(new BigDecimal(0))==0||dat.getFinishedAmount().get(i).compareTo(new BigDecimal(0))==0){
+
+                        lgScoredetails.setScore(new BigDecimal(0));
+
+                    }else{
+                        lgScoredetails.setScore((dat.getFinishedAmount().get(i)).divide(dat.getAmisAmount().get(i)).multiply(new BigDecimal(100)));
+                    }
                     lgScoredetailsList.add(lgScoredetails);
                 }
 
@@ -212,6 +228,13 @@ public class LgQuarterController extends BaseController {
                     lgScoredetails.setStatus(4);
                     lgScoredetails.setQuarterId(quarterId);
                     lgScoredetails.setTaterId(u.getId());
+                    if(dat.getAmisAmount().get(i).compareTo(new BigDecimal(0))==0||dat.getFinishedAmount().get(i).compareTo(new BigDecimal(0))==0){
+
+                        lgScoredetails.setScore(new BigDecimal(0));
+
+                    }else{
+                        lgScoredetails.setScore((dat.getFinishedAmount().get(i)).divide(dat.getAmisAmount().get(i)).multiply(new BigDecimal(100)));
+                    }
                     lgScoredetailsList.add(lgScoredetails);
                 }
             }
@@ -256,6 +279,7 @@ public class LgQuarterController extends BaseController {
         }
 
         model.addAttribute("progressUsers",progressUsers);
+        model.addAttribute("quarterId",id);
 
         return "quarter/progressList";
     }
@@ -362,5 +386,83 @@ public class LgQuarterController extends BaseController {
             s.setStatus(2);
         }
         return toAjax(lgScoredetailsService.saveOrUpdateBatch(lgScore));
+    }
+
+    /**
+     * 季度结算界面
+     * @param quarterId
+     * @return
+     */
+    @PostMapping("settlementQuarterDetials")
+    @ResponseBody
+    public AjaxResult settlementQuarterDetials(long quarterId){
+        List<LgUser> LgUsers=lgUserService.selectAllUserByQuarter(quarterId);
+        List<LgScoresummary> lgScoresummaries=new ArrayList<>();
+        for(LgUser u:LgUsers){
+            if(u.getType().equals("0")){
+                LgScoresummary lgScoresummary=new LgScoresummary();
+                LgCalculationrules lgCalculationrules=lgCalculationrulesService.selectByType(0);
+                BigDecimal a=lgScoredetailsService.selectScoreSumAByQuarterIdAndUserId(quarterId,u.getId());
+                BigDecimal b=lgScoredetailsService.selectScoreSumBByQuarterIdAndUserId(quarterId,u.getId());
+                BigDecimal c=lgScoredetailsService.selectScoreSumCByQuarterIdAndUserId(quarterId,u.getId());
+                BigDecimal d=lgScoredetailsService.selectScoreSumDByQuarterIdAndUserId(quarterId,u.getId());
+                lgScoresummary.setUserId(u.getId());
+                lgScoresummary.setQuarterId(quarterId);
+                lgScoresummary.setAScore(a);
+                lgScoresummary.setBScore(b);
+                lgScoresummary.setCScore(c);
+                lgScoresummary.setDScore(d);
+                lgScoresummary.setTotalScore(a.multiply(lgCalculationrules.getAweights()).add(b.multiply(lgCalculationrules.getBweights())).add(
+                        c.multiply(lgCalculationrules.getCweights())).add(d.multiply(lgCalculationrules.getDweights())));
+                System.out.println("aa:"+a+"bb:"+b+"cc:"+c+"dd:"+d+"total:"+lgScoresummary.getTotalScore());
+                lgScoresummaries.add(lgScoresummary);
+            }else if(u.getType().equals("1")){
+                LgScoresummary lgScoresummary=new LgScoresummary();
+                LgCalculationrules lgCalculationrules=lgCalculationrulesService.selectByType(1);
+                BigDecimal a=lgScoredetailsService.selectScoreSumAByQuarterIdAndUserId(quarterId,u.getId());
+                BigDecimal b=lgScoredetailsService.selectScoreSumBByQuarterIdAndUserId(quarterId,u.getId());
+                BigDecimal c=lgScoredetailsService.selectScoreSumCByQuarterIdAndUserId(quarterId,u.getId());
+                BigDecimal e=lgScoredetailsService.selectScoreSumEByQuarterIdAndUserId(quarterId,u.getId());
+                lgScoresummary.setUserId(u.getId());
+                lgScoresummary.setQuarterId(quarterId);
+                lgScoresummary.setAScore(a);
+                lgScoresummary.setBScore(b);
+                lgScoresummary.setCScore(c);
+                lgScoresummary.setEScore(e);
+                lgScoresummary.setTotalScore(a.multiply(lgCalculationrules.getAweights()).add(b.multiply(lgCalculationrules.getBweights())).add(
+                        c.multiply(lgCalculationrules.getCweights())).add(e.multiply(lgCalculationrules.getDweights())));
+                System.out.println("aa:"+a+"bb:"+b+"cc:"+c+"ee:"+e+"total:"+lgScoresummary.getTotalScore());
+                lgScoresummaries.add(lgScoresummary);
+            }
+        }
+        LgQuarter lgQuarter=lgQuarterService.getById(quarterId);
+        lgQuarter.setStatus(1);
+        lgQuarterService.saveOrUpdate(lgQuarter);
+        return toAjax(lgScoresummaryService.saveOrUpdateBatch(lgScoresummaries));
+    }
+
+    /**
+     * 通过季度Id查找所有的考核汇总详情
+     * @param model
+     * @param pageNo
+     * @param pageSize
+     * @param createtimeSpace
+     * @param updatetimeSpace
+     * @return
+     */
+    @RequestMapping("/allScoreSummaryDetialByQuarterId")
+    public String allScoreSummaryDetialByQuarterId(Model model, @RequestParam(value = "pageNo", required = false, defaultValue = "1") Integer pageNo,
+                                   @RequestParam(value = "pageSize", required = false, defaultValue = "20") Integer pageSize
+            , @ModelAttribute("createtimeSpace")String createtimeSpace,
+                                   @ModelAttribute("updatetimeSpace")String updatetimeSpace,long id){
+
+        System.out.println("id:"+id);
+        QueryWrapper<LgScoresummary> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda().eq(LgScoresummary::getQuarterId,id);
+        Page<LgScoresummary> page = lgScoresummaryService.selectByQuarterId(new Page<>(pageNo, pageSize),queryWrapper);
+
+        model.addAttribute("pageInfo",new PageInfo(page));
+        model.addAttribute("id",id);
+        return "quarter/scoreSummaryList";
     }
 }
