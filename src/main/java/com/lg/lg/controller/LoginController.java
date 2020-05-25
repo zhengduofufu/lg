@@ -30,4 +30,9 @@ public class LoginController extends BaseController {
     public String toWelcome(){
         return "login/welcome";
     }
+
+    @GetMapping("/index")
+    public String error404(){
+        return "login/index";
+    }
 }

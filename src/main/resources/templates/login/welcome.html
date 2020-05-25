@@ -68,39 +68,28 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="/lgQuarter/allQuarter" class="nav-item-link">
+                        <a data-href="/lgQuarter/allQuarter" class="nav-item-link " id="aa">
                             <i class="layui-icon layui-icon-user nav-icon"></i>
                             <span>季度考核</span>
                             <i class="fa fa-caret-right nav-right-icon"></i>
                         </a>
-                        <ul class="child-nav">
-                            <li class="child-nav-item">
-                                <iframe src="login/login.html" th:src="@{/login/toLogin}"></iframe>
-                               <!-- <iframe  name="iframe_a" width="800" height="500"></iframe>
-                                <p><a href="/lgQuarter/allQuarter" target="iframe_a">季度考核</a></p>-->
-                                <!--<a href="/lgQuarter/allQuarter">
-                                    <i class="fa fa-plus-circle"></i>
-                                    <span>季度考核</span>
-                                </a>-->
-                            </li>
 
-                        </ul>
                     </li>
                     <li class="nav-item">
-                        <a href="/login/toLogin" class="nav-item-link">
+                        <a class="nav-item-link" >
                             <i class="layui-icon layui-icon-set nav-icon"></i>
                             <span>系统设置</span>
                             <i class="fa fa-caret-right nav-right-icon"></i>
                         </a>
                         <ul class="child-nav">
                             <li class="child-nav-item">
-                                <a href="view/control/index.html">
+                                <a data-href="/lgUser/allUser" id="bb">
                                     <i class="fa fa-cogs"></i>
                                     <span>员工管理</span>
                                 </a>
                             </li>
                             <li class="child-nav-item">
-                                <a href="view/control/tdk.html">
+                                <a data-href="/LgScoreLibrary/allScorelibrary" id="cc">
                                     <i class="fa fa-edge"></i>
                                     <span>考核库管理</span>
                                 </a>
@@ -125,108 +114,9 @@
         </div>
     </div>
     <div class="tpl-body">
-        <div class="tpl-show">
-            <div class="tpl-sub-header">
-                <!--面包屑-->
-                <!--{include file="public/tpl-crumbs"/}-->
-                <div class="crumbs">
-                    <a href="#">首页</a>
-                    <i>/</i>
-                </div>
-            </div>
-            <div class="tpl-fluid">
-                <div class="layui-row layui-col-space15">
-                    <div class="layui-col-sm6 layui-col-md3">
-                        <div class="tpl-card">
-                            <div class="tpl-card-head">
-                                <span>访问量</span>
-                                <span class="tpl-badge">今日</span>
-                            </div>
-                            <div class="tpl-card-body jammy-card-list">
-                                <p class="tpl-card-big-font">31200</p>
-                                <a class="tpl-card-sm-font">总访问量:<span class="tpl-card-right-text">99+万<i class="layui-icon layui-icon-flag"></i></span></a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="layui-col-sm6 layui-col-md3">
-                        <div class="tpl-card">
-                            <div class="tpl-card-head">
-                                <span>最新评论</span>
-                                <span class="tpl-badge layui-bg-orange">评论</span>
-                            </div>
-                            <div class="tpl-card-body jammy-card-list">
-                                <p class="tpl-card-big-font">31200</p>
-                                <a class="tpl-card-sm-font" href="">点击查看</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="layui-col-sm6 layui-col-md3">
-                        <div class="tpl-card">
-                            <div class="tpl-card-head">
-                                <span>审核中心</span>
-                                <span class="tpl-badge layui-bg-red">未审核</span>
-                            </div>
-                            <div class="tpl-card-body jammy-card-list">
-                                <p class="tpl-card-big-font">31200</p>
-                                <p class="tpl-card-sm-font">已审核:<span class="tpl-card-right-text">99+万<i class="layui-icon layui-icon-flag"></i></span></p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="layui-col-sm6 layui-col-md3">
-                        <div class="tpl-card">
-                            <div class="tpl-card-head">
-                                <span>举报中心</span>
-                                <span class="tpl-badge layui-bg-green">未处理</span>
-                            </div>
-                            <div class="tpl-card-body jammy-card-list">
-                                <p class="tpl-card-big-font">31200</p>
-                                <p class="tpl-card-sm-font">已处理:<span class="tpl-card-right-text">99998588 <i class="layui-icon layui-icon-flag"></i></span></p>
-                            </div>
-                        </div>
-                    </div>
 
-                </div>
-                <div class="layui-row layui-col-space15">
-                    <div class="layui-col-md9">
-                        <div class="tpl-card">
-                            <div class="tpl-card-head">
-                                <span>访问量</span>
-                                <span class="tpl-badge">echarts</span>
-                            </div>
-                            <div class="tpl-card-body jammy-card-list">
-                                <div id="main" style="height:600px"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="layui-col-md3">
-                        <div class="tpl-card">
-                            <div class="tpl-card-head">
-                                <span>蜀道难</span>
-                                <span class="tpl-badge">李白</span>
-                            </div>
-                            <div class="tpl-card-body jammy-card-list">
-                                噫吁嚱，危乎高哉！蜀道之难，难于上青天！蚕丛及鱼凫，开国何茫然！尔来四万八千岁，不与秦塞通人烟。西当太白有鸟道，可以横绝峨眉巅。地崩山摧壮士死，然后天梯石栈相钩连。上有六龙回日之高标，下有冲波逆折之回川。黄鹤之飞尚不得过，猿猱欲度愁攀援。青泥何盘盘，百步九折萦岩峦。扪参历井仰胁息，以手抚膺坐长叹。
 
-                                问君西游何时还？畏途巉岩不可攀。但见悲鸟号古木，雄飞雌从绕林间。又闻子规啼夜月，愁空山。蜀道之难，难于上青天，使人听此凋朱颜！连峰去天不盈尺，枯松倒挂倚绝壁。飞湍瀑流争喧豗，砯崖转石万壑雷。其险也如此，嗟尔远道之人胡为乎来哉！
-
-                                剑阁峥嵘而崔嵬，一夫当关，万夫莫开。所守或匪亲，化为狼与豺。朝避猛虎，夕避长蛇；磨牙吮血，杀人如麻。锦城虽云乐，不如早还家。蜀道之难，难于上青天，侧身西望长咨嗟！
-                            </div>
-                        </div>
-                    </div>
-                    <div class="layui-col-md3">
-                        <div class="tpl-card">
-                            <div class="tpl-card-head">
-                                <span>作者说</span>
-                                <span class="tpl-badge">layAdmin</span>
-                            </div>
-                            <div class="tpl-card-body jammy-card-list">
-                                哈哈，没想到吧，新版本的layAdmin后台模板出来。 花了大概一个月的时间吧（这段时间也在做后端），尽最大能力做了用户体验的优化，前段框架用的是layui，感谢layui，感谢，非常感谢。 ps:模板有带php后端版，需要的可以联系！后期将不断更新。
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <iframe frameborder="0" scrolling="yes" style="width:100%;height:100%" src="/login/index" ></iframe>
     </div>
     <!--侧边栏-->
     <!--{include file="public/tpl-right-bar"/}-->
@@ -322,94 +212,26 @@
 </div>
 <script type="text/javascript" th:src="@{/layui/layui.js}" src="static/layui/layui.js"></script>
 <script type="text/javascript" th:src="@{/js/app.js}" src="static/js/app.js"></script>
-<script type="text/javascript" th:src="@{/lib/echarts/3.4.0/echarts.common.min.js}" src="static/lib/echarts/3.4.0/echarts.common.min.js"></script>
+<script type="text/javascript" th:src="@{/lib/jquery/1.9.1/jquery.js}" src="static/lib/jquery/1.9.1/jquery.js"></script>
 <script>
-    myChart = echarts.init(document.getElementById("main"));
-    option = {
-        title: {
-            text: '访问来源'
-        },
-        tooltip : {
-            trigger: 'axis',
-            axisPointer: {
-                type: 'cross',
-                label: {
-                    backgroundColor: '#6a7985'
-                }
-            }
-        },
-        legend: {
-            data:['邮件营销','联盟广告','视频广告','直接访问','搜索引擎']
-        },
-        toolbox: {
-            feature: {
-                saveAsImage: {}
-            }
-        },
-        grid: {
-            left: '3%',
-            right: '4%',
-            bottom: '3%',
-            containLabel: true
-        },
-        xAxis : [
-            {
-                type : 'category',
-                boundaryGap : false,
-                data : ['周一','周二','周三','周四','周五','周六','周日']
-            }
-        ],
-        yAxis : [
-            {
-                type : 'value'
-            }
-        ],
-        series : [
-            {
-                name:'邮件营销',
-                type:'line',
-                stack: '总量',
-                areaStyle: {},
-                data:[120, 132, 101, 134, 90, 230, 210]
-            },
-            {
-                name:'联盟广告',
-                type:'line',
-                stack: '总量',
-                areaStyle: {},
-                data:[220, 182, 191, 234, 290, 330, 310]
-            },
-            {
-                name:'视频广告',
-                type:'line',
-                stack: '总量',
-                areaStyle: {},
-                data:[150, 232, 201, 154, 190, 330, 410]
-            },
-            {
-                name:'直接访问',
-                type:'line',
-                stack: '总量',
-                areaStyle: {normal: {}},
-                data:[320, 332, 301, 334, 390, 330, 320]
-            },
-            {
-                name:'搜索引擎',
-                type:'line',
-                stack: '总量',
-                label: {
-                    normal: {
-                        show: true,
-                        position: 'top'
-                    }
-                },
-                areaStyle: {normal: {}},
-                data:[820, 932, 901, 934, 1290, 1330, 1320]
-            }
-        ]
-    };
-    myChart.setOption(option);
+    $(function(){
+        $("#aa").on("click",function(){
+            var address =$(this).attr("data-href");
+            $("iframe").attr("src",address);
+        });
+
+        $("#bb").on("click",function(){
+            var address =$(this).attr("data-href");
+            $("iframe").attr("src",address);
+        });
+
+        $("#cc").on("click",function(){
+            var address =$(this).attr("data-href");
+            $("iframe").attr("src",address);
+        });
+    });
 </script>
+
 <style>
     .tpl-side-menu .tpl-nav .nav-item .nav-item-link .nav-icon {
         font-size: 14px;

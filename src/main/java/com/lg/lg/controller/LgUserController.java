@@ -55,10 +55,7 @@ public class LgUserController extends BaseController {
         return "admin/admin-list";
     }
 
-  /*  @GetMapping("/error404")
-    public String error404(){
-        return "error/404";
-    }*/
+
 
     /**
      * 添加跳转页面
