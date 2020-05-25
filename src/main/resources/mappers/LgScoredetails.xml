@@ -125,4 +125,13 @@ from lg_scoredetails s left join lg_user u on s.taterId=u.id
         where taterId not in(select departmentId from  lg_user where id=#{userId,jdbcType=INTEGER} group by departmentId)
           and userId=#{userId,jdbcType=INTEGER} and quarterId=#{quarterId,jdbcType=INTEGER} and u.type='1'
     </select>
+
+
+    <!--根据用户Id和季度Id查询所有的考核详情信息(不要ID)-->
+    <select id="selectUserByQuarterAndUserNotId" resultType="com.lg.lg.entity.LgScoredetails">
+      select
+           d.userId, d.scoreId,d.taterId,d.amisAmount,d.finishedAmount,d.weights
+    from lg_scoredetails d
+        where userId=#{userId,jdbcType=INTEGER} and quarterId=#{quarterId,jdbcType=INTEGER}
+    </select>
 </mapper>

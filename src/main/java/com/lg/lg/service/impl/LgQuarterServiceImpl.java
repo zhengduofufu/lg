@@ -38,4 +38,9 @@ public class LgQuarterServiceImpl extends ServiceImpl<LgQuarterMapper, LgQuarter
     public List<LgQuarter> selectByUserIdAndLeaderId(long userId, long quarterId,long leaderId) {
         return lgQuarterMapper.selectByUserIdAndLeaderId(userId, quarterId,leaderId);
     }
+
+    @Override
+    public List<LgQuarter> selectByQuarterId(long quarterId) {
+        return lgQuarterMapper.selectByQuarterId(quarterId);
+    }
 }

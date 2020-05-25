@@ -367,9 +367,12 @@ public class LgQuarterController extends BaseController {
     @ResponseBody
     public AjaxResult updateUserComfirmSocreDetials(long quarterId){
         List<LgScoredetails> lgScore=lgScoredetailsService.selectDetialsUserByQuarter(quarterId);
+        LgQuarter lgQuarter=lgQuarterService.getById(quarterId);
         for (LgScoredetails s:lgScore){
             s.setStatus(0);
         }
+        lgQuarter.setStatus(2);
+        lgQuarterService.saveOrUpdate(lgQuarter);
         return toAjax(lgScoredetailsService.saveOrUpdateBatch(lgScore));
     }
 
@@ -460,9 +463,56 @@ public class LgQuarterController extends BaseController {
         QueryWrapper<LgScoresummary> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().eq(LgScoresummary::getQuarterId,id);
         Page<LgScoresummary> page = lgScoresummaryService.selectByQuarterId(new Page<>(pageNo, pageSize),queryWrapper);
-
         model.addAttribute("pageInfo",new PageInfo(page));
         model.addAttribute("id",id);
         return "quarter/scoreSummaryList";
+    }
+
+
+    /**
+     * 跳转查看考核详情历史版本界面
+     * @param model
+     * @param quarterId
+     * @return
+     */
+    @RequestMapping("scoreDetialsHistory")
+    public String scoreDetialsHistory(Model model,Long quarterId){
+
+        List<LgQuarter> lgQuarters=lgQuarterService.selectByQuarterId(quarterId);
+        model.addAttribute("lgQuarters",lgQuarters);
+        model.addAttribute("id",quarterId);
+        return "quarter/scoreDetialHistory";
+    }
+
+    /**
+     * 引用历史版本考核详情
+     * @param quarterId
+     * @return
+     */
+    @PostMapping("updateScoreDetialByHistory")
+    @ResponseBody
+    public AjaxResult updateScoreDetialByHistory(long quarterId,long id){
+
+        List<LgScoredetails> lgScoredetailsList=new ArrayList<>();
+        //获取所有的除总经理经营班子以外的在职员工
+        List<LgUser> lgUser=lgUserService.selectAllByAvaliable();
+        //根据季度和用户查找所有考核详情
+        for(LgUser u:lgUser){
+            List<LgScoredetails> lgScoredetails=lgScoredetailsService.selectUserByQuarterAndUserNotId(u.getId(),quarterId);
+            lgScoredetailsList.addAll(lgScoredetails);
+        }
+
+        for(LgScoredetails s:lgScoredetailsList){
+            s.setQuarterId(id);
+            s.setStatus(4);
+            if(s.getAmisAmount().compareTo(new BigDecimal(0))==0||s.getFinishedAmount().compareTo(new BigDecimal(0))==0){
+
+                s.setScore(new BigDecimal(0));
+            }else{
+                s.setScore((s.getFinishedAmount().divide(s.getAmisAmount())).multiply(new BigDecimal(100)));
+            }
+        }
+
+        return toAjax(lgScoredetailsService.saveBatch(lgScoredetailsList));
     }
 }

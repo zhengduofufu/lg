@@ -22,6 +22,7 @@
                     <hr>
 
                     <div class="cl pd-5 bg-1 bk-gray ">
+                        <button type="button" class="layui-btn layui-btn-danger" th:onclick="'javascript:dowload('+${id}+')'">导出</button>
                     </div>
 
                     <table class="layui-table text-c">
@@ -69,7 +70,11 @@
 </div>
 <!--/_footer 作为公共模版分离出去-->
 <script>
+    function dowload(id){
+        var url="/excel/dowload?quarterId="+id;
+        window.open(url);
 
+    }
 </script>
 <style>
     .layui-body {

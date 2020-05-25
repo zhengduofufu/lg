@@ -28,4 +28,13 @@
     </select>
 
 
+
+    <!--根据季度查找汇总信息-->
+    <select id="selectAllByQuarterId" resultType="com.lg.lg.entity.LgScoresummary">
+          select
+
+             s.id,s.totalScore, s.aScore, s.bScore, s.cScore,s.dScore,s.eScore,u.userName userName,q.name quarterName
+    from (lg_scoresummary s left join lg_user u on s.userId=u.id) left join lg_quarter q on s.quarterId=q.id
+    where s.quarterId=#{quarterId,jdbcType=INTEGER}
+    </select>
 </mapper>

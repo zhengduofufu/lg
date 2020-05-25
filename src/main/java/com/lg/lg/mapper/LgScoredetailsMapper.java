@@ -35,6 +35,13 @@ public interface LgScoredetailsMapper extends BaseMapper<LgScoredetails> {
      * @return
      */
     List<LgScoredetails> selectUserByQuarterAndUser(@Param("userId") long userId, @Param("quarterId") long quarterId);
+    /**
+     * 根据季度和用户ID查询所有的考核详情(不包括Id)
+     * @param userId
+     * @param quarterId
+     * @return
+     */
+    List<LgScoredetails> selectUserByQuarterAndUserNotId(@Param("userId") long userId, @Param("quarterId") long quarterId);
 
     /**
      * 根据用户Id季度Id和领导Id查询所有考核项

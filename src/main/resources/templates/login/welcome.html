@@ -1,289 +1,422 @@
-﻿<!DOCTYPE html>
-<html xmlns:th="http://www.w3.org/1999/xhtml">
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
-    <meta charset="utf-8">
-    <title>后台管理系统</title>
-    <meta name="renderer" content="webkit">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-<!--    <link rel="shortcut icon" th:href="/favicon.ico" type="image/x-icon" />-->
-    <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="format-detection" content="telephone=no">
-    <!--<script type="text/javascript" src="/static/xiyuan/lib/loading/okLoading.js"></script>-->
-    <link rel="stylesheet" type="text/css" th:href="@{/css/x-admin.css}" href="static/css/x-admin.css" media="all" />
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <title>立根绩效考核后台管理系统</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/layui/css/layui.css}" href="static/layui/css/layui.css" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/app.css}" href="static/css/app.css" />
 </head>
-<style>
-    .show_list{display: block;}
-    .hide_lits{display: none;}
-    .layui-bg-black {
-         background-color: #001529 !important;
-     }
-    .layui-layout-admin .layui-side {
-        top: 60px;
-        width: 200px;
-        overflow-x: visible;
-    }
-    .layui-layout-admin .layui-side {
-         top: 60px;
-         width: 220px;
-         overflow-x: visible;
-     }
-</style>
 <body>
-<div class="layui-layout layui-layout-admin">
-    <div class="layui-header header header-demo">
-        <div class="layui-main">
-            <div class="admin-logo-box">
-                <a class="logo" href="" title="logo">后台管理系统</a>
-                <div class="larry-side-menu">
-                    <i class=" layui-icon iconfont" aria-hidden="true">&#xe83c;</i>
+<div class="tpl-app <!--{$Think.session.app_style} .tpl-small-app 为折叠状态-->">
+    <!--头部-->
+    <!--{include file="public/tpl-head"/}-->
+    <div class="tpl-header tpl-left">
+        <div class="tpl-header-item">
+            <ul class="tpl-head-nav left-item">
+                <li class="tpl-head-nav-item">
+                    <a href="javascript:;" class="tpl-dent"><i class="layui-icon layui-icon-shrink-right"></i></a>
+                </li>
+                <li class="tpl-head-nav-item">
+                    <a href=""><i class="layui-icon layui-icon-refresh"></i></a>
+                </li>
+                <li class="tpl-head-nav-item">
+                    <input type="text" class="search" placeholder="搜索...">
+                </li>
+            </ul>
+            <ul class="tpl-head-nav right-item">
+                <li class="tpl-head-nav-item">
+                    <a href="view/msg/index.html"><i class="layui-icon layui-icon-notice"></i></a>
+                    <span class="tpl-badeg"></span>
+                </li>
+                <li class="tpl-head-nav-item theme">
+                    <a href="javascript:;"><i class="layui-icon layui-icon-theme"></i></a>
+                </li>
+                <li class="tpl-head-nav-item">
+                    <a href="javascript:;" class="screen"><i class="layui-icon layui-icon-screen-full"></i></a>
+                </li>
+                <li class="tpl-head-nav-item">
+                    <a href="javascript:;" class="user-item">新用户-A0001 <i class="fa caret fa-caret-down"></i></a>
+                    <ul class="child-nav">
+                        <span class="triangle"><em></em></span>
+
+                        <li>
+                            <a href="javascript:;"><i class="fa fa-key"></i>修改密码</a>
+                        </li>
+                        <li>
+                            <a href="javascript:;" class="logout"><i class="fa fa-sign-out"></i>退出登陆</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!--导航栏-->
+    <div class="tpl-side">
+        <div class="tpl-side-menu">
+            <div class="tpl-user-image">
+                <span class="user-name">立根绩效考核系统</span>
+                <a href="javascript:;" class="user-logo"><img src="../images/ligen.jpg"></a>
+            </div>
+            <ul class="tpl-nav">
+                <div class="tpl-nav-body">
+                    <li class="nav-item">
+                        <a href="" class="nav-item-link">
+                            <i class="layui-icon layui-icon-home nav-icon"></i>
+                            <span>主页</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/lgQuarter/allQuarter" class="nav-item-link">
+                            <i class="layui-icon layui-icon-user nav-icon"></i>
+                            <span>季度考核</span>
+                            <i class="fa fa-caret-right nav-right-icon"></i>
+                        </a>
+                        <ul class="child-nav">
+                            <li class="child-nav-item">
+                                <iframe src="login/login.html" th:src="@{/login/toLogin}"></iframe>
+                               <!-- <iframe  name="iframe_a" width="800" height="500"></iframe>
+                                <p><a href="/lgQuarter/allQuarter" target="iframe_a">季度考核</a></p>-->
+                                <!--<a href="/lgQuarter/allQuarter">
+                                    <i class="fa fa-plus-circle"></i>
+                                    <span>季度考核</span>
+                                </a>-->
+                            </li>
+
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/login/toLogin" class="nav-item-link">
+                            <i class="layui-icon layui-icon-set nav-icon"></i>
+                            <span>系统设置</span>
+                            <i class="fa fa-caret-right nav-right-icon"></i>
+                        </a>
+                        <ul class="child-nav">
+                            <li class="child-nav-item">
+                                <a href="view/control/index.html">
+                                    <i class="fa fa-cogs"></i>
+                                    <span>员工管理</span>
+                                </a>
+                            </li>
+                            <li class="child-nav-item">
+                                <a href="view/control/tdk.html">
+                                    <i class="fa fa-edge"></i>
+                                    <span>考核库管理</span>
+                                </a>
+                            </li>
+
+                        </ul>
+                    </li>
+
+                </div>
+            </ul>
+            <ul class="tpl-bottom-nav">
+                <li class="tpl-head-nav-item">
+                    <a href="javascript:;"><i class="layui-icon layui-icon-notice"></i></a>
+                </li>
+                <li class="tpl-head-nav-item theme">
+                    <a href="javascript:;"><i class="layui-icon layui-icon-theme"></i></a>
+                </li>
+                <li class="tpl-head-nav-item">
+                    <a href="javascript:;"><i class="layui-icon layui-icon-edit"></i></a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="tpl-body">
+        <div class="tpl-show">
+            <div class="tpl-sub-header">
+                <!--面包屑-->
+                <!--{include file="public/tpl-crumbs"/}-->
+                <div class="crumbs">
+                    <a href="#">首页</a>
+                    <i>/</i>
                 </div>
             </div>
-            <ul class="layui-nav layui-layout-left layui-ygyd-menu" style="position:absolute; left:250px;">
-                <li class="layui-nav-item daohang" ids="#table1"><a href="javascript:;">基础设置</a></li>
-                <li class="layui-nav-item daohang" ids="#table2"><a href="javascript:;">系统设置</a></li>
+            <div class="tpl-fluid">
+                <div class="layui-row layui-col-space15">
+                    <div class="layui-col-sm6 layui-col-md3">
+                        <div class="tpl-card">
+                            <div class="tpl-card-head">
+                                <span>访问量</span>
+                                <span class="tpl-badge">今日</span>
+                            </div>
+                            <div class="tpl-card-body jammy-card-list">
+                                <p class="tpl-card-big-font">31200</p>
+                                <a class="tpl-card-sm-font">总访问量:<span class="tpl-card-right-text">99+万<i class="layui-icon layui-icon-flag"></i></span></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-col-sm6 layui-col-md3">
+                        <div class="tpl-card">
+                            <div class="tpl-card-head">
+                                <span>最新评论</span>
+                                <span class="tpl-badge layui-bg-orange">评论</span>
+                            </div>
+                            <div class="tpl-card-body jammy-card-list">
+                                <p class="tpl-card-big-font">31200</p>
+                                <a class="tpl-card-sm-font" href="">点击查看</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-col-sm6 layui-col-md3">
+                        <div class="tpl-card">
+                            <div class="tpl-card-head">
+                                <span>审核中心</span>
+                                <span class="tpl-badge layui-bg-red">未审核</span>
+                            </div>
+                            <div class="tpl-card-body jammy-card-list">
+                                <p class="tpl-card-big-font">31200</p>
+                                <p class="tpl-card-sm-font">已审核:<span class="tpl-card-right-text">99+万<i class="layui-icon layui-icon-flag"></i></span></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-col-sm6 layui-col-md3">
+                        <div class="tpl-card">
+                            <div class="tpl-card-head">
+                                <span>举报中心</span>
+                                <span class="tpl-badge layui-bg-green">未处理</span>
+                            </div>
+                            <div class="tpl-card-body jammy-card-list">
+                                <p class="tpl-card-big-font">31200</p>
+                                <p class="tpl-card-sm-font">已处理:<span class="tpl-card-right-text">99998588 <i class="layui-icon layui-icon-flag"></i></span></p>
+                            </div>
+                        </div>
+                    </div>
 
-            </ul>
+                </div>
+                <div class="layui-row layui-col-space15">
+                    <div class="layui-col-md9">
+                        <div class="tpl-card">
+                            <div class="tpl-card-head">
+                                <span>访问量</span>
+                                <span class="tpl-badge">echarts</span>
+                            </div>
+                            <div class="tpl-card-body jammy-card-list">
+                                <div id="main" style="height:600px"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-col-md3">
+                        <div class="tpl-card">
+                            <div class="tpl-card-head">
+                                <span>蜀道难</span>
+                                <span class="tpl-badge">李白</span>
+                            </div>
+                            <div class="tpl-card-body jammy-card-list">
+                                噫吁嚱，危乎高哉！蜀道之难，难于上青天！蚕丛及鱼凫，开国何茫然！尔来四万八千岁，不与秦塞通人烟。西当太白有鸟道，可以横绝峨眉巅。地崩山摧壮士死，然后天梯石栈相钩连。上有六龙回日之高标，下有冲波逆折之回川。黄鹤之飞尚不得过，猿猱欲度愁攀援。青泥何盘盘，百步九折萦岩峦。扪参历井仰胁息，以手抚膺坐长叹。
 
-            <ul class="layui-nav" lay-filter="">
-                <li class="layui-nav-item" id="time" style="margin-right: 50px;font-size: 20px;color: #2fb9d4;font-family: 'yjsz'"></li>
-                <li class="layui-nav-item">
-                    <a href="" title="系统公告">
+                                问君西游何时还？畏途巉岩不可攀。但见悲鸟号古木，雄飞雌从绕林间。又闻子规啼夜月，愁空山。蜀道之难，难于上青天，使人听此凋朱颜！连峰去天不盈尺，枯松倒挂倚绝壁。飞湍瀑流争喧豗，砯崖转石万壑雷。其险也如此，嗟尔远道之人胡为乎来哉！
 
-                    </a>
-                </li>
-                <li class="layui-nav-item">
-                    <a href="" title="消息">
-                        <i class="layui-icon" style="top: 1px;">&#xe63a;</i>
-                    </a>
-                </li>
-                <li class="layui-nav-item"><img src="./images/logo.png" class="layui-circle" style="border: 2px solid #A9B7B7;" width="35px" alt=""></li>
-                <li class="layui-nav-item"> <a href="javascript:;">admin</a>
-                    <dl class="layui-nav-child">
-                        <!-- 二级菜单 -->
-                        <dd><a href="javascript:;" onclick="member_show('张三','member-show.html','10001','360','400')">个人信息</a></dd>
-                        <dd><a href="">切换帐号</a></dd>
-                        <dd><a href="javascript:;" onclick="logout()">退出</a></dd>
-                    </dl>
-                </li>
-                <li class="layui-nav-item x-index"><a href="#">前台首页</a></li>
-            </ul>
-        </div>
-    </div>
-
-    <!--左侧导航区域-->
-    <div class="layui-side layui-bg-black x-side show_list" style="left:0px; " id="table1">
-        <div style="height: 130px; width: 220px; ">
-            <a class="img" title="我的头像" style="display: block;width: 80px;height: 80px;margin: 10px auto 10px;">
-                <img src="../images/logo.png" class="userAvatar" style="display: block;width: 100%;height: 100%;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;border: 4px solid #44576b;box-sizing: border-box;">
-            </a>
-            <p style=" display: block;width: 100%;height: 25px;color: #ffffff;text-align: center;font-size: 12px;white-space: nowrap;line-height: 25px;overflow: hidden;">
-                你好！<span class="userName">admin</span>, 欢迎回来
-            </p>
-        </div>
-        <div class="layui-side-scroll">
-            <ul class="layui-nav layui-nav-tree site-demo-nav" lay-filter="side">
-                <li class="layui-nav-item"> <a class="javascript:;" href="javascript:;"> <i class="layui-icon iconfont" style="top: 3px;">&#xe65c;</i><cite>栏目管理</cite> </a>
-                    <dl class="layui-nav-child">
-                        <dd class="">
-                        <dd class=""> <a href="javascript:;" _href="./cate-list.html"> <cite>栏目列表</cite> </a> </dd>
-                        </dd>
-                    </dl>
-                </li>
-                <li class="layui-nav-item"> <a class="javascript:;" href="javascript:;"> <i class="layui-icon iconfont" style="top: 3px;">&#xe661;</i><cite>文章管理</cite> </a>
-                    <dl class="layui-nav-child">
-                        <dd class="">
-                        <dd class=""> <a href="javascript:;" _href="./articletype-list.html"> <cite>文章类型列表</cite> </a> </dd>
-                        <dd class=""> <a href="javascript:;" _href="./article-list.html"> <cite>文章列表</cite> </a> </dd>
-                        </dd>
-                    </dl>
-                </li>
-                <li class="layui-nav-item"> <a class="javascript:;" href="javascript:;"> <i class="layui-icon iconfont" style="top: 3px;">&#xe60b;</i><cite>公告管理</cite> </a>
-                    <dl class="layui-nav-child">
-                        <dd class="">
-                        <dd class=""> <a href="javascript:;" _href="./noticetype-list.html"> <cite>公告类型</cite> </a> </dd>
-                        </dd>
-                        <dd class="">
-                        <dd class=""> <a href="javascript:;" _href="./notice-list.html"> <cite>公告列表</cite> </a> </dd>
-                        </dd>
-
-                    </dl>
-                </li>
-                <li class="layui-nav-item"> <a class="javascript:;" href="javascript:;"> <i class="layui-icon " style="top: 3px;">&#xe634;</i><cite>轮播管理</cite> </a>
-                    <dl class="layui-nav-child">
-                        <dd class="">
-                        <dd class=""> <a href="javascript:;" _href="./banner-list.html"> <cite>轮播列表</cite> </a> </dd>
-                        </dd>
-                    </dl>
-                </li>
-
-                <li class="layui-nav-item"> <a class="javascript:;" href="javascript:;"> <i class="layui-icon iconfont" style="top: 3px;">&#xe621;</i><cite>分类管理</cite> </a>
-                    <dl class="layui-nav-child">
-                        <dd class=""> <a href="javascript:;" _href="./category.html"> <cite>分类列表</cite> </a> </dd>
-                    </dl>
-                </li>
-                <li class="layui-nav-item"> <a class="javascript:;" href="javascript:;"> <i class="layui-icon iconfont" style="top: 3px;">&#xe60f;</i><cite>评论管理</cite> </a>
-                    <dl class="layui-nav-child">
-                        <dd class=""> <a href="javascript:;" _href="./comment-list.html"> <cite>评论列表</cite> </a> </dd>
-                        <dd class=""> <a href="javascript:;" _href="./feedback-list.html"> <cite>意见反馈</cite> </a> </dd>
-                    </dl>
-                </li>
-
-                <li class="layui-nav-item" style="height: 30px; text-align: center"> </li>
-            </ul>
-        </div>
-    </div>
-
-    <div class="layui-side layui-bg-black x-side hide_lits " style="left:0px;" id="table2">
-        <div style="height: 130px; width: 220px; " class="head-img">
-            <a class="img" title="我的头像" style="display: block;width: 80px;height: 80px;margin: 10px auto 10px;">
-                <img src="./images/logo.png" class="userAvatar" style="display: block;width: 100%;height: 100%;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;border: 4px solid #44576b;box-sizing: border-box;">
-            </a>
-            <p style=" display: block;width: 100%;height: 25px;color: #ffffff;text-align: center;font-size: 12px;white-space: nowrap;line-height: 25px;overflow: hidden;">
-                你好！<span class="userName">admin</span>, 欢迎回来
-            </p>
-        </div>
-        <div class="layui-side-scroll">
-            <ul class="layui-nav layui-nav-tree site-demo-nav" lay-filter="side">
-
-
-                <li class="layui-nav-item"> <a class="javascript:;" href="javascript:;"> <i class="layui-icon iconfont" style="top: 3px;">&#xe625;</i><cite>会员管理</cite> </a>
-                    <dl class="layui-nav-child">
-                        <dd class=""> <a href="javascript:;" _href="member-list.html"> <cite>会员列表</cite> </a> </dd>
-                        <dd class=""> <a href="javascript:;" _href="./member-del.html"> <cite>删除会员</cite> </a> </dd>
-                        <dd class=""> <a href="javascript:;" _href="./member-level.html"> <cite>等级管理</cite> </a> </dd>
-                        <dd class=""> <a href="javascript:;" _href="./member-kiss.html"> <cite>积分管理</cite> </a> </dd>
-                        <dd class=""> <a href="javascript:;" _href="./member-view.html"> <cite>浏览记录</cite> </a> </dd>
-                        <dd class=""> <a href="javascript:;" _href="./member-view.html"> <cite>分享记录</cite> </a> </dd>
-                    </dl>
-                </li>
-                <li class="layui-nav-item"> <a class="javascript:;" href="javascript:;"> <i class="layui-icon" style="top: 3px;">&#xe613;</i><cite>管理员管理</cite> </a>
-                    <dl class="layui-nav-child">
-                        <dd class=""> <a href="javascript:;" _href="./admin-list.html"> <cite>管理员列表</cite> </a> </dd>
-                        <dd class=""> <a href="javascript:;" _href="./admin-role.html"> <cite>角色管理</cite> </a> </dd>
-                        <dd class=""> <a href="javascript:;" _href="./admin-cate.html"> <cite>权限分类</cite> </a> </dd>
-                        <dd class=""> <a href="javascript:;" _href="./admin-rule.html"> <cite>权限管理</cite> </a> </dd>
-                    </dl>
-                </li>
-                <li class="layui-nav-item"> <a class="javascript:;" href="javascript:;"> <i class="layui-icon" style="top: 3px;">&#xe629;</i><cite>系统统计</cite> </a>
-                    <dl class="layui-nav-child">
-                        <dd class=""> <a href="javascript:;" _href="./echart.html"> <cite>统计报表</cite> </a> </dd>
-                    </dl>
-                </li>
-                <li class="layui-nav-item"> <a class="javascript:;" href="javascript:;"> <i class="layui-icon" style="top: 3px;">&#xe614;</i><cite>系统设置</cite> </a>
-                    <dl class="layui-nav-child">
-                        <dd class=""> <a href="javascript:;" _href="./sys-set.html"> <cite>系统设置</cite> </a> </dd>
-                        <dd class=""> <a href="javascript:;" _href="./sys-data.html"> <cite>数字字典</cite> </a> </dd>
-                        <dd class=""> <a href="javascript:;" _href="./sys-shield.html"> <cite>屏蔽词</cite> </a> </dd>
-                        <dd class=""> <a href="javascript:;" _href="./sys-log.html"> <cite>系统日志</cite> </a> </dd>
-                        <dd class=""> <a href="javascript:;" _href="./sys-link.html"> <cite>友情链接</cite> </a> </dd>
-                        <dd class=""> <a href="javascript:;" _href="./sys-qq.html"> <cite>第三方登录</cite> </a> </dd>
-                    </dl>
-                </li>
-                <li class="layui-nav-item" style="height: 30px; text-align: center"> </li>
-            </ul>
-        </div>
-    </div>
-
-
-
-
-
-    <div class="layui-tab layui-tab-card site-demo-title x-main" lay-filter="x-tab" lay-allowclose="true" style="left: 220px;border-left: solid 2px #2299ee;">
-        <ul class="layui-tab-title">
-            <li class="layui-this"> 我的桌面 <i class="layui-icon layui-unselect layui-tab-close">ဆ</i> </li>
-        </ul>
-        <div class="layui-tab-content site-demo site-demo-body">
-            <div class="layui-tab-item layui-show">
-                <iframe frameborder="0" src="https://www.baidu.com" class="x-iframe"></iframe>
+                                剑阁峥嵘而崔嵬，一夫当关，万夫莫开。所守或匪亲，化为狼与豺。朝避猛虎，夕避长蛇；磨牙吮血，杀人如麻。锦城虽云乐，不如早还家。蜀道之难，难于上青天，侧身西望长咨嗟！
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-col-md3">
+                        <div class="tpl-card">
+                            <div class="tpl-card-head">
+                                <span>作者说</span>
+                                <span class="tpl-badge">layAdmin</span>
+                            </div>
+                            <div class="tpl-card-body jammy-card-list">
+                                哈哈，没想到吧，新版本的layAdmin后台模板出来。 花了大概一个月的时间吧（这段时间也在做后端），尽最大能力做了用户体验的优化，前段框架用的是layui，感谢layui，感谢，非常感谢。 ps:模板有带php后端版，需要的可以联系！后期将不断更新。
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-    <div class="site-mobile-shade"> </div>
-
+    <!--侧边栏-->
+    <!--{include file="public/tpl-right-bar"/}-->
+    <div class="tpl-right-bar">
+        <div class="tpl-right-bar-show">
+            <div class="tpl-card">
+                <div class="tpl-card-head">配色方案</div>
+                <div class="tpl-card-body">
+                    <ul class="theme-list">
+                        <li class="theme-item" theme-id="1">
+                            <div class="theme-head" style="background-color: #ffffff" bg="#ffffff" color="#444444"></div>
+                            <div class="theme-side" style="background-color: #20222A" bg="#20222A" color="rgba(255,255,255,.8)">
+                                <div class="theme-logo" style="background-color: #20222A" bg="#20222A" color="rgba(255,255,255,.8)"></div>
+                            </div>
+                        </li>
+                        <li class="theme-item" theme-id="2">
+                            <div class="theme-head" style="background-color: #ffffff" bg="#ffffff" color="#444444"></div>
+                            <div class="theme-side" style="background-color: #50314F" bg="#50314F" color="rgba(255,255,255,.8)">
+                                <div class="theme-logo" style="background-color: #50314F" bg="#50314F" color="rgba(255,255,255,.8)"></div>
+                            </div>
+                        </li>
+                        <li class="theme-item" theme-id="3">
+                            <div class="theme-head" style="background-color: #ffffff" bg="#ffffff" color="#444"></div>
+                            <div class="theme-side" style="background-color: #333f58" bg="#333f58" color="rgba(255,255,255,.8)">
+                                <div class="theme-logo" style="background-color: #1E9FFF" bg="#1E9FFF" color="rgba(255,255,255,.8)"></div>
+                            </div>
+                        </li>
+                        <li class="theme-item" theme-id="4">
+                            <div class="theme-head" style="background-color: #ffffff" bg="#ffffff" color="#444"></div>
+                            <div class="theme-side" style="background-color: #2e9688" bg="#2e9688" color="rgba(255,255,255,.8)">
+                                <div class="theme-logo" style="background-color: #2e9688" bg="#2e9688" color="rgba(255,255,255,.8)"></div>
+                            </div>
+                        </li>
+                        <li class="theme-item" theme-id="5">
+                            <div class="theme-head" style="background-color: #ffffff" bg="#ffffff" color="#444"></div>
+                            <div class="theme-side" style="background-color: #20222a" bg="#20222a" color="rgba(255,255,255,.8)">
+                                <div class="theme-logo" style="background-color: #f78400" bg="#f78400" color="rgba(255,255,255,.8)"></div>
+                            </div>
+                        </li>
+                        <li class="theme-item" theme-id="6">
+                            <div class="theme-head" style="background-color: #ffffff" bg="#ffffff" color="#444"></div>
+                            <div class="theme-side" style="background-color: #242d38" bg="#242d38" color="rgba(255,255,255,.8)">
+                                <div class="theme-logo" style="background-color: #AA3130" bg="#AA3130" color="rgba(255,255,255,.8)"></div>
+                            </div>
+                        </li>
+                        <li class="theme-item" theme-id="7">
+                            <div class="theme-head" style="background-color: #ffffff" bg="#ffffff" color="#444"></div>
+                            <div class="theme-side" style="background-color: #20222a" bg="#20222a" color="rgba(255,255,255,.8)">
+                                <div class="theme-logo" style="background-color: #3A3D49" bg="#3A3D49" color="rgba(255,255,255,.8)"></div>
+                            </div>
+                        </li>
+                        <li class="theme-item" theme-id="8">
+                            <div class="theme-head" style="background-color: #2F9688" bg="#2F9688" color="#ffffff"></div>
+                            <div class="theme-side" style="background-color: #20222a" bg="#20222a" color="rgba(255,255,255,.8)">
+                                <div class="theme-logo" style="background-color: #226A62" bg="#226A62" color="rgba(255,255,255,.8)"></div>
+                            </div>
+                        </li>
+                        <li class="theme-item" theme-id="9">
+                            <div class="theme-head" style="background-color: #393d49" bg="#393d49" color="#ffffff"></div>
+                            <div class="theme-side" style="background-color: #20222a" bg="#20222a" color="rgba(255,255,255,.8)">
+                                <div class="theme-logo" style="background-color: #20222a" bg="#20222a" color="rgba(255,255,255,.8)"></div>
+                            </div>
+                        </li>
+                        <li class="theme-item" theme-id="10">
+                            <div class="theme-head" style="background-color: #ffffff" bg="#ffffff" color="#4f4f4f"></div>
+                            <div class="theme-side" style="background-color: #ad5fcf" bg="#ad5fcf" color="rgba(255,255,255,.8)">
+                                <div class="theme-logo" style="background-color: #20222A" bg="#20222A" color="rgba(255,255,255,.8)"></div>
+                            </div>
+                        </li>
+                        <li class="theme-item" theme-id="11">
+                            <div class="theme-head" style="background-color: #ffffff" bg="#ffffff" color="#444"></div>
+                            <div class="theme-side" style="background-color: #20222A" bg="#20222A" color="#b91a1a">
+                                <div class="theme-logo" style="background-color: #20222A" bg="#20222A" color="#b91a1a"></div>
+                            </div>
+                        </li>
+                        <li class="theme-item" theme-id="12">
+                            <div class="theme-head" style="background-color: #ffffff" bg="#ffffff" color="#444"></div>
+                            <div class="theme-side" style="background-color: #0a5541" bg="#0a5541" color="#eda438">
+                                <div class="theme-logo" style="background-color: #20222A" bg="#20222A" color="rgba(255,255,255,.8)"></div>
+                            </div>
+                        </li>
+                        <li class="theme-item" theme-id="13">
+                            <div class="theme-head" style="background-color: #ffffff" bg="#ffffff" color="#626262"></div>
+                            <div class="theme-side" style="background-color: #f44336" bg="#f44336" color="#fbfbfb">
+                                <div class="theme-logo" style="background-color: #f44336" bg="#f44336" color="#fbfbfb"></div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-
-<script type="text/javascript" th:src="@{/js/x-admin.js}"  src="/js/x-admin.js"></script>
-<script type="text/javascript" th:src="@{/js/jquery.min.js}"  src="/js/jquery.min.js"></script>
-<script type="text/javascript" th:src="@{/js/x-layui.js}"  src="/js/x-layui.js"></script>
-<script type="text/javascript" th:src="@{/layui/layui.js}"  src="/layui/layui.js"></script>
+<script type="text/javascript" th:src="@{/layui/layui.js}" src="static/layui/layui.js"></script>
+<script type="text/javascript" th:src="@{/js/app.js}" src="static/js/app.js"></script>
+<script type="text/javascript" th:src="@{/lib/echarts/3.4.0/echarts.common.min.js}" src="static/lib/echarts/3.4.0/echarts.common.min.js"></script>
 <script>
-    $(".daohang").click(function(){
-        var table = $(this).attr("ids");
-        var ids = $(".show_list").attr("id");
-        $("#"+ids+"").addClass("hide_lits");
-        $("#"+ids+"").removeClass("show_list");
-        $(""+table+"").removeClass("hide_lits");
-        $(""+table+"").addClass("show_list");
-    })
-
-
-</script>
-<script>
-    layui.use(['laydate','element','laypage','layer'], function(){
-        $ = layui.jquery;//jquery
-        laydate = layui.laydate;//日期插件
-        lement = layui.element();//面包导航
-        laypage = layui.laypage;//分页
-        layer = layui.layer;//弹出层
-        //以上模块根据需要引入
-
-    });
-
-    function logout() {
-
-        $.ajax({
-            type:"post",
-            url:"",
-            data:{e:1},
-            dataType:"json",
-            success:function (data) {
-                if(data.status==1){
-                    layer.msg(data.info,{icon:1,time:1000});
-                    setTimeout("window.location.href='{:url('Login/login')}'",2000);return false;
-                    return false;
-                }else{
-                    layer.msg(data.info,{icon:5,time:2000});return false;
+    myChart = echarts.init(document.getElementById("main"));
+    option = {
+        title: {
+            text: '访问来源'
+        },
+        tooltip : {
+            trigger: 'axis',
+            axisPointer: {
+                type: 'cross',
+                label: {
+                    backgroundColor: '#6a7985'
                 }
             }
-
-        })
-        return false;
-    }
-
-    function member_show(title,url,id,w,h){
-        x_admin_show(title,url,w,h);
-    }
-</script>
-<script>
-    //顶部时间
-    function getTime(){
-        var myDate = new Date();
-        var myYear = myDate.getFullYear(); //获取完整的年份(4位,1970-????)
-        var myMonth = myDate.getMonth()+1; //获取当前月份(0-11,0代表1月)
-        var myToday = myDate.getDate(); //获取当前日(1-31)
-        var myDay = myDate.getDay(); //获取当前星期X(0-6,0代表星期天)
-        var myHour = myDate.getHours(); //获取当前小时数(0-23)
-        var myMinute = myDate.getMinutes(); //获取当前分钟数(0-59)
-        var mySecond = myDate.getSeconds(); //获取当前秒数(0-59)
-        var week = ['星期日','星期一','星期二','星期三','星期四','星期五','星期六'];
-        var nowTime;
-
-        nowTime = myYear+'-'+fillZero(myMonth)+'-'+fillZero(myToday)+'&nbsp;&nbsp;'+fillZero(myHour)+':'+fillZero(myMinute)+':'+fillZero(mySecond)+'&nbsp;&nbsp;'+week[myDay]+'&nbsp;&nbsp;';
-        //console.log(nowTime);
-        $('#time').html(nowTime);
+        },
+        legend: {
+            data:['邮件营销','联盟广告','视频广告','直接访问','搜索引擎']
+        },
+        toolbox: {
+            feature: {
+                saveAsImage: {}
+            }
+        },
+        grid: {
+            left: '3%',
+            right: '4%',
+            bottom: '3%',
+            containLabel: true
+        },
+        xAxis : [
+            {
+                type : 'category',
+                boundaryGap : false,
+                data : ['周一','周二','周三','周四','周五','周六','周日']
+            }
+        ],
+        yAxis : [
+            {
+                type : 'value'
+            }
+        ],
+        series : [
+            {
+                name:'邮件营销',
+                type:'line',
+                stack: '总量',
+                areaStyle: {},
+                data:[120, 132, 101, 134, 90, 230, 210]
+            },
+            {
+                name:'联盟广告',
+                type:'line',
+                stack: '总量',
+                areaStyle: {},
+                data:[220, 182, 191, 234, 290, 330, 310]
+            },
+            {
+                name:'视频广告',
+                type:'line',
+                stack: '总量',
+                areaStyle: {},
+                data:[150, 232, 201, 154, 190, 330, 410]
+            },
+            {
+                name:'直接访问',
+                type:'line',
+                stack: '总量',
+                areaStyle: {normal: {}},
+                data:[320, 332, 301, 334, 390, 330, 320]
+            },
+            {
+                name:'搜索引擎',
+                type:'line',
+                stack: '总量',
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'top'
+                    }
+                },
+                areaStyle: {normal: {}},
+                data:[820, 932, 901, 934, 1290, 1330, 1320]
+            }
+        ]
     };
-    function fillZero(str){
-        var realNum;
-        if(str<10){
-            realNum	= '0'+str;
-        }else{
-            realNum	= str;
-        }
-        return realNum;
-    }
-    setInterval(getTime,1000);
+    myChart.setOption(option);
 </script>
+<style>
+    .tpl-side-menu .tpl-nav .nav-item .nav-item-link .nav-icon {
+        font-size: 14px;
+        position: absolute;
+        left: 20px;
+        top: 2px;
+    }
+</style>
 </body>
 </html>

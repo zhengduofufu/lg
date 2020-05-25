@@ -19,4 +19,11 @@ public interface LgScoresummaryService extends IService<LgScoresummary> {
      * @return
      */
     Page<LgScoresummary> selectByQuarterId(Page<LgScoresummary> page, QueryWrapper<LgScoresummary> wrapper);
+
+    /**
+     * 根据季度查找所有的考核汇总信息
+     * @param quarterId
+     * @return
+     */
+    List<LgScoresummary> selectAllByQuarterId(long quarterId);
 }

@@ -23,4 +23,11 @@ public interface LgScoresummaryMapper extends BaseMapper<LgScoresummary> {
      * @return
      */
     List<LgScoresummary> selectByQuarterId(Page page, @Param(Constants.WRAPPER) QueryWrapper<LgScoresummary> wrapper);
+
+    /**
+     * 根据季度查找所有的考核汇总信息
+     * @param quarterId
+     * @return
+     */
+    List<LgScoresummary> selectAllByQuarterId(@Param("quarterId") long quarterId);
 }

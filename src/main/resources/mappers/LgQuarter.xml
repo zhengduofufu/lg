@@ -38,4 +38,11 @@
         quarterId!=#{quarterId,jdbcType=INTEGER}
         group by quarterId)
     </select>
+
+    <select id="selectByQuarterId"  resultMap="QuarterMap" >
+        select
+        <include refid="Base_Column_List" />
+        from lg_quarter
+        where id !=#{quarterId,jdbcType=INTEGER}
+    </select>
 </mapper>

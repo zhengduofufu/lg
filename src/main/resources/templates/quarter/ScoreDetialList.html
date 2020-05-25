@@ -22,7 +22,19 @@
 <div class="page-container">
     <!--th:action="@{/lgQuarter/editScoreDetial}"-->
     <form action="#"  method="post">
+        <div>
 
+
+            <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
+                <ul >
+                    <li  style="float:right">
+                        <button  type="button" class="layui-btn layui-btn-radius layui-btn-danger"
+                                 th:onclick="'javascript:selectHistory('+${quarter.id}+')'">引用历史考核详情</button>
+                    </li>
+                </ul>
+
+            </div>
+        </div><br>
         <div class="layui-body">
             <fieldset class="layui-elem-field layui-field-title" style="margin-top: 50px;">
                 <legend>所有的在职员工</legend>
@@ -41,6 +53,7 @@
             </div>
 
         </div>
+
         <div>
             <fieldset class="layui-elem-field layui-field-title" style="margin-top: 50px;">
                 <legend>确认提交</legend>
@@ -56,6 +69,7 @@
 
             </div>
         </div>
+
     </form>
 </div>
 
@@ -83,6 +97,19 @@
         dataType: 'json',
         maxmin: true
     });
+    }
+
+    function selectHistory(quarterId){
+        var index = layer.open({
+            type: 2,
+            content: '/lgQuarter/scoreDetialsHistory?quarterId='+quarterId,
+            area: ["70%", '43%'],
+            dataType: 'json',
+            maxmin: true
+        });
+
+
+
     }
 
     function confirmSubmit(quarterId){

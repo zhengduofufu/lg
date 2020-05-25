@@ -32,4 +32,11 @@ public interface LgQuarterService extends IService<LgQuarter> {
      * @return
      */
     List<LgQuarter> selectByUserIdAndLeaderId(long userId, long quarterId,long leaderId);
+
+    /**
+     * 查询除当前季度以外的季度
+     * @param quarterId
+     * @return
+     */
+    List<LgQuarter> selectByQuarterId(long quarterId);
 }

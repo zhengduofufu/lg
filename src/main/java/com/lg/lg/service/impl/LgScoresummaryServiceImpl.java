@@ -28,4 +28,9 @@ public class LgScoresummaryServiceImpl extends ServiceImpl<LgScoresummaryMapper,
     public Page<LgScoresummary> selectByQuarterId(Page<LgScoresummary> page, QueryWrapper<LgScoresummary> wrapper) {
         return page.setRecords(this.baseMapper.selectByQuarterId(page,wrapper));
     }
+
+    @Override
+    public List<LgScoresummary> selectAllByQuarterId(long quarterId) {
+        return lgScoresummaryMapper.selectAllByQuarterId(quarterId);
+    }
 }
