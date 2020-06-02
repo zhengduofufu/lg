@@ -91,6 +91,7 @@ public class LgUserController extends BaseController {
         type.add(new UserType("1","部门负责人"));
         type.add(new UserType("2","经营班子"));
         type.add(new UserType("3","总经理"));
+        type.add(new UserType("4","管理员"));
         model.addAttribute("type",type);
         List<RoleType> role=new ArrayList<>();
         role.add(new RoleType(0,"被评分人"));
@@ -98,6 +99,24 @@ public class LgUserController extends BaseController {
         role.add(new RoleType(2,"审核人"));
         role.add(new RoleType(3,"管理员"));
         model.addAttribute("role",role);
+
+        List<String> depart=new ArrayList<>();
+        depart.add("经营班子");
+        depart.add("公用建设业务部");
+        depart.add("消费金融业务部");
+        depart.add("文件体卫业务部");
+        depart.add("同业合作业务部");
+        depart.add("高端装备业务部");
+        depart.add("资金一部");
+        depart.add("资金二部");
+        depart.add("风险评审部");
+        depart.add("法务合规部");
+        depart.add("资产管理部");
+        depart.add("财务部");
+        depart.add("综合管理部");
+        model.addAttribute("depart",depart);
+
+
         return "admin/edit";
     }
     /**

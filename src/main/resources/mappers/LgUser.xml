@@ -11,11 +11,11 @@
         <result column="departmentId" jdbcType="INTEGER" property="departmentId"/>
         <result column="leaderId" jdbcType="INTEGER" property="leaderId"/>
         <result column="roleId" jdbcType="INTEGER" property="roleId"/>
-
+        <result column="depart" jdbcType="VARCHAR" property="depart"/>
     </resultMap>
     <sql id="Base_Column_List">
         id,
-        userName, password, tel, avaliable, type, departmentId, leaderId,roleId
+        userName, password, tel, avaliable, type, departmentId, leaderId,roleId,depart
     </sql>
 
 
@@ -78,7 +78,7 @@
         select
         <include refid="Base_Column_List"/>
         from lg_user
-        where avaliable=1 and type in ('1','2','3')
+        where avaliable=1 and type in ('2','3')
     </select>
 
     <!--部门负责人的评分人-->
@@ -144,5 +144,13 @@
         where id in (select userId from lg_scoredetails where quarterId = #{quarterId,jdbcType=INTEGER}
         and taterId=#{userId,jdbcType=INTEGER} and status=1 group by userId)
         and avaliable = 1;
+    </select>
+
+    <!--根据用户密码查询所有的用户信息-->
+    <select id="selectbyNameAndPassword" resultMap="UserMap">
+        select
+        <include refid="Base_Column_List"/>
+        from lg_user
+        where userName=#{userName,jdbcType=VARCHAR} and password=#{password,jdbcType=VARCHAR} and avaliable=1
     </select>
 </mapper>

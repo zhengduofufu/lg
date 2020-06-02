@@ -41,7 +41,7 @@ public class ExcelController extends BaseController {
                 e1.printStackTrace();
             }
 
-            String[] titles = { "员工姓名", "季度名称", "总经理评分",
+            String[] titles = { "员工姓名", "部门","季度名称", "总经理评分",
                     "分管领导评分", "其他经营班子评分" , "部门负责人评分" , "其他部门负责人评分" , "总分数"  };
             export(titles, out,quarterId);
             return "1";
@@ -91,41 +91,47 @@ public class ExcelController extends BaseController {
                 }
                 row.createCell(0).setCellValue(userName);
 
+                String  depart = "";
+                if(lgScoresummary.getDepart()!= null){
+                    depart = lgScoresummary.getDepart();
+                }
+                row.createCell(1).setCellValue(depart);
+
                 String  quarterName = "";
                 if(lgScoresummary.getQuarterName()!= null){
                     quarterName = lgScoresummary.getQuarterName();
                 }
-                row.createCell(1).setCellValue(quarterName);
+                row.createCell(2).setCellValue(quarterName);
                 String  aScore = "";
                 if(lgScoresummary.getAScore()!= null){
                     aScore = lgScoresummary.getAScore().toString();
                 }
-                row.createCell(2).setCellValue(aScore);
+                row.createCell(3).setCellValue(aScore);
                 String  bScore = "";
                 if(lgScoresummary.getBScore()!= null){
                     bScore = lgScoresummary.getBScore().toString();
                 }
-                row.createCell(3).setCellValue(bScore);
+                row.createCell(4).setCellValue(bScore);
                 String  cScore = "";
                 if(lgScoresummary.getCScore()!= null){
                     cScore = lgScoresummary.getCScore().toString();
                 }
-                row.createCell(4).setCellValue(cScore);
+                row.createCell(5).setCellValue(cScore);
                 String  dScore = "";
                 if(lgScoresummary.getDScore()!= null){
                     dScore = lgScoresummary.getDScore().toString();
                 }
-                row.createCell(5).setCellValue(dScore);
+                row.createCell(6).setCellValue(dScore);
                 String  eScore = "";
                 if(lgScoresummary.getEScore()!= null){
                     eScore = lgScoresummary.getEScore().toString();
                 }
-                row.createCell(6).setCellValue(eScore);
+                row.createCell(7).setCellValue(eScore);
                 String  totalScore = "";
                 if(lgScoresummary.getTotalScore()!= null){
                     totalScore = lgScoresummary.getTotalScore().toString();
                 }
-                row.createCell(7).setCellValue(totalScore);
+                row.createCell(8).setCellValue(totalScore);
             }
 
             // 第七步，将文件输出到客户端浏览器

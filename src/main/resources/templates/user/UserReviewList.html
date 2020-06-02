@@ -13,7 +13,7 @@
 
 </head>
 <body>
-<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span>季度考核<span
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 季度考核 <span class="c-gray en">&gt;</span>列表<span
         class="c-gray en">&gt;</span>考核人员列表<a class="btn btn-success radius r"
                                               style="line-height:1.6em;margin-top:3px"
                                               href="javascript:location.replace(location.href);" title="刷新"><i
@@ -28,7 +28,7 @@
                 <legend>本季度需要评审的员工</legend>
             </fieldset>
 
-            <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
+            <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief" th:if="${status!=2}">
                 <ul >
                     <li th:each="user:${lgUser}" style="float:left">
                         <button th:if="${user.color==1}" type="button" class="layui-btn layui-btn-radius"  th:text="${user.userName}"
@@ -41,7 +41,7 @@
             </div>
 
         </div>
-        <div>
+        <div th:if="${status!=2}">
             <fieldset class="layui-elem-field layui-field-title" style="margin-top: 50px;">
                 <legend>确认提交</legend>
             </fieldset>

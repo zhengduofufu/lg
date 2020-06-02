@@ -88,4 +88,13 @@ public interface LgUserMapper extends BaseMapper<LgUser> {
      * @return
      */
     List<LgUser> selectFinishByAvaliableAndLeaderId(@Param("userId")long userId,@Param("quarterId") long queryId);
+
+
+    /**
+     * 通过账户密码查找用户
+     * @param userName
+     * @param password
+     * @return
+     */
+    LgUser selectbyNameAndPassword(@Param("userName")String userName,@Param("password")String  password);
 }

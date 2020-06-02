@@ -27,7 +27,7 @@
             </ul>
             <ul class="tpl-head-nav right-item">
                 <li class="tpl-head-nav-item">
-                    <a href="view/msg/index.html"><i class="layui-icon layui-icon-notice"></i></a>
+                    <a href=""><i class="layui-icon layui-icon-notice"></i></a>
                     <span class="tpl-badeg"></span>
                 </li>
                 <li class="tpl-head-nav-item theme">
@@ -37,15 +37,15 @@
                     <a href="javascript:;" class="screen"><i class="layui-icon layui-icon-screen-full"></i></a>
                 </li>
                 <li class="tpl-head-nav-item">
-                    <a href="javascript:;" class="user-item">新用户-A0001 <i class="fa caret fa-caret-down"></i></a>
+                    <a href="javascript:;" class="user-item" th:text="${session.user.userName}"> <i class="fa caret fa-caret-down"></i></a>
                     <ul class="child-nav">
                         <span class="triangle"><em></em></span>
 
                         <li>
-                            <a href="javascript:;"><i class="fa fa-key"></i>修改密码</a>
+                            <a data-href="/login/toUpdatePassword" id="updatepass"><i class="fa fa-key"></i>修改密码</a>
                         </li>
                         <li>
-                            <a href="javascript:;" class="logout"><i class="fa fa-sign-out"></i>退出登陆</a>
+                            <a href="/login/logout" class="logout"><i class="fa fa-sign-out"></i>退出登陆</a>
                         </li>
                     </ul>
                 </li>
@@ -67,7 +67,7 @@
                             <span>主页</span>
                         </a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item" th:if="${session.lgAuthorities.id}==1 or ${session.lgAuthorities.id}==3">
                         <a data-href="/lgQuarter/allQuarter" class="nav-item-link " id="aa">
                             <i class="layui-icon layui-icon-user nav-icon"></i>
                             <span>季度考核</span>
@@ -75,7 +75,7 @@
                         </a>
 
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item" th:if="${session.lgAuthorities.id}==3">
                         <a class="nav-item-link" >
                             <i class="layui-icon layui-icon-set nav-icon"></i>
                             <span>系统设置</span>
@@ -108,7 +108,7 @@
                     <a href="javascript:;"><i class="layui-icon layui-icon-theme"></i></a>
                 </li>
                 <li class="tpl-head-nav-item">
-                    <a href="javascript:;"><i class="layui-icon layui-icon-edit"></i></a>
+                    <a  data-href="/login/toUpdatePassword" id="updatepasstwo"><i class="layui-icon layui-icon-edit"></i></a>
                 </li>
             </ul>
         </div>
@@ -229,6 +229,15 @@
             var address =$(this).attr("data-href");
             $("iframe").attr("src",address);
         });
+
+        $("#updatepass").on("click",function(){
+            var address =$(this).attr("data-href");
+            $("iframe").attr("src",address);
+        });
+        $("#updatepasstwo").on("click",function(){
+            var address =$(this).attr("data-href");
+            $("iframe").attr("src",address);
+        });
     });
 </script>
 
@@ -238,6 +247,12 @@
         position: absolute;
         left: 20px;
         top: 2px;
+    }
+    .tpl-app .tpl-header .tpl-header-item .right-item {
+        position: absolute;
+        top: 0;
+        right: 50px;
+        padding: 0 !important;
     }
 </style>
 </body>

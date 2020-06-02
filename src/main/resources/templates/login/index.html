@@ -4,11 +4,86 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style1.css}" href="static/css/style1.css" />
+    <script type="text/javascript" th:src="@{/js/jquery.min1.js}" src="static/js/jquery.min1.js"></script>
     <title>立根绩效考核后台管理系统</title>
 
 </head>
 <body>
-<div>立根绩效考核系统</div>
+<div></div>
+<div class="superiority">
+    <div class="title">
+        <h4 style="margin-left: -50px">立根绩效考核系统</h4>
+    </div>
+    <div class="super_text">
 
+        <div class="super_content">
+            <div class="superli">
+                <ul>
+                    <li  onclick="interactive.openGreatBear('0', '')" aos="zoom-in"><a>公用<br/>建设业务部</a></li>
+                    <li  onclick="interactive.openGreatBear('0', '')" aos="zoom-in"><a>消费<br/>金融业务部</a></li>
+                    <li  onclick="interactive.openGreatBear('0', '')" aos="zoom-in"><a>文教<br/>体卫业务部</a></li>
+                    <li  onclick="interactive.openGreatBear('0', '')" aos="zoom-in"><a >同业<br/>合作业务部</a></li>
+                    <li  onclick="interactive.openGreatBear('0', '')" aos="zoom-in"><a>资金<br/>一部</a></li>
+                    <li  onclick="interactive.openGreatBear('0', '')" aos="zoom-in"><a >资金<br/>二部</a></li>
+                    <li  onclick="interactive.openGreatBear('0', '')" aos="zoom-in"><a >风险<br/>评审部</a></li>
+                    <li  onclick="interactive.openGreatBear('0', '')" aos="zoom-in"><a >法务<br/>合规部</a></li>
+                    <li  onclick="interactive.openGreatBear('0', '')" aos="zoom-in"><a >资产<br/>管理部</a></li>
+                    <li  onclick="interactive.openGreatBear('0', '')" aos="zoom-in"><a >财务<br/>部</a></li>
+                    <li  onclick="interactive.openGreatBear('0', '')" aos="zoom-in"><a >综合<br/>管理部</a></li>
+                </ul>
+            </div>
+            <div class="supertext">
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<div class="imgWrap_k">
+    <div class="imgWrap">
+        <div class="outer"></div>
+        <div class="inner"></div>
+        <div class="small"></div>
+        <span class="img"></span>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    $(function(){
+        $(".superli ul li").mouseover(function(){
+            $(this).addClass('superhover').siblings().removeClass('superhover');
+            var index = $(this).index();
+            number = index;
+            $('.supert').hide();
+            $('.supert:eq('+index+')').show();
+        });
+
+        var auto = 1;  //等于1则自动切换，其他任意数字则不自动切换
+        if(auto ==1){
+            var number = 0;
+            var maxNumber = $('.superli ul li').length;
+            function autotab(){
+                number++;
+                number == maxNumber? number = 0 : number;
+                $('.superli ul li:eq('+number+')').addClass('superhover').siblings().removeClass('superhover');
+                $('.supert:eq('+number+')').show().siblings().hide();
+            }
+            var tabChange = setInterval(autotab,3000);
+            //鼠标悬停暂停切换
+            $('.superli').mouseover(function(){
+                clearInterval(tabChange);
+            });
+            $('.superli').mouseout(function(){
+                tabChange = setInterval(autotab,3000);
+            });
+        }
+    });
+</script>
 </body>
 </html>

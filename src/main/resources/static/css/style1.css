@@ -1,0 +1,116 @@
+*{transition:all .7s ease 0s;}
+body{background-color: #fff}
+.title{text-align: center}
+.title h4{font-size: 30px;line-height:10px;margin-bottom: -40px;margin-left:30px;}
+/*学历提升优势开始*/
+.superiority{ width:100%; height:847px; float:left; margin-top:0px;  background-size:cover;}
+.super_text{ width:1200px; height:847px; margin:0 auto; background:url(../images/superiority.png) no-repeat center; background-size:cover;margin-top:-30px; }
+.super_content{ width:1200px; height:742px; float:left;margin-top: 60px;}
+.superli{ width:1200px; height:270px; float:left; margin-top:65px;}
+.superli ul{ width:1180px; float:left; height:270px; margin-left:10px;}
+.superli ul li{ width:100px; height:100px; float:left; color:#409AED; text-align:center; font-size:18px;cursor:pointer;border-radius: 100px;line-height:24px;background:url(../images/qipao.png) no-repeat center; background-size:cover;display: block;}
+.superli ul li:nth-child(2){animation:myfirst linear infinite 2s;}
+@keyframes myfirst {0% {margin-top:120px;} 50% {margin-top:128px;} 100% {margin-top:120px;}}
+.superli ul li:nth-child(3){animation:myfirsta linear infinite 2s;}
+@keyframes myfirsta {0% {margin-top:252px;} 70% {margin-top:260px;} 100% {margin-top:252px;}}
+.superli ul li:nth-child(4){animation:myfirstb linear infinite 2s;}
+@keyframes myfirstb {0% {margin-top:0px;} 60% {margin-top:8px;} 100% {margin-top:0px;}}
+.superli ul li:nth-child(5){animation:myfirstc linear infinite 2s;}
+@keyframes myfirstc {0% {margin-top:152px;} 40% {margin-top:160px;} 100% {margin-top:152px;}}
+.superli ul li:nth-child(1){animation:myfirstd linear infinite 2s;}
+@keyframes myfirstd {0% {margin-top:0px;} 40% {margin-top:8px;} 100% {margin-top:0px;}}
+
+.superli ul li:hover{transform: scale(1.3);transition: all 0.3s;}
+.superli ul li a{display: block;margin-top: 26px;}
+.superli ul li:nth-child(2)>a{display:block;margin-top:38px;}
+.superli ul li:nth-child(2){ margin-left:60px;margin-top:120px;}
+.superli ul li:nth-child(3){ margin-left:-212px; margin-top:252px;}
+.superli ul li:nth-child(4){ margin-left:702px; margin-top:0px;}
+.superli ul li:nth-child(5){ margin-left:4px; margin-top:152px;}
+.superli ul li:nth-child(6){ margin-left:793px; margin-top:2px;}
+/*.superli ul li:hover{ background:#ffc670;border:1px solid #000000}
+.superli .superhover{background:#ffc670; border:1px solid #ffa229;}*/
+.supertext{ width:1200px; height:65px; float:left; margin-top:165px;}
+.supert{ width:1000px; height:65px; margin:0 auto; text-align:center; font-size:24px; color:#000000; display:none;}
+.supert:first-Child{ display:block;}
+.superbut{ width:50%; float:left; height:74px;margin-left: 25%;}
+.superbtn{ width:80%; height:72px; border:1px solid #000000; line-height:72px; text-align:center; font-size:30px; color:#00000; margin-left: 10%; margin-top:90px;border-radius: 40px;cursor:pointer;}
+.superbtn:hover{ background: #ffc670; color:#00000;transform: scale(1.05);transition: all 0.5s;}
+.imgWrap_k{float:left;width: 100%;position: relative;margin-top: -920px;z-index: -111;height: 900px;}
+.imgWrap {width: 700px;height: 700px;margin: 0 auto;margin-top: 120px;}
+
+.outer, .inner, .small {
+	position: relative;
+    width: 700px;
+    height: 700px;
+    border-radius: 50%;
+    background-color: rgba(253,232,222,0.7);
+    opacity: 0;
+    -webkit-animation: ballScale 4s 0s linear infinite;
+    -moz-animation: ballScale 4s 0s linear infinite;
+    -ms-animation: ballScale 4s 0s linear infinite;
+    animation: ballScale 4s 0s linear infinite;
+}
+
+.inner{
+	position: relative;
+	margin-top: -700px;
+  -webkit-animation-delay: 1s;
+  -moz-animation-delay: 1s;
+  -ms-animation-delay: 1s;
+      animation-delay: 1s;
+}
+.small{
+		position: relative;
+	margin-top: -700px;
+  -webkit-animation-delay: 2s;
+  -moz-animation-delay: 2s;
+  -ms-animation-delay: 2s;
+      animation-delay: 2s;
+}
+@-webkit-keyframes ballScale {
+  0% {
+    -webkit-transform: scale(0);
+            transform: scale(0);
+    opacity: 1; }
+
+  100% {
+    -webkit-transform: scale(1);
+            transform: scale(1);
+
+    opacity: 0; } }
+@-moz-keyframes ballScale {
+  0% {
+    -moz-transform: scale(0);
+            transform: scale(0);
+    opacity: 1; }
+
+  100% {
+    -moz-transform: scale(1);
+            transform: scale(1);
+
+    opacity: 0; } }
+@-ms-keyframes ballScale {
+  0% {
+    -ms-transform: scale(0);
+            transform: scale(0);
+    opacity: 1; }
+
+  100% {
+    -ms-transform: scale(1);
+            transform: scale(1);
+
+    opacity: 0; } }
+@keyframes ballScale {
+  0% {
+    -webkit-transform: scale(0);
+    transform: scale(0);
+    opacity: 1;
+    }
+
+  100% {
+    -webkit-transform: scale(1);
+            transform: scale(1);
+    opacity: 0; }
+}
+/*学历提升优势结束*/

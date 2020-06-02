@@ -9,10 +9,10 @@
 <div id="wrapper" class="login-page">
     <div id="login_form" class="form">
 
-        <form class="login-form">
-            <input type="text" placeholder="电话号码" id="user_name"/>
-            <input type="password" placeholder="密码" id="password"/>
-            <button id="login">登　录</button>
+        <form class="login-form" id="login-form">
+            <input type="text" placeholder="姓名" id="userName" name="userName"/>
+            <input type="password" placeholder="密码" id="password" name="password"/>
+            <button id="login" type="submit">登　录</button>
             <p class="message">还没有账户? <a href="#">请管理员立刻创建</a></p>
         </form>
     </div>
@@ -24,8 +24,40 @@
 <div th:replace="_ueditor :: ueditor"></div>
 <!--/_footer 作为公共模版分离出去-->
 <!--请在下方写此页面业务相关的脚本-->
-<script>
+<script type="text/javascript">
+    $(function(){
 
+        $("#login-form").validate({
+            rules: {
+                userName: {
+                    required: true,
+                },
+                password: {
+                    required: true,
+                },
+            },
+            onkeyup:false,
+            debug: true,
+            success:"valid",
+            submitHandler:function(form){
+                $(form).ajaxSubmit({
+                    type: 'POST',
+                    url: "/login/loginUser" ,
+                    success: function(data){
+                        if(data.code == "1"){
+                            window.location.href="/login/toWelcome";
+                        }else{
+                            designMsg('登录失败!');
+                        }
+
+                    },
+                    error: function(){
+                        designMsg('登录失败!',5);
+                    }
+                });
+            }
+        });
+    });
 </script>
 <style type="text/css">
     .login-page {
@@ -65,8 +97,6 @@
         padding: 15px;
         color: #FFFFFF;
         font-size: 14px;
-        -webkit-transition: all 0.3 ease;
-        transition: all 0.3 ease;
         cursor: pointer;
     }
     .form button:hover, .form button:active, .form button:focus {

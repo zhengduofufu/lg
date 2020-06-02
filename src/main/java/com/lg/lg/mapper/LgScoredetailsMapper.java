@@ -108,4 +108,12 @@ public interface LgScoredetailsMapper extends BaseMapper<LgScoredetails> {
      * @return
      */
     BigDecimal selectScoreSumEByQuarterIdAndUserId(@Param("quarterId")long quarterId, @Param("userId") long userId);
+
+    /**
+     * 根据季度和用户查找考核状态
+     * @param quaretrId
+     * @param userId
+     * @return
+     */
+    Integer selectStatusByUserIdAndQuarterId(@Param("quarterId")long quaretrId,@Param("userId")long userId);
 }

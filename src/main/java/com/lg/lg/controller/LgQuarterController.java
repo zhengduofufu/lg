@@ -15,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 /**
@@ -23,6 +24,7 @@ import java.util.List;
  */
 @Controller
 @RequestMapping("/lgQuarter")
+@SessionAttributes({"user","lgAuthorities"})
 public class LgQuarterController extends BaseController {
 
     @Autowired
@@ -185,6 +187,10 @@ public class LgQuarterController extends BaseController {
         BigDecimal count=new BigDecimal(0);
 
 
+        if(dat.getScoreId()==null){
+            return toAjax(0);
+        }
+
         for (int i = 0; i < dat.getAmisAmount().size();i++){
             count=count.add(dat.getWeights().get(i));
             System.out.println("count:"+count);
@@ -192,6 +198,24 @@ public class LgQuarterController extends BaseController {
             LgUser lgUser=lgUserService.getById(userId);
             if(lgUser.getType().equals("0")){
 
+                //部门负责人评分
+                LgScoredetails lgScoredetail=new LgScoredetails();
+                lgScoredetail.setScoreId(dat.getScoreId().get(i).longValue());
+                lgScoredetail.setAmisAmount(dat.getAmisAmount().get(i));
+                lgScoredetail.setFinishedAmount(dat.getFinishedAmount().get(i));
+                lgScoredetail.setWeights(dat.getWeights().get(i));
+                lgScoredetail.setUserId(userId);
+                lgScoredetail.setStatus(4);
+                lgScoredetail.setQuarterId(quarterId);
+                lgScoredetail.setTaterId(lgUser.getDepartmentId());
+                if(dat.getAmisAmount().get(i).compareTo(new BigDecimal(0))==0||dat.getFinishedAmount().get(i).compareTo(new BigDecimal(0))==0){
+
+                    lgScoredetail.setScore(new BigDecimal(0));
+
+                }else{
+                    lgScoredetail.setScore((dat.getFinishedAmount().get(i)).divide(dat.getAmisAmount().get(i)).multiply(new BigDecimal(100)));
+                }
+                lgScoredetailsList.add(lgScoredetail);
                 //基层员工评分人
                 List<LgUser> leaderId=lgUserService.selectUserJC();
                 for(LgUser u:leaderId){
@@ -291,10 +315,11 @@ public class LgQuarterController extends BaseController {
      * @return
      */
     @RequestMapping("toUserReviewListDetial")
-    public String toUserReviewListDetial(Model model,long id){
+    public String toUserReviewListDetial(Model model, long id, HttpSession session){
         //获取所有的除需要评审的当季在职员工
-        List<LgUser> lgUser=lgUserService.selectAllByAvaliableAndLeaderId(37,id);
-        List<LgUser> lgUsers= lgUserService.selectFinishByAvaliableAndLeaderId(37,id);
+        LgUser user=(LgUser)session.getAttribute("user");
+        List<LgUser> lgUser=lgUserService.selectAllByAvaliableAndLeaderId(user.getId(),id);
+        List<LgUser> lgUsers= lgUserService.selectFinishByAvaliableAndLeaderId(user.getId(),id);
         for(LgUser u:lgUser){
             if(lgUsers.contains(u)){
                 u.setColor(0);
@@ -302,8 +327,10 @@ public class LgQuarterController extends BaseController {
                 u.setColor(1);
             }
         }
+        Integer status=lgScoredetailsService.selectStatusByUserIdAndQuarterId(id,user.getId());
         model.addAttribute("lgUser",lgUser);
         model.addAttribute("quarter",lgQuarterService.getById(id));
+        model.addAttribute("status",status);
 
         return "user/UserReviewList";
     }
@@ -316,15 +343,16 @@ public class LgQuarterController extends BaseController {
      * @return
      */
     @RequestMapping("userReviewScoreDetial")
-    public String userReviewScoreDetial(Model model,Long userId,Long quarterId){
+    public String userReviewScoreDetial(Model model,Long userId,Long quarterId,HttpSession session){
 
+        LgUser user=(LgUser)session.getAttribute("user");
         //根据用户和季度和leaderId查询拥有的考核项目
-        List<LgScoredetails> lgScoredetails=lgScoredetailsService.selectScoreDetialByUserIdAndQuarterIdAndLeaderId(userId,quarterId,37);
-        List<LgQuarter> lgQuarters=lgQuarterService.selectByUserIdAndLeaderId(userId,quarterId,37);
+        List<LgScoredetails> lgScoredetails=lgScoredetailsService.selectScoreDetialByUserIdAndQuarterIdAndLeaderId(userId,quarterId,user.getId());
+        List<LgQuarter> lgQuarters=lgQuarterService.selectByUserIdAndLeaderId(userId,quarterId,user.getId());
         List<QuarterAndSocreDetial> lists=new ArrayList<>();
         for(LgQuarter q:lgQuarters){
             QuarterAndSocreDetial a=new QuarterAndSocreDetial();
-            List<LgScoredetails> lgScoredetails1=lgScoredetailsService.selectScoreDetialByUserIdAndQuarterIdAndLeaderId(userId,q.getId(),37);
+            List<LgScoredetails> lgScoredetails1=lgScoredetailsService.selectScoreDetialByUserIdAndQuarterIdAndLeaderId(userId,q.getId(),user.getId());
             a.setLgQuarter(q);
             a.setLgScoredetailsList(lgScoredetails1);
             lists.add(a);
@@ -383,8 +411,9 @@ public class LgQuarterController extends BaseController {
      */
     @PostMapping("updateLeaderQuarterComfirmSocreDetials")
     @ResponseBody
-    public AjaxResult updateLeaderQuarterComfirmSocreDetials(long quarterId){
-        List<LgScoredetails> lgScore=lgScoredetailsService.selectScoreDetialByQuarterIdAndLeaderId(quarterId,37);
+    public AjaxResult updateLeaderQuarterComfirmSocreDetials(long quarterId,HttpSession session){
+        LgUser user=(LgUser)session.getAttribute("user");
+        List<LgScoredetails> lgScore=lgScoredetailsService.selectScoreDetialByQuarterIdAndLeaderId(quarterId,user.getId());
         for (LgScoredetails s:lgScore){
             s.setStatus(2);
         }
@@ -433,7 +462,7 @@ public class LgQuarterController extends BaseController {
                 lgScoresummary.setCScore(c);
                 lgScoresummary.setEScore(e);
                 lgScoresummary.setTotalScore(a.multiply(lgCalculationrules.getAweights()).add(b.multiply(lgCalculationrules.getBweights())).add(
-                        c.multiply(lgCalculationrules.getCweights())).add(e.multiply(lgCalculationrules.getDweights())));
+                        c.multiply(lgCalculationrules.getCweights())).add(e.multiply(lgCalculationrules.getEweights())));
                 System.out.println("aa:"+a+"bb:"+b+"cc:"+c+"ee:"+e+"total:"+lgScoresummary.getTotalScore());
                 lgScoresummaries.add(lgScoresummary);
             }
@@ -514,5 +543,18 @@ public class LgQuarterController extends BaseController {
         }
 
         return toAjax(lgScoredetailsService.saveBatch(lgScoredetailsList));
+    }
+
+    /**
+     * 删除季度
+     * @param id
+     * @return
+     */
+    @GetMapping("delete/{id}")
+    @ResponseBody
+    public AjaxResult delete(@PathVariable("id") Long id){
+        QueryWrapper<LgScoredetails> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda().eq(LgScoredetails::getQuarterId,id);
+        return toAjax( lgScoredetailsService.remove(queryWrapper)&&lgQuarterService.removeById(id));
     }
 }

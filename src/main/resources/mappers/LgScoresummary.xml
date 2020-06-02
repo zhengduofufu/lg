@@ -22,7 +22,7 @@
     <select id="selectByQuarterId" resultType="com.lg.lg.entity.LgScoresummary">
           select
            s.id,
-           s.userId, s.quarterId, s.totalScore, s.aScore, s.bScore, s.cScore,s.dScore,s.eScore,u.userName userName,q.name quarterName
+           s.userId, s.quarterId, s.totalScore, s.aScore, s.bScore, s.cScore,s.dScore,s.eScore,u.userName userName,u.depart depart,q.name quarterName
     from (lg_scoresummary s left join lg_user u on s.userId=u.id) left join lg_quarter q on s.quarterId=q.id
     ${ew.customSqlSegment}
     </select>
@@ -33,7 +33,7 @@
     <select id="selectAllByQuarterId" resultType="com.lg.lg.entity.LgScoresummary">
           select
 
-             s.id,s.totalScore, s.aScore, s.bScore, s.cScore,s.dScore,s.eScore,u.userName userName,q.name quarterName
+             s.id,s.totalScore, s.aScore, s.bScore, s.cScore,s.dScore,s.eScore,u.userName userName,u.depart depart,q.name quarterName
     from (lg_scoresummary s left join lg_user u on s.userId=u.id) left join lg_quarter q on s.quarterId=q.id
     where s.quarterId=#{quarterId,jdbcType=INTEGER}
     </select>

@@ -90,4 +90,9 @@ public class LgUserServiceImpl extends ServiceImpl<LgUserMapper,LgUser> implemen
         return lgUserMapper.selectFinishByAvaliableAndLeaderId(userId, queryId);
     }
 
+    @Override
+    public LgUser selectbyNameAndPassword(String userName, String password) {
+        return lgUserMapper.selectbyNameAndPassword(userName,password);
+    }
+
 }

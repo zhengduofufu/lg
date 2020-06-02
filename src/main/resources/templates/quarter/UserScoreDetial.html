@@ -259,7 +259,6 @@
                     formObject['weights'] = formData[item].weights;
                 }
                 formData = JSON.stringify(formObject);
-                alert(formData);
                 $(form).ajaxSubmit({
                     type: 'POST',
                     url: "/lgQuarter/addUserScoreDetial",

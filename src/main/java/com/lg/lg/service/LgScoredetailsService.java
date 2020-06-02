@@ -105,4 +105,12 @@ public interface LgScoredetailsService  extends IService<LgScoredetails> {
      * @return
      */
     BigDecimal selectScoreSumEByQuarterIdAndUserId(@Param("quarterId")long quarterId, @Param("userId") long userId);
+
+    /**
+     * 根据季度和用户查找考核状态
+     * @param quaretrId
+     * @param userId
+     * @return
+     */
+    Integer selectStatusByUserIdAndQuarterId(long quaretrId,long userId);
 }

@@ -28,7 +28,7 @@ public class LgUser extends BaseEntity{
   private long leaderId;
   @TableField(value = "roleId")
   private long roleId;
-
+  private String depart;
   @TableField(exist = false)
   private long color;
 

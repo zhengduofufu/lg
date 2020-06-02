@@ -40,4 +40,7 @@ public class LgScoresummary extends BaseEntity{
 
   @TableField(exist = false)
   private String  quarterName;
+
+  @TableField(exist = false)
+  private String  depart;
 }

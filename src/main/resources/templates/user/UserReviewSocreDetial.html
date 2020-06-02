@@ -13,7 +13,7 @@
 
 </head>
 <body>
-<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span>季度考核<span
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 季度考核 <span class="c-gray en">&gt;</span>列表<span
         class="c-gray en">&gt;</span>员工考核列表<a class="btn btn-success radius r"
                                               style="line-height:1.6em;margin-top:3px"
                                               href="javascript:location.replace(location.href);" title="刷新"><i
@@ -24,7 +24,7 @@
     <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
         <ul class="layui-tab-title">
             <li class="layui-this">当前季度评分</li>
-            <li th:each="list:${lists}" th:text="${list.getLgQuarter().getName()}">当前季度评分</li>
+            <li th:each="list:${lists}" th:text="${list.getLgQuarter().getName()}+'(只读)'">当前季度评分</li>
 
         </ul>
         <div class="layui-tab-content">
@@ -154,34 +154,34 @@
 
                                 <tr th:each="b:${a.getLgScoredetailsList()}">
                                     <td><input type="input-text" class="input-text" placeholder="考核项"
-                                               th:value="${b.scoreName}" readonly="true"/></td>
+                                               th:value="${b.scoreName}" readonly="true" style="background-color: #edebeb"/></td>
                                     <td>
                                         <div th:switch="${b.type}">
                                             <input type="input-text" th:case="1" th:value="${b.amisAmount}"
                                                    class="input-text" placeholder="季度目标"
-                                                   hidden="hidden" readonly="true"/>
+                                                   hidden="hidden" readonly="true" style="background-color: #edebeb"/>
                                             <input type="input-text" th:case="0" th:value="${b.amisAmount}"
                                                    class="input-text" placeholder="季度目标"
-                                                   readonly="true"/></div>
+                                                   readonly="true" style="background-color: #edebeb"/></div>
                                     </td>
                                     <td>
                                         <div th:switch="${b.type}">
                                             <input type="input-text" th:case="1" th:value="${b.finishedAmount}"
                                                    class="input-text" placeholder="实际完成目标"
-                                                   hidden="hidden" readonly="true"/>
+                                                   hidden="hidden" readonly="true" style="background-color: #edebeb"/>
                                             <input type="input-text" th:case="0" th:value="${b.finishedAmount}"
                                                    class="input-text" placeholder="实际完成目标"
-                                                   readonly="true"/></div>
+                                                   readonly="true" style="background-color: #edebeb"/></div>
                                     </td>
                                     <td><input type="input-text" th:value="${b.weights}" class="input-text"
                                                placeholder="权重"
-                                               readonly="true"/></td>
+                                               readonly="true" style="background-color: #edebeb"/></td>
                                     <td><input type="input-text" th:value="${b.scoreId}" class="input-text"
                                                placeholder="考核项"
                                                value="" readonly="true"
-                                               hidden="hidden"/></td>
+                                               hidden="hidden" style="background-color: #edebeb"/></td>
                                     <td><input type="input-text" class="input-text" placeholder="评分"
-                                               th:value="${b.score}" readonly="true"
+                                               th:value="${b.score}" readonly="true" style="background-color: #edebeb"
                                     /></td>
                                 </tr>
                                 </tbody>
@@ -253,7 +253,6 @@
                     formObject['score']=formData[item].score;
                 }
                 formData = JSON.stringify(formObject);
-                alert(formData);
                 $(form).ajaxSubmit({
                     type: 'POST',
                     url: "/lgQuarter/updateUserScoreDetialByScore",

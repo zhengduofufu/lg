@@ -56,6 +56,7 @@
 							<th width="40">员工姓名</th>
 							<th width="40">电话号码</th>
 							<th width="40">员工类型</th>
+							<th width="40">部门</th>
 							<th width="40">是否离职</th>
 
 							<!--<th width="40">删除标识</th>-->
@@ -78,6 +79,7 @@
 							<td th:if="${user.type == '1'}">部门负责人</td>
 							<td th:if="${user.type == '2'}">经营班子</td>
 							<td th:if="${user.type == '3'}">总经理</td>
+							<td th:text="${user.depart}"></td>
 							<td th:if="${user.avaliable==0}">离职</td>
 							<td th:if="${user.avaliable==1}">在职</td>
 							<td class="td-manage">

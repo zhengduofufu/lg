@@ -51,6 +51,7 @@
         l.name scoreName,l.type
         from lg_scoredetails d left join lg_scorelibrary l on d.scoreId=l.id
         where userId=#{userId,jdbcType=INTEGER} and quarterId=#{quarterId,jdbcType=INTEGER} and taterId=#{leaderId,jdbcType=INTEGER}
+        and d.status in (0,1)
         group by  scoreId
     </select>
 
@@ -133,5 +134,13 @@ from lg_scoredetails s left join lg_user u on s.taterId=u.id
            d.userId, d.scoreId,d.taterId,d.amisAmount,d.finishedAmount,d.weights
     from lg_scoredetails d
         where userId=#{userId,jdbcType=INTEGER} and quarterId=#{quarterId,jdbcType=INTEGER}
+    </select>
+
+    <!--根据用户Id和季度Id查询考核状态-->
+    <select id="selectStatusByUserIdAndQuarterId" resultType="java.lang.Integer">
+     select status
+    from lg_scoredetails
+    where taterId=#{userId,jdbcType=INTEGER} and quarterId=#{quarterId,jdbcType=INTEGER}
+     and status=2 group by status
     </select>
 </mapper>

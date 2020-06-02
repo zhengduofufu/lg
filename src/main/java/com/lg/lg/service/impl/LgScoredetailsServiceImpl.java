@@ -85,4 +85,9 @@ public class LgScoredetailsServiceImpl extends ServiceImpl<LgScoredetailsMapper,
     public BigDecimal selectScoreSumEByQuarterIdAndUserId(long quarterId, long userId) {
         return lgScoredetailsMapper.selectScoreSumEByQuarterIdAndUserId(quarterId,  userId);
     }
+
+    @Override
+    public Integer selectStatusByUserIdAndQuarterId(long quaretrId, long userId) {
+        return lgScoredetailsMapper.selectStatusByUserIdAndQuarterId(quaretrId,userId);
+    }
 }

@@ -43,7 +43,17 @@
                        placeholder="是否离职" id="avaliable" readonly="true"/>
             </div>
         </div>
+        <div class="row cl">
+            <label class="form-label col-xs-2 col-sm-2"><span class="c-red">*</span>部门：</label>
+            <div class="formControls col-xs-10 col-sm-10">
+                <select name="depart" id="depart" lay-filter="type" >
+                    <option th:selected="${c eq lgUser.depart}" th:each="c:${depart}" th:value="${c}"
+                            th:text="${c}"></option>
 
+
+                </select>
+            </div>
+        </div>
         <div class="row cl">
             <label class="form-label col-xs-2 col-sm-2"><span class="c-red">*</span>员工类型：</label>
             <div class="formControls col-xs-10 col-sm-10">

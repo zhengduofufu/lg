@@ -103,4 +103,12 @@ public interface LgUserService extends IService<LgUser> {
      * @return
      */
     List<LgUser> selectFinishByAvaliableAndLeaderId(long userId,long queryId);
+
+    /**
+     * 通过账户密码查找用户
+     * @param userName
+     * @param password
+     * @return
+     */
+    LgUser selectbyNameAndPassword(String userName,String  password);
 }
