@@ -73,10 +73,13 @@
 								   class="ml-5 layui-btn layui-btn-sm  layui-btn-normal" style="text-decoration:none">考核详情管理<!--<i class="Hui-iconfont">&#xe637;</i>--></a>
 								<a title="查看进度"  th:if="${quarter.status!=1} and ${session.lgAuthorities.id}==3" th:href="@{'toProgressList?id='+${quarter.id}}"
 								   class="ml-5 layui-btn layui-btn-sm layui-btn-warm" style="text-decoration:none">查看进度<!--<i class="Hui-iconfont">&#xe690;</i>--></a>
-								<a title="考核评分" th:if="${quarter.status!=1} and ${session.lgAuthorities.id}==1" th:href="@{'toUserReviewListDetial?id='+${quarter.id}}"
+								<a title="考核评分" th:if="${quarter.status==2} and ${session.lgAuthorities.id}==1" th:href="@{'toUserReviewListDetial?id='+${quarter.id}}"
 								   class="ml-5 layui-btn layui-btn-sm layui-btn-danger" style="text-decoration:none">考核评分<!--<i class="Hui-iconfont">&#xe634;</i>--></a>
 								<a title="查看汇总详情"  th:if="${quarter.status==1} and (${session.lgAuthorities.id}==3 or ${session.lgAuthorities.id}==2)" th:href="@{'allScoreSummaryDetialByQuarterId?id='+${quarter.id}}"
 								   class="ml-5 layui-btn layui-btn-sm" style="text-decoration:none">考核汇总详情<!--<i class="Hui-iconfont">&#xe634;</i>--></a>
+								<a title="考核评分详情"  th:if="${quarter.status==1} and ${session.lgAuthorities.id}==1 " th:href="@{'toUserQuaretrReviewList?id='+${quarter.id}}"
+								   class="ml-5 layui-btn layui-btn-sm layui-btn-warm" style="text-decoration:none">考核评分详情<!--<i class="Hui-iconfont">&#xe634;</i>--></a>
+
 							</td><!---->
 						</tr>
 						</tbody>

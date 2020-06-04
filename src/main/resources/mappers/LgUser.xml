@@ -121,7 +121,7 @@
         and id in (select taterId
         from lg_scoredetails
         where quarterId = #{quarterId,jdbcType=INTEGER}
-        and status = 0 and userId=#{userId,jdbcType=INTEGER}
+        and status in (0,1) and userId=#{userId,jdbcType=INTEGER}
         group by taterId);
     </select>
 

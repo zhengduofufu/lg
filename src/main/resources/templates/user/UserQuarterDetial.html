@@ -23,14 +23,13 @@
     <!--th:action="@{/lgQuarter/editScoreDetial}"-->
     <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
         <ul class="layui-tab-title">
-            <li class="layui-this">当前季度评分</li>
-            <li th:each="list:${lists}" th:text="${list.getLgQuarter().getName()}+'(只读)'">当前季度评分</li>
+            <li class="layui-this" th:text="${quarter.name}"></li>
 
         </ul>
         <div class="layui-tab-content">
             <div class="layui-tab-item layui-show">
                 <div style="font-size: 17px;color: red"><br>
-                    被考核人：<a th:text="${usera.userName}"></a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    被考核人：<a th:text="${usera.userName}"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     所属部门：<a th:text="${usera.depart}"></a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     考核季度：<a th:text="${quarter.name}"></a></div>
                 <form action="#" method="post" id="form-scoreDetial-add">
@@ -48,7 +47,7 @@
 
                         <div>
 
-                            <table class="layui-table" lay-even="" lay-skin="nob" lay-filter="demo" id="nowTable">
+                            <table class="layui-table" lay-even="" lay-skin="nob" lay-filter="demo">
                                 <colgroup>
                                     <col width="350">
                                     <col width="100">
@@ -110,8 +109,7 @@
                                     <td><input th:if="${userScoreDetials.finishedAmount}!=0" type="input-text" class="input-text" th:value="${userScoreDetials.score}" name="score" placeholder="评分"
                                                th:id="'score'+${userScoreDetials.scoreId}" value="" readonly="readonly"
                                     /><input th:if="${userScoreDetials.finishedAmount}==0" type="input-text" class="input-text" th:value="${userScoreDetials.score}" name="score" placeholder="评分"
-                                             th:id="'score'+${userScoreDetials.scoreId}" value=""
-                                             th:onchange="'javascript:sumTotal()'" onKeyUp="this.value=this.value.replace(/[^\.\d]/g,'');this.value=this.value.replace('.','');"
+                                             th:id="'score'+${userScoreDetials.scoreId}" value="" readonly="readonly"
                                     />
                                     </td>
                                 </tr>
@@ -120,8 +118,7 @@
                                     <td></td><td></td><td></td>
                                     <td style="text-align: center">综合评分：</td>
                                     <td><input type="input-text" class="input-text"
-                                               th:value="${nowTotalNumber}" readonly="true"
-                                               id="totalNumSum"
+                                               th:value="${totalNumber}" readonly="true"
                                     /></td>
                                 </tr>
                                 </tbody>
@@ -130,92 +127,8 @@
 
                         </div>
 
-                        <div class="col-xs-4 col-sm-3 col-xs-offset-4 col-sm-offset-3">
-                            <input class="btn btn-primary radius" id="subbtn" type="submit"
-                                   value="&nbsp;&nbsp;提交&nbsp;&nbsp;"/>
-                        </div>
                     </div>
                 </form>
-            </div>
-            <div class="layui-tab-item " th:each="a:${lists}">
-                <div >
-
-                    <div class="layui-body">
-                        <fieldset class="layui-elem-field layui-field-title" style="margin-top: 50px;">
-                            <legend>员工考核详情</legend>
-                        </fieldset>
-                        <div>
-
-                            <table class="layui-table" lay-even="" lay-skin="nob" lay-filter="demo">
-                                <colgroup>
-                                    <col width="350">
-                                    <col width="100">
-                                    <col width="100">
-                                    <col width="100">
-                                    <col width="100">
-                                    <col width="100">
-                                </colgroup>
-                                <thead>
-                                <tr>
-                                    <th>考核项名称</th>
-                                    <th>季度目标</th>
-                                    <th>实际完成目标</th>
-                                    <th>权重</th>
-                                    <th></th>
-                                    <th>评分</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-
-                                <tr th:each="b:${a.getLgScoredetailsList()}">
-                                    <td>
-                                        <input type="input-text" class="input-text" placeholder="考核项"
-                                               th:value="${b.scoreName}" readonly="true" style="background-color: #edebeb;"/></td>
-                                    <td>
-                                        <div th:switch="${b.type}">
-                                            <input type="input-text" th:case="1" th:value="${b.amisAmount}"
-                                                   class="input-text" placeholder="季度目标"
-                                                   hidden="hidden" readonly="true" style="background-color: #edebeb"/>
-                                            <input type="input-text" th:case="0" th:value="${b.amisAmount}"
-                                                   class="input-text" placeholder="季度目标"
-                                                   readonly="true" style="background-color: #edebeb"/></div>
-                                    </td>
-                                    <td>
-                                        <div th:switch="${b.type}">
-                                            <input type="input-text" th:case="1" th:value="${b.finishedAmount}"
-                                                   class="input-text" placeholder="实际完成目标"
-                                                   hidden="hidden" readonly="true" style="background-color: #edebeb"/>
-                                            <input type="input-text" th:case="0" th:value="${b.finishedAmount}"
-                                                   class="input-text" placeholder="实际完成目标"
-                                                   readonly="true" style="background-color: #edebeb"/></div>
-                                    </td>
-                                    <td><input type="input-text" th:value="${b.weights}" class="input-text"
-                                               placeholder="权重"
-                                               readonly="true" style="background-color: #edebeb"/></td>
-                                    <td><input type="input-text" th:value="${b.scoreId}" class="input-text"
-                                               placeholder="考核项"
-                                               value="" readonly="true"
-                                               hidden="hidden" style="background-color: #edebeb"/></td>
-                                    <td><input type="input-text" class="input-text" placeholder="评分"
-                                               th:value="${b.score}" readonly="true" style="background-color: #edebeb"
-                                    /></td>
-                                </tr>
-                                <tr >
-                                    <td></td>
-                                    <td></td><td></td><td></td>
-                                    <td style="text-align: center">综合评分：</td>
-                                    <td><input type="input-text" class="input-text"
-                                               th:value="${a.totalNum}" readonly="true"
-                                    /></td>
-                                </tr>
-                                </tbody>
-                            </table>
-
-
-                        </div>
-
-                    </div>
-                </div>
             </div>
 
         </div>
@@ -231,87 +144,13 @@
 <!--/_footer 作为公共模版分离出去-->
 
 <script type="text/javascript">
-    $(document).on('click', 'table tr td #delete', function (event) {
-        $(this).closest('tr').remove();
-    });
-
-    function sumTotal(){
 
 
-        var count=0;
-
-        $("#nowTable #not").each(function(){
-            var tdArr = $(this).children();
-            var history_income_type = tdArr.eq(3).find("input").val();//收入类别
-            var history_income_money = tdArr.eq(5).find("input").val();//收入金额
-            count=count+(history_income_type*history_income_money);
-        });
-        $("#totalNumSum").attr("value",parseInt(count));
-    }
 
 </script>
 
 <script type="text/javascript" th:inline="javascript">
 
-
-    var data5 = [[${userId}]];
-    var data6 = [[${quarterId}]];
-
-
-    $(function () {
-        $("#form-scoreDetial-add").validate({
-            rules: {
-                amisAmount: {
-                    required: true,
-                    number: true
-                }, finishedAmount: {
-                    required: true,
-                    number: true
-                }, weights: {
-                    required: true,
-                    number: true
-                },score:{
-                    required: true,
-                    number: true,
-                    max :100
-                }
-
-            },
-
-            onkeyup: false,
-            debug: true,
-            success: "valid",
-            submitHandler: function (form) {
-
-                var formData = $('form').serialize();
-                var formObject = {};
-                for (var item in formData) {
-                    formObject['id'] = formData[item].id;
-                    formObject['score']=formData[item].score;
-                }
-                formData = JSON.stringify(formObject);
-                $(form).ajaxSubmit({
-                    type: 'POST',
-                    url: "/lgQuarter/updateUserScoreDetialByScore",
-                    data: {dat: formData, userId: data5, quarterId: data6},
-                    success: function (data) {
-                        if (data.code == "1") {
-                            designMsg('添加成功!', 1, function () {
-                                var index = parent.layer.getFrameIndex(window.name);
-                                parent.location.reload();
-                                parent.layer.close(index);
-                            });
-                        } else {
-                            designMsg('添加失败!');
-                        }
-                    },
-                    error: function () {
-                        designMsg('添加异常!', 5);
-                    }
-                });
-            }
-        });
-    });
 
 
     $(function () {

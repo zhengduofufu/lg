@@ -1,5 +1,6 @@
 package com.lg.lg.controller;
 import	java.math.BigDecimal;
+import java.math.RoundingMode;
 import	java.util.ArrayList;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -213,7 +214,7 @@ public class LgQuarterController extends BaseController {
                     lgScoredetail.setScore(new BigDecimal(0));
 
                 }else{
-                    lgScoredetail.setScore((dat.getFinishedAmount().get(i)).divide(dat.getAmisAmount().get(i)).multiply(new BigDecimal(100)));
+                    lgScoredetail.setScore((dat.getFinishedAmount().get(i)).divide(dat.getAmisAmount().get(i), 4, BigDecimal.ROUND_HALF_UP).multiply(new BigDecimal(100)));
                 }
                 lgScoredetailsList.add(lgScoredetail);
                 //基层员工评分人
@@ -233,7 +234,7 @@ public class LgQuarterController extends BaseController {
                         lgScoredetails.setScore(new BigDecimal(0));
 
                     }else{
-                        lgScoredetails.setScore((dat.getFinishedAmount().get(i)).divide(dat.getAmisAmount().get(i)).multiply(new BigDecimal(100)));
+                        lgScoredetails.setScore((dat.getFinishedAmount().get(i)).divide(dat.getAmisAmount().get(i),4, BigDecimal.ROUND_HALF_UP).multiply(new BigDecimal(100)));
                     }
                     lgScoredetailsList.add(lgScoredetails);
                 }
@@ -334,7 +335,28 @@ public class LgQuarterController extends BaseController {
 
         return "user/UserReviewList";
     }
+    /**
+     * 跳转leader查看考核员工页面
+     * @return
+     */
+    @RequestMapping("toUserQuaretrReviewList")
+    public String toUserQuaretrReviewList(Model model, long id, HttpSession session){
+        //获取所有的除需要评审的当季在职员工
+        LgUser user=(LgUser)session.getAttribute("user");
+        List<LgUser> lgUser=lgUserService.selectAllByAvaliableAndLeaderId(user.getId(),id);
+        List<LgUser> lgUsers= lgUserService.selectFinishByAvaliableAndLeaderId(user.getId(),id);
+        for(LgUser u:lgUser){
+            if(lgUsers.contains(u)){
+                u.setColor(0);
+            }else{
+                u.setColor(1);
+            }
+        }
+        model.addAttribute("lgUser",lgUser);
+        model.addAttribute("quarter",lgQuarterService.getById(id));
 
+        return "user/UserQuaretrReviewList";
+    }
     /**
      * 根据用户季度领导查询所有的员工考核详情
      * @param model
@@ -348,22 +370,60 @@ public class LgQuarterController extends BaseController {
         LgUser user=(LgUser)session.getAttribute("user");
         //根据用户和季度和leaderId查询拥有的考核项目
         List<LgScoredetails> lgScoredetails=lgScoredetailsService.selectScoreDetialByUserIdAndQuarterIdAndLeaderId(userId,quarterId,user.getId());
+        BigDecimal nowTotalNumber=new BigDecimal(0);
+        for(LgScoredetails a:lgScoredetails){
+            nowTotalNumber=nowTotalNumber.add(a.getScore().multiply(a.getWeights()));
+        }
+
         List<LgQuarter> lgQuarters=lgQuarterService.selectByUserIdAndLeaderId(userId,quarterId,user.getId());
         List<QuarterAndSocreDetial> lists=new ArrayList<>();
         for(LgQuarter q:lgQuarters){
             QuarterAndSocreDetial a=new QuarterAndSocreDetial();
-            List<LgScoredetails> lgScoredetails1=lgScoredetailsService.selectScoreDetialByUserIdAndQuarterIdAndLeaderId(userId,q.getId(),user.getId());
+            BigDecimal totalNumber=new BigDecimal(0);
+            List<LgScoredetails> lgScoredetails1=lgScoredetailsService.selectScoreDetialByUserIdAndQuarterIdAndLeaderIdB(userId,q.getId(),user.getId());
+
+            for(LgScoredetails s:lgScoredetails1){
+                totalNumber=totalNumber.add(s.getScore().multiply(s.getWeights()));
+            }
             a.setLgQuarter(q);
             a.setLgScoredetailsList(lgScoredetails1);
+            a.setTotalNum(totalNumber.longValue());
             lists.add(a);
         }
         model.addAttribute("userId",userId);
         model.addAttribute("quarterId",quarterId);
         model.addAttribute("userScoreDetials",lgScoredetails);
         model.addAttribute("lists",lists);
+        model.addAttribute("usera",lgUserService.getById(userId));
+        model.addAttribute("quarter",lgQuarterService.getById(quarterId));
+        model.addAttribute("nowTotalNumber",nowTotalNumber.longValue());
         return "user/UserReviewSocreDetial";
     }
+    /**
+     * 根据用户季度领导查询所有的员工考核详情
+     * @param model
+     * @param userId
+     * @param quarterId
+     * @return
+     */
+    @RequestMapping("toUserQuarterDetial")
+    public String toUserQuarterDetial(Model model,Long userId,Long quarterId,HttpSession session){
 
+        LgUser user=(LgUser)session.getAttribute("user");
+        //根据用户和季度和leaderId查询拥有的考核项目
+        List<LgScoredetails> lgScoredetails=lgScoredetailsService.selectScoreDetialByUserIdAndQuarterIdAndLeaderIdB(userId,quarterId,user.getId());
+        BigDecimal totalNumber=new BigDecimal(0);
+        for(LgScoredetails s:lgScoredetails){
+            totalNumber=totalNumber.add(s.getScore().multiply(s.getWeights()));
+        }
+        model.addAttribute("userId",userId);
+        model.addAttribute("quarterId",quarterId);
+        model.addAttribute("userScoreDetials",lgScoredetails);
+        model.addAttribute("usera",lgUserService.getById(userId));
+        model.addAttribute("quarter",lgQuarterService.getById(quarterId));
+        model.addAttribute("totalNumber",totalNumber.longValue());
+        return "user/UserQuarterDetial";
+    }
 
     /**
      * 评分
@@ -557,4 +617,6 @@ public class LgQuarterController extends BaseController {
         queryWrapper.lambda().eq(LgScoredetails::getQuarterId,id);
         return toAjax( lgScoredetailsService.remove(queryWrapper)&&lgQuarterService.removeById(id));
     }
+
+
 }

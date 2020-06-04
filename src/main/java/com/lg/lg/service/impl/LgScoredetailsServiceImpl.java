@@ -52,6 +52,11 @@ public class LgScoredetailsServiceImpl extends ServiceImpl<LgScoredetailsMapper,
     }
 
     @Override
+    public List<LgScoredetails> selectScoreDetialByUserIdAndQuarterIdAndLeaderIdB(long userId, long quarterId, long leaderId) {
+        return lgScoredetailsMapper.selectScoreDetialByUserIdAndQuarterIdAndLeaderIdB(userId,quarterId,leaderId);
+    }
+
+    @Override
     public List<LgScoredetails> selectDetialsUserByQuarter(long quarterId) {
         return lgScoredetailsMapper.selectDetialsUserByQuarter(quarterId);
     }

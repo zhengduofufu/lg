@@ -36,7 +36,7 @@
     where id in (select quarterId from
         lg_scoredetails where userId=#{userId,jdbcType=INTEGER} and taterId=#{leaderId,jdbcType=INTEGER} and
         quarterId!=#{quarterId,jdbcType=INTEGER}
-        group by quarterId)
+        group by quarterId) and status=1
     </select>
 
     <select id="selectByQuarterId"  resultMap="QuarterMap" >

@@ -2,6 +2,7 @@ package com.lg.lg.entity;
 
 import lombok.Data;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -12,5 +13,6 @@ import java.util.List;
 public class QuarterAndSocreDetial {
     private LgQuarter lgQuarter;
     private List<LgScoredetails> lgScoredetailsList;
+    private long totalNum;
 
 }

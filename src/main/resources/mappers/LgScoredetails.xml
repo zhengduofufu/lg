@@ -55,6 +55,18 @@
         group by  scoreId
     </select>
 
+    <!--根据用户Id和季度Id和leaderId查询所有的考核详情信息-->
+    <select id="selectScoreDetialByUserIdAndQuarterIdAndLeaderIdB" resultType="com.lg.lg.entity.LgScoredetails">
+        select
+        d.id,
+        d.userId, d.scoreId,d.taterId,d.quarterId,d.status,d.amisAmount,d.finishedAmount,d.score,d.comfirmTime,d.weights,
+        l.name scoreName,l.type
+        from lg_scoredetails d left join lg_scorelibrary l on d.scoreId=l.id
+        where userId=#{userId,jdbcType=INTEGER} and quarterId=#{quarterId,jdbcType=INTEGER} and taterId=#{leaderId,jdbcType=INTEGER}
+        and d.status in (2)
+        group by  scoreId
+    </select>
+
     <!--根据季度Id查询所有的考核详情信息-->
     <select id="selectDetialsUserByQuarter" resultMap="LgScoredetailsMap">
         select

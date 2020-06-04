@@ -52,6 +52,15 @@ public interface LgScoredetailsService  extends IService<LgScoredetails> {
     List<LgScoredetails> selectScoreDetialByUserIdAndQuarterIdAndLeaderId(long userId, long quarterId, long leaderId);
 
     /**
+     * 根据用户Id季度Id和领导Id查询所有考核项
+     * @param userId
+     * @param quarterId
+     * @param leaderId
+     * @return
+     */
+    List<LgScoredetails> selectScoreDetialByUserIdAndQuarterIdAndLeaderIdB(long userId, long quarterId, long leaderId);
+
+    /**
      * 通过季度查找所有的考核详情
      * @param quarterId
      * @return

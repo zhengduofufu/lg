@@ -5,10 +5,8 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.lg.lg.config.AjaxResult;
 import com.lg.lg.config.BaseController;
-import com.lg.lg.entity.LgRole;
-import com.lg.lg.entity.LgUser;
-import com.lg.lg.entity.RoleType;
-import com.lg.lg.entity.UserType;
+import com.lg.lg.entity.*;
+import com.lg.lg.service.LgScoredetailsService;
 import com.lg.lg.service.LgUserService;
 import com.lg.lg.util.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +28,8 @@ public class LgUserController extends BaseController {
 
     @Autowired
     private LgUserService lgUserService;
+    @Autowired
+    private LgScoredetailsService lgScoredetailsService;
 
     @RequestMapping("/allUser")
     public String selcetAllUser(Model model,@RequestParam(value = "pageNo", required = false, defaultValue = "1") Integer pageNo,
@@ -139,7 +139,10 @@ public class LgUserController extends BaseController {
     public AjaxResult delete(@PathVariable("id") Long id){
         LgUser lgUser=lgUserService.getById(id);
         lgUser.setAvaliable(0);
-        return toAjax(lgUserService.updateById(lgUser));
+        QueryWrapper<LgScoredetails> queryWrapper= new QueryWrapper<>();
+        queryWrapper.lambda().eq(LgScoredetails::getUserId,id).and(wrapper -> wrapper.ne(LgScoredetails::getStatus,2));
+
+        return toAjax(lgUserService.updateById(lgUser)&&lgScoredetailsService.remove(queryWrapper));
     }
     /**
      * 批量离职

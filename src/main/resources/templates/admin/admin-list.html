@@ -79,6 +79,7 @@
 							<td th:if="${user.type == '1'}">部门负责人</td>
 							<td th:if="${user.type == '2'}">经营班子</td>
 							<td th:if="${user.type == '3'}">总经理</td>
+							<td th:if="${user.type == '4'}">管理员</td>
 							<td th:text="${user.depart}"></td>
 							<td th:if="${user.avaliable==0}">离职</td>
 							<td th:if="${user.avaliable==1}">在职</td>
