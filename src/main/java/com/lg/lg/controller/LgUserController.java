@@ -75,7 +75,15 @@ public class LgUserController extends BaseController {
     public AjaxResult add(LgUser lgUser){
         lgUser.setAvaliable(1);
         lgUser.setPassword("123456");
-        return toAjax(lgUserService.save(lgUser));
+        QueryWrapper<LgUser> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda().eq(LgUser::getUserName,lgUser.getUserName());
+        LgUser lg=lgUserService.getOne(queryWrapper);
+        if(lg==null){
+            return toAjax(lgUserService.save(lgUser));
+        }else{
+            return toAjax(0);
+        }
+
     }
     /**
      * 跳转编辑页面

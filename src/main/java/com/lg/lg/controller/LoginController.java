@@ -63,7 +63,6 @@ public class LoginController extends BaseController {
             session.setAttribute("user",users);
             session.setAttribute("lgAuthorities",lgAuthorities);
             model.addAttribute("user", users);
-
             return toAjax(1);
         } else {
             return toAjax(0);

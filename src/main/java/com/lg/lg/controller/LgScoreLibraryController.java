@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.lg.lg.config.AjaxResult;
 import com.lg.lg.config.BaseController;
 import com.lg.lg.entity.LgScorelibrary;
+import com.lg.lg.entity.LgUser;
 import com.lg.lg.service.LgScorelibraryService;
 import com.lg.lg.util.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,6 +55,14 @@ public class LgScoreLibraryController extends BaseController {
     @PostMapping("add")
     @ResponseBody
     public AjaxResult add(LgScorelibrary lgScorelibrary){
-        return toAjax(lgScorelibraryService.save(lgScorelibrary));
+        QueryWrapper<LgScorelibrary> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda().eq(LgScorelibrary::getName,lgScorelibrary.getName());
+        LgScorelibrary lg=lgScorelibraryService.getOne(queryWrapper);
+        if(lg==null){
+            return toAjax(lgScorelibraryService.save(lgScorelibrary));
+        }else{
+            return toAjax(0);
+        }
+
     }
 }

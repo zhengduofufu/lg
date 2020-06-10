@@ -42,7 +42,7 @@ public class ExcelController extends BaseController {
             }
 
             String[] titles = { "员工姓名", "部门","季度名称", "总经理评分",
-                    "分管领导评分", "其他经营班子评分" , "部门负责人评分" , "其他部门负责人评分" , "总分数"  };
+                    "分管领导评分", "其他经营班子评分（平均分）" , "部门负责人评分" , "其他部门负责人评分（平均分）" , "总分数"  };
             export(titles, out,quarterId);
             return "1";
         } catch(Exception e){

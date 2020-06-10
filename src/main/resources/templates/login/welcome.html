@@ -67,7 +67,7 @@
                             <span>主页</span>
                         </a>
                     </li>
-                    <li class="nav-item" th:if="${session.lgAuthorities.id}==1 or ${session.lgAuthorities.id}==3">
+                    <li class="nav-item" th:if="${session.lgAuthorities.id}==1 or ${session.lgAuthorities.id}==3 or ${session.lgAuthorities.id}==2">
                         <a data-href="/lgQuarter/allQuarter" class="nav-item-link " id="aa">
                             <i class="layui-icon layui-icon-user nav-icon"></i>
                             <span>季度考核</span>
