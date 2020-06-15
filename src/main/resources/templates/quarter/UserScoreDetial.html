@@ -72,17 +72,27 @@
                         <td><input type="input-text" class="input-text" placeholder="考核项"
                                    th:id="'scoreName'+${userScoreDetials.scoreId}" th:value="${userScoreDetials.scoreName}" readonly="true"/></td>
                         <td><div th:switch="${userScoreDetials.type}">
+                            <input type="input-text" th:case="2" th:value="${userScoreDetials.amisAmount}" class="input-text" name="amisAmount" placeholder="季度目标"
+                                   th:id="'amisAmount'+${userScoreDetials.scoreId}" hidden="hidden"/>
                             <input type="input-text" th:case="1" th:value="${userScoreDetials.amisAmount}" class="input-text" name="amisAmount" placeholder="季度目标"
                                    th:id="'amisAmount'+${userScoreDetials.scoreId}" hidden="hidden"/>
                             <input type="input-text" th:case="0" th:value="${userScoreDetials.amisAmount}" class="input-text" name="amisAmount" placeholder="季度目标"
                                    th:id="'amisAmount'+${userScoreDetials.scoreId}"/></div></td>
                         <td><div th:switch="${userScoreDetials.type}">
+                            <input type="input-text" th:case="2" th:value="${userScoreDetials.finishedAmount}" class="input-text" name="finishedAmount" placeholder="实际完成目标"
+                                   th:id="'finishedAmount'+${userScoreDetials.scoreId}" hidden="hidden"/>
                             <input type="input-text" th:case="1" th:value="${userScoreDetials.finishedAmount}" class="input-text" name="finishedAmount" placeholder="实际完成目标"
                                    th:id="'finishedAmount'+${userScoreDetials.scoreId}" hidden="hidden"/>
                             <input type="input-text" th:case="0" th:value="${userScoreDetials.finishedAmount}" class="input-text" name="finishedAmount" placeholder="实际完成目标"
                                    th:id="'finishedAmount'+${userScoreDetials.scoreId}"/></div></td>
-                        <td><input type="input-text" th:value="${userScoreDetials.weights}" class="input-text" name="weights" placeholder="权重"
-                                   th:id="'weights'+${userScoreDetials.scoreId}"/></td>
+                        <td>
+                            <div th:switch="${userScoreDetials.type}">
+                            <input type="input-text" th:case="2" th:value="${userScoreDetials.weights}" class="input-text" name="weights" placeholder="权重"
+                                   th:id="'weights'+${userScoreDetials.scoreId}" readonly="true"/>
+                                <input type="input-text" th:case="1" th:value="${userScoreDetials.weights}" class="input-text" name="weights" placeholder="权重"
+                                       th:id="'weights'+${userScoreDetials.scoreId}"/>
+                                <input type="input-text" th:case="0" th:value="${userScoreDetials.weights}" class="input-text" name="weights" placeholder="权重"
+                                       th:id="'weights'+${userScoreDetials.scoreId}"/></div></td>
                         <td><input type="input-text" th:value="${userScoreDetials.scoreId}" class="input-text" name="scoreId" placeholder="考核项"
                                    th:id="'scoreId'+${userScoreDetials.scoreId}" value="" readonly="true"
                                    hidden="hidden"/></td>
@@ -204,6 +214,19 @@
                                     '                        <td ><input type="input-text" class="input-text" name="finishedAmount" placeholder="实际完成目标"\n' +
                                     '                                            id="finishedAmount'+lgScorelibraries[i].id+'" hidden="hidden" value="0"/></td>\n' +
                                     '                        <td><input type="input-text" class="input-text" name="weights" placeholder="权重" id="weights'+lgScorelibraries[i].id+'"/></td>\n' +
+                                    '                        <td ><input type="input-text" class="input-text" name="scoreId" placeholder="考核项"\n' +
+                                    '                                            id="scoreId'+lgScorelibraries[i].id+'" value="' + lgScorelibraries[i].id + '" readonly="true" hidden="hidden"/></td>\n' +
+                                    '  <td ><a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del" id="delete">删除</a></td>\n' +
+                                    '                    </tr>');
+                            }else if(lgScorelibraries[i].type == 2){
+                                $('#showTable').append(' <tr id="aa">\n' +
+                                    '                        <td ><input type="input-text" class="input-text"  placeholder="考核项"\n' +
+                                    '                                            id="scoreId'+lgScorelibraries[i].id+'" value="' + lgScorelibraries[i].name + '" readonly="true"/></td>\n' +
+                                    '                        <td ><input type="input-text" class="input-text" name="amisAmount" placeholder="季度目标"\n' +
+                                    '                                            id="amisAmount'+lgScorelibraries[i].id+'" hidden="hidden" value="0"/></td>\n' +
+                                    '                        <td ><input type="input-text" class="input-text" name="finishedAmount" placeholder="实际完成目标"\n' +
+                                    '                                            id="finishedAmount'+lgScorelibraries[i].id+'" hidden="hidden" value="0"/></td>\n' +
+                                    '                        <td><input type="input-text" class="input-text" name="weights" placeholder="权重" id="weights'+lgScorelibraries[i].id+'" value="0" readonly="true"/></td>\n' +
                                     '                        <td ><input type="input-text" class="input-text" name="scoreId" placeholder="考核项"\n' +
                                     '                                            id="scoreId'+lgScorelibraries[i].id+'" value="' + lgScorelibraries[i].id + '" readonly="true" hidden="hidden"/></td>\n' +
                                     '  <td ><a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del" id="delete">删除</a></td>\n' +

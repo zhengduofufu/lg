@@ -56,6 +56,7 @@
                                     <col width="100">
                                     <col width="100">
                                     <col width="100">
+                                    <col width="20">
                                 </colgroup>
                                 <thead>
                                 <tr>
@@ -65,6 +66,7 @@
                                     <th>权重</th>
                                     <th></th>
                                     <th>评分</th>
+                                    <th></th>
                                 </tr>
                                 </thead>
                                 <tbody id="showTable">
@@ -75,6 +77,10 @@
                                                th:value="${userScoreDetials.scoreName}" readonly="true"/></td>
                                     <td>
                                         <div th:switch="${userScoreDetials.type}">
+                                            <input type="input-text" th:case="2"
+                                                   th:value="${userScoreDetials.amisAmount}" class="input-text"
+                                                   name="amisAmount" placeholder="季度目标"
+                                                   th:id="'amisAmount'+${userScoreDetials.scoreId}" hidden="hidden" readonly="true"/>
                                             <input type="input-text" th:case="1"
                                                    th:value="${userScoreDetials.amisAmount}" class="input-text"
                                                    name="amisAmount" placeholder="季度目标"
@@ -86,6 +92,11 @@
                                     </td>
                                     <td>
                                         <div th:switch="${userScoreDetials.type}">
+                                            <input type="input-text" th:case="2"
+                                                   th:value="${userScoreDetials.finishedAmount}" class="input-text"
+                                                   name="finishedAmount" placeholder="实际完成目标"
+                                                   th:id="'finishedAmount'+${userScoreDetials.scoreId}"
+                                                   hidden="hidden" readonly="true"/>
                                             <input type="input-text" th:case="1"
                                                    th:value="${userScoreDetials.finishedAmount}" class="input-text"
                                                    name="finishedAmount" placeholder="实际完成目标"
@@ -96,9 +107,16 @@
                                                    name="finishedAmount" placeholder="实际完成目标"
                                                    th:id="'finishedAmount'+${userScoreDetials.scoreId}" readonly="true"/></div>
                                     </td>
-                                    <td><input type="input-text" th:value="${userScoreDetials.weights}"
+                                    <td><div th:switch="${userScoreDetials.type}">
+                                        <input type="input-text" th:case="2" th:value="${userScoreDetials.weights}"
                                                class="input-text" name="weights" placeholder="权重"
-                                               th:id="'weights'+${userScoreDetials.scoreId}" readonly="true"/></td>
+                                               th:id="'weights'+${userScoreDetials.scoreId}" readonly="true" hidden="hidden"/>
+                                        <input type="input-text" th:case="1" th:value="${userScoreDetials.weights}"
+                                               class="input-text" name="weights" placeholder="权重"
+                                               th:id="'weights'+${userScoreDetials.scoreId}" readonly="true"/>
+                                        <input type="input-text" th:case="0" th:value="${userScoreDetials.weights}"
+                                               class="input-text" name="weights" placeholder="权重"
+                                               th:id="'weights'+${userScoreDetials.scoreId}" readonly="true"/></div></td>
                                     <td><input type="input-text" th:value="${userScoreDetials.scoreId}"
                                                class="input-text" name="scoreId" placeholder="考核项"
                                                th:id="'scoreId'+${userScoreDetials.scoreId}" value="" readonly="true"
@@ -106,13 +124,25 @@
                                         <input type="input-text" th:value="${userScoreDetials.id}"
                                                class="input-text" name="id" placeholder="考核项"
                                                th:id="'id'+${userScoreDetials.scoreId}" value="" readonly="true"
-                                               hidden="hidden"/></td>
-                                    <td><input th:if="${userScoreDetials.finishedAmount}!=0" type="input-text" class="input-text" th:value="${userScoreDetials.score}" name="score" placeholder="评分"
+                                               hidden="hidden"/>
+
+                                    </td>
+                                    <td>
+                                        <div th:switch="${userScoreDetials.type}">
+                                            <input th:case="0" type="input-text" class="input-text" th:value="${userScoreDetials.score}" name="score" placeholder="评分"
                                                th:id="'score'+${userScoreDetials.scoreId}" value="" readonly="readonly"
-                                    /><input th:if="${userScoreDetials.finishedAmount}==0" type="input-text" class="input-text" th:value="${userScoreDetials.score}" name="score" placeholder="评分"
+                                    /><input th:case="1" type="input-text" class="input-text" th:value="${userScoreDetials.score}" name="score" placeholder="评分"
                                              th:id="'score'+${userScoreDetials.scoreId}" value=""
                                              th:onchange="'javascript:sumTotal()'" onKeyUp="this.value=this.value.replace(/[^\.\d]/g,'');this.value=this.value.replace('.','');"
-                                    />
+                                    /><input th:case="2" type="input-text" class="input-text" th:value="${userScoreDetials.score}" name="score" placeholder="评分"
+                                             th:id="'score'+${userScoreDetials.scoreId}" value=""   th:onchange="'javascript:sumTotal()'"
+                                        />
+                                        </div></td>
+                                    <td>
+                                        <input type="input-text" th:value="${userScoreDetials.type}"
+                                               class="input-text"  placeholder="类型"
+                                               th:id="'id'+${userScoreDetials.scoreId}" value="" readonly="true"
+                                               hidden="hidden"/>
                                     </td>
                                 </tr>
                                 <tr >
@@ -122,7 +152,11 @@
                                     <td><input type="input-text" class="input-text"
                                                th:value="${nowTotalNumber}" readonly="true"
                                                id="totalNumSum"
-                                    /></td>
+                                    /></td><td></td>
+                                </tr>
+                                <tr th:if="${usera.type=='1'} and (${usera.depart=='资金一部'} or ${usera.depart=='资金二部'}) "> <td>一票否决：流动性风险管理（考核期内，发生借款到期不能偿付，则本年度考核得分为0分)</td>
+                                    <td></td><td></td><td></td>
+
                                 </tr>
                                 </tbody>
                             </table>
@@ -173,6 +207,9 @@
                                                th:value="${b.scoreName}" readonly="true" style="background-color: #edebeb;"/></td>
                                     <td>
                                         <div th:switch="${b.type}">
+                                            <input type="input-text" th:case="2" th:value="${b.amisAmount}"
+                                                   class="input-text" placeholder="季度目标"
+                                                   hidden="hidden" readonly="true" style="background-color: #edebeb"/>
                                             <input type="input-text" th:case="1" th:value="${b.amisAmount}"
                                                    class="input-text" placeholder="季度目标"
                                                    hidden="hidden" readonly="true" style="background-color: #edebeb"/>
@@ -182,6 +219,9 @@
                                     </td>
                                     <td>
                                         <div th:switch="${b.type}">
+                                            <input type="input-text" th:case="2" th:value="${b.finishedAmount}"
+                                                   class="input-text" placeholder="实际完成目标"
+                                                   hidden="hidden" readonly="true" style="background-color: #edebeb"/>
                                             <input type="input-text" th:case="1" th:value="${b.finishedAmount}"
                                                    class="input-text" placeholder="实际完成目标"
                                                    hidden="hidden" readonly="true" style="background-color: #edebeb"/>
@@ -189,9 +229,17 @@
                                                    class="input-text" placeholder="实际完成目标"
                                                    readonly="true" style="background-color: #edebeb"/></div>
                                     </td>
-                                    <td><input type="input-text" th:value="${b.weights}" class="input-text"
+                                    <td>
+                                        <div th:switch="${b.type}">
+                                            <input type="input-text" th:case="2" th:value="${b.weights}" class="input-text"
+                                                   placeholder="权重"
+                                                   readonly="true" style="background-color: #edebeb" hidden="hidden"/>
+                                            <input type="input-text" th:case="1" th:value="${b.weights}" class="input-text"
                                                placeholder="权重"
-                                               readonly="true" style="background-color: #edebeb"/></td>
+                                                   readonly="true" style="background-color: #edebeb"/>
+                                            <input type="input-text" th:case="0" th:value="${b.weights}" class="input-text"
+                                                   placeholder="权重"
+                                                   readonly="true" style="background-color: #edebeb"/></div></td>
                                     <td><input type="input-text" th:value="${b.scoreId}" class="input-text"
                                                placeholder="考核项"
                                                value="" readonly="true"
@@ -242,8 +290,17 @@
 
         $("#nowTable #not").each(function(){
             var tdArr = $(this).children();
-            var history_income_type = tdArr.eq(3).find("input").val();//收入类别
-            var history_income_money = tdArr.eq(5).find("input").val();//收入金额
+            var type = tdArr.eq(6).find("input").val();//收入类别
+            var history_income_type ;//收入类别
+            var history_income_money ;//收入金额
+            if(type==2){
+                history_income_type =1;//收入类别
+                history_income_money = tdArr.eq(5).find("input").val();//收入金额
+            }else{
+                history_income_type = tdArr.eq(3).find("input").val();//收入类别
+                history_income_money = tdArr.eq(5).find("input").val();//收入金额
+            }
+
             count=count+(history_income_type*history_income_money);
         });
         $("#totalNumSum").attr("value",parseInt(count));

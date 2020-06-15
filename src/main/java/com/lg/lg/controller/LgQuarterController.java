@@ -372,7 +372,11 @@ public class LgQuarterController extends BaseController {
         List<LgScoredetails> lgScoredetails=lgScoredetailsService.selectScoreDetialByUserIdAndQuarterIdAndLeaderId(userId,quarterId,user.getId());
         BigDecimal nowTotalNumber=new BigDecimal(0);
         for(LgScoredetails a:lgScoredetails){
-            nowTotalNumber=nowTotalNumber.add(a.getScore().multiply(a.getWeights()));
+            if(a.getType()==2){
+                nowTotalNumber=nowTotalNumber.add(a.getScore().multiply(new BigDecimal(1)));
+            }else {
+                nowTotalNumber = nowTotalNumber.add(a.getScore().multiply(a.getWeights()));
+            }
         }
 
         List<LgQuarter> lgQuarters=lgQuarterService.selectByUserIdAndLeaderId(userId,quarterId,user.getId());
@@ -383,7 +387,11 @@ public class LgQuarterController extends BaseController {
             List<LgScoredetails> lgScoredetails1=lgScoredetailsService.selectScoreDetialByUserIdAndQuarterIdAndLeaderIdB(userId,q.getId(),user.getId());
 
             for(LgScoredetails s:lgScoredetails1){
-                totalNumber=totalNumber.add(s.getScore().multiply(s.getWeights()));
+                if(s.getType()==2){
+                    totalNumber=totalNumber.add(s.getScore().multiply(new BigDecimal(1)));
+                }else {
+                    totalNumber = totalNumber.add(s.getScore().multiply(s.getWeights()));
+                }
             }
             a.setLgQuarter(q);
             a.setLgScoredetailsList(lgScoredetails1);
@@ -414,7 +422,12 @@ public class LgQuarterController extends BaseController {
         List<LgScoredetails> lgScoredetails=lgScoredetailsService.selectScoreDetialByUserIdAndQuarterIdAndLeaderIdB(userId,quarterId,user.getId());
         BigDecimal totalNumber=new BigDecimal(0);
         for(LgScoredetails s:lgScoredetails){
-            totalNumber=totalNumber.add(s.getScore().multiply(s.getWeights()));
+            if(s.getType()==2){
+                totalNumber=totalNumber.add(s.getScore().multiply(new BigDecimal(1)));
+            }else{
+                totalNumber=totalNumber.add(s.getScore().multiply(s.getWeights()));
+            }
+
         }
         model.addAttribute("userId",userId);
         model.addAttribute("quarterId",quarterId);
@@ -475,7 +488,13 @@ public class LgQuarterController extends BaseController {
         LgUser user=(LgUser)session.getAttribute("user");
         List<LgScoredetails> lgScore=lgScoredetailsService.selectScoreDetialByQuarterIdAndLeaderId(quarterId,user.getId());
         for (LgScoredetails s:lgScore){
-            s.setStatus(2);
+            if(s.getType()==2){
+                s.setWeights(new BigDecimal(1));
+                s.setStatus(2);
+            }else{
+                s.setStatus(2);
+            }
+
         }
         return toAjax(lgScoredetailsService.saveOrUpdateBatch(lgScore));
     }
@@ -494,10 +513,11 @@ public class LgQuarterController extends BaseController {
             if(u.getType().equals("0")){
                 LgScoresummary lgScoresummary=new LgScoresummary();
                 LgCalculationrules lgCalculationrules=lgCalculationrulesService.selectByType(0);
-                BigDecimal a=lgScoredetailsService.selectScoreSumAByQuarterIdAndUserId(quarterId,u.getId());
-                BigDecimal b=lgScoredetailsService.selectScoreSumBByQuarterIdAndUserId(quarterId,u.getId());
-                BigDecimal c=lgScoredetailsService.selectScoreSumCByQuarterIdAndUserId(quarterId,u.getId());
-                BigDecimal d=lgScoredetailsService.selectScoreSumDByQuarterIdAndUserId(quarterId,u.getId());
+                BigDecimal a=lgScoredetailsService.selectScoreSumAByQuarterIdAndUserId(quarterId,u.getId())!=null?lgScoredetailsService.selectScoreSumAByQuarterIdAndUserId(quarterId,u.getId()):new BigDecimal(0);
+                BigDecimal b=lgScoredetailsService.selectScoreSumBByQuarterIdAndUserId(quarterId,u.getId())!=null?lgScoredetailsService.selectScoreSumBByQuarterIdAndUserId(quarterId,u.getId()):new BigDecimal(0);
+                BigDecimal c=lgScoredetailsService.selectScoreSumCByQuarterIdAndUserId(quarterId,u.getId())!=null?lgScoredetailsService.selectScoreSumCByQuarterIdAndUserId(quarterId,u.getId()):new BigDecimal(0);
+                BigDecimal d=lgScoredetailsService.selectScoreSumDByQuarterIdAndUserId(quarterId,u.getId())!=null?lgScoredetailsService.selectScoreSumDByQuarterIdAndUserId(quarterId,u.getId()):new BigDecimal(0);
+
                 lgScoresummary.setUserId(u.getId());
                 lgScoresummary.setQuarterId(quarterId);
                 lgScoresummary.setAScore(a);
@@ -511,10 +531,10 @@ public class LgQuarterController extends BaseController {
             }else if(u.getType().equals("1")){
                 LgScoresummary lgScoresummary=new LgScoresummary();
                 LgCalculationrules lgCalculationrules=lgCalculationrulesService.selectByType(1);
-                BigDecimal a=lgScoredetailsService.selectScoreSumAByQuarterIdAndUserId(quarterId,u.getId());
-                BigDecimal b=lgScoredetailsService.selectScoreSumBByQuarterIdAndUserId(quarterId,u.getId());
-                BigDecimal c=lgScoredetailsService.selectScoreSumCByQuarterIdAndUserId(quarterId,u.getId());
-                BigDecimal e=lgScoredetailsService.selectScoreSumEByQuarterIdAndUserId(quarterId,u.getId());
+                BigDecimal a=lgScoredetailsService.selectScoreSumAByQuarterIdAndUserId(quarterId,u.getId())!=null?lgScoredetailsService.selectScoreSumAByQuarterIdAndUserId(quarterId,u.getId()):new BigDecimal(0);
+                BigDecimal b=lgScoredetailsService.selectScoreSumBByQuarterIdAndUserId(quarterId,u.getId())!=null?lgScoredetailsService.selectScoreSumBByQuarterIdAndUserId(quarterId,u.getId()):new BigDecimal(0);
+                BigDecimal c=lgScoredetailsService.selectScoreSumCByQuarterIdAndUserId(quarterId,u.getId())!=null?lgScoredetailsService.selectScoreSumCByQuarterIdAndUserId(quarterId,u.getId()):new BigDecimal(0);
+                BigDecimal e=lgScoredetailsService.selectScoreSumEByQuarterIdAndUserId(quarterId,u.getId())!=null?lgScoredetailsService.selectScoreSumEByQuarterIdAndUserId(quarterId,u.getId()):new BigDecimal(0);
                 lgScoresummary.setUserId(u.getId());
                 lgScoresummary.setQuarterId(quarterId);
                 lgScoresummary.setAScore(a);

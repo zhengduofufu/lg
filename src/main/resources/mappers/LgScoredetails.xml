@@ -76,10 +76,12 @@
     </select>
 
     <!--根据季度Id查询所有的考核详情信息-->
-    <select id="selectScoreDetialByQuarterIdAndLeaderId" resultMap="LgScoredetailsMap">
+    <select id="selectScoreDetialByQuarterIdAndLeaderId" resultType="com.lg.lg.entity.LgScoredetails">
         select
-        <include refid="Base_Column_List"/>
-        from lg_scoredetails
+        d.id,
+        d.userId, d.scoreId,d.taterId,d.quarterId,d.status,d.amisAmount,d.finishedAmount,d.score,d.comfirmTime,d.weights,
+        l.name scoreName,l.type
+        from lg_scoredetails d left join lg_scorelibrary l on d.scoreId=l.id
         where quarterId=#{quarterId,jdbcType=INTEGER} and taterId=#{leaderId,jdbcType=INTEGER}
     </select>
 
@@ -90,7 +92,7 @@
        (select taterId from lg_scoredetails where quarterId=#{quarterId,jdbcType=INTEGER} and userId=#{userId,jdbcType=INTEGER}
        group by taterId) and type='3')
     from lg_scoredetails s left join lg_user u on s.taterId=u.id
-    where quarterId=#{quarterId,jdbcType=INTEGER} and userId=#{userId,jdbcType=INTEGER} and type='3'
+    where quarterId=#{quarterId,jdbcType=INTEGER} and userId=#{userId,jdbcType=INTEGER} and type='3' and status=2
     </select>
 
     <!--根据季度Id和用户汇总分管领导所有的考核详情信息-->
@@ -98,7 +100,7 @@
       select (sum(weights*score))/(select count(leaderId) from lg_user where id=#{userId,jdbcType=INTEGER} group by leaderId)
         from lg_scoredetails where taterId in
         (select leaderId from  lg_user where id=#{userId,jdbcType=INTEGER} group by leaderId)
-        and userId=#{userId,jdbcType=INTEGER} and quarterId=#{quarterId,jdbcType=INTEGER}
+        and userId=#{userId,jdbcType=INTEGER} and quarterId=#{quarterId,jdbcType=INTEGER} and status=2
     </select>
 
     <!--根据季度Id和用户汇总其他经营班子所有的考核详情信息-->
@@ -112,7 +114,7 @@
                                                  group by leaderId) group by taterId) and type='2')
     from lg_scoredetails s left join lg_user u on s.taterId=u.id
     where taterId not in(select leaderId from  lg_user where id=#{userId,jdbcType=INTEGER} group by leaderId)
-    and userId=#{userId,jdbcType=INTEGER} and quarterId=#{quarterId,jdbcType=INTEGER} and u.type='2'
+    and userId=#{userId,jdbcType=INTEGER} and quarterId=#{quarterId,jdbcType=INTEGER} and u.type='2' and status=2
     </select>
 
     <!--根据季度Id和用户汇总部门负责人所有的考核详情信息-->
@@ -121,7 +123,7 @@
       group by departmentId)
       from lg_scoredetails where taterId in
       (select departmentId from lg_user where id=#{userId,jdbcType=INTEGER} group by departmentId)
-       and userId=#{userId,jdbcType=INTEGER} and quarterId=#{quarterId,jdbcType=INTEGER}
+       and userId=#{userId,jdbcType=INTEGER} and quarterId=#{quarterId,jdbcType=INTEGER} and status=2
     </select>
 
     <!--根据季度Id和用户汇总部门负责人所有的考核详情信息-->
@@ -135,8 +137,8 @@
                                              group by departmentId) group by taterId)
                                                              and type='1')
 from lg_scoredetails s left join lg_user u on s.taterId=u.id
-        where taterId not in(select departmentId from  lg_user where id=#{userId,jdbcType=INTEGER} group by departmentId)
-          and userId=#{userId,jdbcType=INTEGER} and quarterId=#{quarterId,jdbcType=INTEGER} and u.type='1'
+        where taterId !=#{userId,jdbcType=INTEGER}
+          and userId=#{userId,jdbcType=INTEGER} and quarterId=#{quarterId,jdbcType=INTEGER} and u.type='1' and status=2
     </select>
 
 

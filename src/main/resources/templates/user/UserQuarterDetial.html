@@ -74,6 +74,10 @@
                                                th:value="${userScoreDetials.scoreName}" readonly="true"/></td>
                                     <td>
                                         <div th:switch="${userScoreDetials.type}">
+                                            <input type="input-text" th:case="2"
+                                                   th:value="${userScoreDetials.amisAmount}" class="input-text"
+                                                   name="amisAmount" placeholder="季度目标"
+                                                   th:id="'amisAmount'+${userScoreDetials.scoreId}" hidden="hidden" readonly="true"/>
                                             <input type="input-text" th:case="1"
                                                    th:value="${userScoreDetials.amisAmount}" class="input-text"
                                                    name="amisAmount" placeholder="季度目标"
@@ -85,6 +89,11 @@
                                     </td>
                                     <td>
                                         <div th:switch="${userScoreDetials.type}">
+                                            <input type="input-text" th:case="2"
+                                                   th:value="${userScoreDetials.finishedAmount}" class="input-text"
+                                                   name="finishedAmount" placeholder="实际完成目标"
+                                                   th:id="'finishedAmount'+${userScoreDetials.scoreId}"
+                                                   hidden="hidden" readonly="true"/>
                                             <input type="input-text" th:case="1"
                                                    th:value="${userScoreDetials.finishedAmount}" class="input-text"
                                                    name="finishedAmount" placeholder="实际完成目标"
@@ -95,9 +104,17 @@
                                                    name="finishedAmount" placeholder="实际完成目标"
                                                    th:id="'finishedAmount'+${userScoreDetials.scoreId}" readonly="true"/></div>
                                     </td>
-                                    <td><input type="input-text" th:value="${userScoreDetials.weights}"
+                                    <td>
+                                        <div th:switch="${userScoreDetials.type}">
+                                            <input type="input-text" th:case="2" th:value="${userScoreDetials.weights}"
                                                class="input-text" name="weights" placeholder="权重"
-                                               th:id="'weights'+${userScoreDetials.scoreId}" readonly="true"/></td>
+                                               th:id="'weights'+${userScoreDetials.scoreId}" readonly="true" hidden="hidden"/>
+                                            <input type="input-text" th:case="1" th:value="${userScoreDetials.weights}"
+                                                   class="input-text" name="weights" placeholder="权重"
+                                                   th:id="'weights'+${userScoreDetials.scoreId}" readonly="true" />
+                                            <input type="input-text" th:case="0" th:value="${userScoreDetials.weights}"
+                                                   class="input-text" name="weights" placeholder="权重"
+                                                   th:id="'weights'+${userScoreDetials.scoreId}" readonly="true" /></div></td>
                                     <td><input type="input-text" th:value="${userScoreDetials.scoreId}"
                                                class="input-text" name="scoreId" placeholder="考核项"
                                                th:id="'scoreId'+${userScoreDetials.scoreId}" value="" readonly="true"
