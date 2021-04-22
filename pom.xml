@@ -21,7 +21,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
        <!-- <mybatisplus-spring-boot-starter.version>1.0.5</mybatisplus-spring-boot-starter.version>
         <mybatisplus.version>2.1.4</mybatisplus.version>-->
-        <shiro-spring.version>1.3.2</shiro-spring.version>
+        <shiro-spring.version>1.7.0</shiro-spring.version>
         <druid.version>1.0.18</druid.version>
         <lombok.version>1.18.2</lombok.version>
         <skipTests>true</skipTests>
